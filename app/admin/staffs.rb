@@ -10,16 +10,9 @@ ActiveAdmin.register Staff do
   
   index do    
     column :subdivision
-    # column "VACC" do |staff|
-    #   staff.subdivision.name if staff.subdivision
-    # end
     column :callsign
     column :cid
-    column "Name" do |staff|
-      if staff.member
-        staff.member.firstname + " " + staff.member.lastname
-      end
-    end
+    column :name
     column :Email
     column :position
     column :list_order
@@ -30,7 +23,6 @@ ActiveAdmin.register Staff do
 
   form do |f|
     f.inputs "Details" do
-      # f.input :subdivision
       f.input :vacc_code, :as => :select, :collection => Subdivision.all, :include_blank => true, :label_method => :name, :member_value => :code
       f.input :callsign
       f.input :cid
@@ -40,6 +32,18 @@ ActiveAdmin.register Staff do
     end
     
     f.buttons
+  end
+
+  show do |staff|
+    attributes_table do
+      row :subdivision
+      row :callsign
+      row :cid
+      # row :name
+      row :Email
+      row :position
+    end
+    
   end
 
 end
