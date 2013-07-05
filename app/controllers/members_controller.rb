@@ -1,6 +1,8 @@
 class MembersController < ApplicationController
-  # GET /members
-  # GET /members.json
+  
+  caches_action :index, expires_in: 3.hours
+  caches_action :show, expires_in: 4.hours
+
   def index
     @members = Member.select("cid, firstname, lastname, rating, country, subdivision, reg_date").reorder("reg_date DESC")
 
