@@ -2,7 +2,7 @@ class MembersController < ApplicationController
   # GET /members
   # GET /members.json
   def index
-    @members = Member.select("cid, firstname, lastname, rating, country, subdivision, reg_date")
+    @members = Member.select("cid, firstname, lastname, rating, country, subdivision, reg_date").reorder("reg_date DESC")
 
     respond_to do |format|
       format.html { render text: "No joy! Specify json, xml or csv extension" }
@@ -15,7 +15,7 @@ class MembersController < ApplicationController
   # GET /members/1
   # GET /members/1.json
   def show
-    @members = Member.where(["subdivision = ?", params[:id]]).select("cid, firstname, lastname, rating, country, subdivision, reg_date")
+    @members = Member.where(["subdivision = ?", params[:id]]).select("cid, firstname, lastname, rating, country, subdivision, reg_date").reorder("reg_date DESC")
 
     respond_to do |format|
       format.html { render text: "No joy! Specify json, xml or csv extension" }

@@ -21,6 +21,14 @@ class Member < ActiveRecord::Base
     humanized_rating(read_attribute(:rating))
   end
 
+  def firstname
+    read_attribute(:firstname).capitalize
+  end
+
+  def lastname
+    read_attribute(:lastname).capitalize
+  end
+
   # def subdivision
   #   humanized_subdivision(read_attribute(:subdivision))
   # end
