@@ -9,7 +9,7 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.html { render text: "No joy! Specify json, xml or csv extension" }
       format.json { render json: @members }
-      format.xml { render xml: @members.to_xml }
+      format.xml { render xml: @members.to_xml(skip_types: true) }
       format.csv { send_data @members.to_csv }
     end
   end
@@ -22,7 +22,7 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.html { render text: "No joy! Specify json, xml or csv extension" }
       format.json { render json: @members }
-      format.xml { render xml: @members.to_xml }
+      format.xml { render xml: @members.to_xml(skip_types: true) }
       format.csv { send_data @members.to_csv }
     end
   end
