@@ -4,6 +4,7 @@ ActiveAdmin.register Member do
   filter :cid
   filter :firstname
   filter :lastname
+  filter :rating
   filter :email
   filter :country
   filter :reg_date
@@ -16,6 +17,7 @@ ActiveAdmin.register Member do
     column :cid
     column :firstname
     column :lastname
+    column :rating
     column :email
     column :country
     column :reg_date

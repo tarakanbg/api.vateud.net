@@ -1,0 +1,16 @@
+<h1>VATEUD subdivisons</h1>
+
+<table style="border: 1px solid black; width:400px;">
+  <tr>
+    <th>CODE</th>
+    <th>NAME</th>
+  </tr>
+
+<% @subdivisions.each do |subdivision| %>
+  <tr style="border: 1px solid black;">
+    <td style="border: 1px solid black; width:150px;"><%= subdivision.code %></td>
+    <td style="border: 1px solid black; width:250px;"><%= subdivision.name %></td>    
+  </tr>
+<% end %>
+</table>
+
