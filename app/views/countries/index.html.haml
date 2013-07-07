@@ -1,0 +1,12 @@
+%h1 VATEUD API Countries
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th CODE
+    %th Country
+
+  - for country in @countries
+    %tr
+      %td= country.code
+      %td= country.name
+    

@@ -40,5 +40,9 @@ gem "jquery-rails", "2.3.0"
 gem "mysql2", "~> 0.3.11"
 gem "activerecord-mysql-adapter"
 
-gem 'activeadmin'
+gem "activeadmin", "~> 0.6.0"
 gem "meta_search",    '>= 1.1.0.pre'
+
+gem "yaml_db", "~> 0.2.3"
+gem "haml", "~> 4.0.3"
+gem 'bootstrap-sass', '~> 2.3.2.0'

@@ -22,11 +22,11 @@ class Member < ActiveRecord::Base
   end
 
   def firstname
-    read_attribute(:firstname).capitalize
+    read_attribute(:firstname).titleize
   end
 
   def lastname
-    read_attribute(:lastname).capitalize
+    read_attribute(:lastname).titleize
   end
 
   # def subdivision

@@ -48,6 +48,8 @@ GEM
       activesupport (>= 3.0.0)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
+    bootstrap-sass (2.3.2.0)
+      sass (~> 3.2)
     bourbon (3.1.8)
       sass (>= 3.2.0)
       thor
@@ -70,6 +72,8 @@ GEM
     fastercsv (1.5.5)
     formtastic (2.2.1)
       actionpack (>= 3.0)
+    haml (4.0.3)
+      tilt
     has_scope (0.5.1)
     hike (1.2.3)
     i18n (0.6.1)
@@ -149,14 +153,17 @@ GEM
       multi_json (~> 1.0, >= 1.0.2)
     warden (1.2.1)
       rack (>= 1.0)
+    yaml_db (0.2.3)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activeadmin
+  activeadmin (~> 0.6.0)
   activerecord-mysql-adapter
+  bootstrap-sass (~> 2.3.2.0)
   coffee-rails (~> 3.2.1)
+  haml (~> 4.0.3)
   jquery-rails (= 2.3.0)
   meta_search (>= 1.1.0.pre)
   mysql2 (~> 0.3.11)
@@ -164,3 +171,4 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
+  yaml_db (~> 0.2.3)

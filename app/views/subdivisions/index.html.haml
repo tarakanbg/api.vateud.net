@@ -1,0 +1,12 @@
+%h1 VATEUD API Subdivisions
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th CODE
+    %th NAME
+
+  - @subdivisions.each do |subdivision|
+    %tr
+      %td= subdivision.code
+      %td= subdivision.name
+    
