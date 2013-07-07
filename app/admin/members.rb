@@ -5,6 +5,7 @@ ActiveAdmin.register Member do
   filter :firstname
   filter :lastname
   filter :rating
+  filter :pilot_rating
   filter :email
   filter :country
   filter :reg_date
@@ -17,14 +18,14 @@ ActiveAdmin.register Member do
     column :cid
     column :firstname
     column :lastname
+    column :pilot_rating
     column :rating
     column :email
     column :country
     column :reg_date
     column :region
     column :division
-    column :subdivision
-    
+    column :subdivision   
         
   end
   

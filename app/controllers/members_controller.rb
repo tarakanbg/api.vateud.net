@@ -4,7 +4,7 @@ class MembersController < ApplicationController
   caches_action :show, expires_in: 4.hours
 
   def index
-    @members = Member.select("cid, firstname, lastname, rating, country, subdivision, reg_date").reorder("reg_date DESC")
+    @members = Member.select("cid, firstname, lastname, rating, pilot_rating, country, subdivision, reg_date").reorder("reg_date DESC")
 
     respond_to do |format|
       format.html { render text: "No joy! Specify json, xml or csv extension" }
@@ -16,7 +16,7 @@ class MembersController < ApplicationController
 
   
   def show
-    @members = Member.where(["subdivision = ?", params[:id]]).select("cid, firstname, lastname, rating, country, subdivision, reg_date").reorder("reg_date DESC")
+    @members = Member.where(["subdivision = ?", params[:id]]).select("cid, firstname, lastname, rating, pilot_rating, country, subdivision, reg_date").reorder("reg_date DESC")
 
     respond_to do |format|
       format.html { render text: "No joy! Specify json, xml or csv extension" }

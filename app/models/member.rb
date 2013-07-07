@@ -8,7 +8,7 @@ class Member < ActiveRecord::Base
   set_table_name "certificates"
 
   def self.to_csv(options = {})
-    columns = ["cid", "firstname", "lastname", "rating", "country", "subdivision", "reg_date"]
+    columns = ["cid", "firstname", "lastname", "rating", "pilot_rating", "country", "subdivision", "reg_date"]
     CSV.generate(options) do |csv|
       csv << columns
       all.each do |member|
@@ -19,6 +19,10 @@ class Member < ActiveRecord::Base
 
   def rating
     humanized_rating(read_attribute(:rating))
+  end
+
+  def pilot_rating
+    humanized_pilot_rating(read_attribute(:pilot_rating))
   end
 
   def firstname
@@ -51,16 +55,22 @@ class Member < ActiveRecord::Base
       end
   end
 
-  # def humanized_subdivision(subdivision) 
-  #   unless subdivision.blank?   
-  #     Subdivision.find_by_code(subdivision.to_s).name      
-  #   else
-  #     ""
-  #   end
-  #   rescue NoMethodError
-  #     ""
-  #   # rescue ActiveRecord::RecordNotFound
-  #   # ""
-  # end
+  def humanized_pilot_rating(pilot_rating)    
+    case pilot_rating
+      when 0 then "P0"
+      when 1 then "P1"
+      when 3 then "P1, P2"
+      when 4 then "P3"
+      when 5 then "P1, P3"
+      when 7 then "P1, P2, P3"
+      when 9 then "P1, P4"
+      when 11 then "P1, P2, P4"
+      when 15 then "P1, P2, P3, P4"
+      when 31 then "P1, P2, P3, P4, P5"
+      else
+        "UNK"
+      end
+  end
 
+  
 end

@@ -7,8 +7,7 @@ class SubdivisionsController < ApplicationController
     @pagetitle = "vACC Codes"
 
     respond_to do |format|
-      format.html # index.html.erb
-      # format.json { render json: @subdivisons }
+      format.html 
     end
   end
 
