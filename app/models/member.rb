@@ -17,6 +17,16 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def self.to_csv_with_emails(options = {})
+    columns = ["cid", "firstname", "lastname", "email", "rating", "pilot_rating", "country", "subdivision", "reg_date"]
+    CSV.generate(options) do |csv|
+      csv << columns
+      all.each do |member|
+        csv << member.attributes.values_at(*columns)
+      end
+    end
+  end
+
   def rating
     humanized_rating(read_attribute(:rating))
   end

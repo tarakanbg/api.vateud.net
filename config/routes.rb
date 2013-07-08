@@ -3,6 +3,7 @@ Vaccs::Application.routes.draw do
   resources :members, :only => [:index, :show]
   resources :countries, :only => [:index, :show]
   resources :ratings, :only => [:index, :show]
+  resources :emails, :only => [:show]
   resources :subdivisions, :only => [:index]
 
   devise_for :admin_users, ActiveAdmin::Devise.config
