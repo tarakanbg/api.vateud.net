@@ -5,6 +5,11 @@ Vaccs::Application.routes.draw do
   resources :ratings, :only => [:index, :show]
   resources :emails, :only => [:show]
   resources :subdivisions, :only => [:index]
+  # get 'online/:id' => 'online#index'
+  get 'online/atc/:id' => 'online#atc'
+  get 'online/pilots/:id' => 'online#pilots'
+  get 'online/arrivals/:id' => 'online#arrivals'
+  get 'online/departures/:id' => 'online#departures'
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   # The priority is based upon order of creation:

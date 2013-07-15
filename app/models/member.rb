@@ -18,7 +18,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.to_csv_with_emails(options = {})
-    columns = ["cid", "firstname", "lastname", "email", "rating", "pilot_rating", "country", "subdivision", "reg_date"]
+    columns = ["cid", "firstname", "lastname", "email", "rating", "pilot_rating", "country", "subdivision", "reg_date", "susp_ends"]
     CSV.generate(options) do |csv|
       csv << columns
       all.each do |member|
@@ -62,7 +62,7 @@ class Member < ActiveRecord::Base
       when 12 then "Administrator"
       else
         "UNK"
-      end
+    end
   end
 
   def humanized_pilot_rating(pilot_rating)    
@@ -76,7 +76,10 @@ class Member < ActiveRecord::Base
       when 9 then "P1, P4"
       when 11 then "P1, P2, P4"
       when 15 then "P1, P2, P3, P4"
+      when 27 then "P1, P2, P4, P5"
       when 31 then "P1, P2, P3, P4, P5"
+      when 59 then "P1, P2, P4, P5, P6"
+      when 63 then "P1, P2, P3, P4, P5, P6"
       else
         "UNK"
       end
