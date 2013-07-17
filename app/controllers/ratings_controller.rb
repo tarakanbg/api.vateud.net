@@ -12,7 +12,7 @@ class RatingsController < ApplicationController
   end
 
   def show
-    @members = Member.where(["rating = ?", params[:id]]).select("cid, firstname, lastname, rating, pilot_rating, country, subdivision, reg_date").reorder("reg_date DESC")
+    @members = Member.where(["rating = ?", params[:id]]).select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date").reorder("reg_date DESC")
 
     respond_to do |format|
       format.html { render text: "No joy! Specify json, xml or csv extension" }

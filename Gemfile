@@ -48,3 +48,8 @@ gem "haml", "~> 4.0.3"
 gem 'bootstrap-sass', '~> 2.3.2.0'
 
 gem "vatsim_online", "~> 0.7.2"
+gem "curb", "~> 0.8.4"
+
+gem "pg", "~> 0.15.1"
+
+gem "json", "~> 1.8.0"

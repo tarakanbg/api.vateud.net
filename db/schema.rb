@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130708210351) do
+ActiveRecord::Schema.define(:version => 20130717105420) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -51,6 +51,42 @@ ActiveRecord::Schema.define(:version => 20130708210351) do
     t.string   "vacc_code"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "countries", :force => true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "members", :force => true do |t|
+    t.integer  "cid"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "email"
+    t.integer  "age_band"
+    t.string   "state"
+    t.string   "country"
+    t.string   "experience"
+    t.string   "susp_ends"
+    t.string   "reg_date"
+    t.string   "region"
+    t.string   "division"
+    t.string   "subdivision"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.string   "humanized_atc_rating"
+    t.string   "humanized_pilot_rating"
+    t.integer  "pilot_rating"
+    t.integer  "rating"
+  end
+
+  create_table "vaccs", :force => true do |t|
+    t.string   "country"
+    t.string   "vacc"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

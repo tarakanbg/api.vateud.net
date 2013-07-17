@@ -1,0 +1,158 @@
+[
+    {
+        "country": "AL",
+        "vacc": "ALBN"
+    },
+    {
+        "country": "AT",
+        "vacc": "AUST"
+    },
+    {
+        "country": "BE",
+        "vacc": "BLUX"
+    },
+    {
+        "country": "BA",
+        "vacc": "BHZ"
+    },
+    {
+        "country": "BG",
+        "vacc": "BULG"
+    },
+    {
+        "country": "HR",
+        "vacc": "CRO"
+    },
+    {
+        "country": "CY",
+        "vacc": "CYPR"
+    },
+    {
+        "country": "CZ",
+        "vacc": "CZCH"
+    },
+    {
+        "country": "DK",
+        "vacc": "SCA"
+    },
+    {
+        "country": "EE",
+        "vacc": "ESTN"
+    },
+    {
+        "country": "FI",
+        "vacc": "SCA"
+    },
+    {
+        "country": "FR",
+        "vacc": "FRA"
+    },
+    {
+        "country": "MK",
+        "vacc": "FYRM"
+    },
+    {
+        "country": "DE",
+        "vacc": "GER"
+    },
+    {
+        "country": "GR",
+        "vacc": "GRE"
+    },
+    {
+        "country": "GL",
+        "vacc": "SCA"
+    },
+    {
+        "country": "HU",
+        "vacc": "HUN"
+    },
+    {
+        "country": "IS",
+        "vacc": "SCA"
+    },
+    {
+        "country": "IE",
+        "vacc": "IRL"
+    },
+    {
+        "country": "IT",
+        "vacc": "ITA"
+    },
+    {
+        "country": "LV",
+        "vacc": "LATV"
+    },
+    {
+        "country": "LT",
+        "vacc": "LITH"
+    },
+    {
+        "country": "LU",
+        "vacc": "BLUX"
+    },
+    {
+        "country": "MT",
+        "vacc": "MALT"
+    },
+    {
+        "country": "ME",
+        "vacc": "YUG"
+    },
+    {
+        "country": "NL",
+        "vacc": "NETH"
+    },
+    {
+        "country": "NO",
+        "vacc": "SCA"
+    },
+    {
+        "country": "PL",
+        "vacc": "POL"
+    },
+    {
+        "country": "PT",
+        "vacc": "POR"
+    },
+    {
+        "country": "RO",
+        "vacc": "ROM"
+    },
+    {
+        "country": "RS",
+        "vacc": "YUG"
+    },
+    {
+        "country": "SK",
+        "vacc": "SLO"
+    },
+    {
+        "country": "SI",
+        "vacc": "SLOV"
+    },
+    {
+        "country": "ES",
+        "vacc": "SPN"
+    },
+    {
+        "country": "SE",
+        "vacc": "SCA"
+    },
+    {
+        "country": "CH",
+        "vacc": "SUI"
+    },
+    {
+        "country": "TR",
+        "vacc": "TURK"
+    },
+    {
+        "country": "UA",
+        "vacc": "UKRA"
+    },
+    {
+        "country": "YU",
+        "vacc": "YUG"
+    }
+]

@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  cid: 1
+  rating: 1
+  pilot_rating: 1
+  firstname: MyString
+  lastname: MyString
+  email: MyString
+  age_band: 1
+  state: MyString
+  country: MyString
+  experience: MyString
+  susp_ends: MyString
+  reg_date: MyString
+  region: MyString
+  division: MyString
+  subdivision: MyString
+
+two:
+  cid: 1
+  rating: 1
+  pilot_rating: 1
+  firstname: MyString
+  lastname: MyString
+  email: MyString
+  age_band: 1
+  state: MyString
+  country: MyString
+  experience: MyString
+  susp_ends: MyString
+  reg_date: MyString
+  region: MyString
+  division: MyString
+  subdivision: MyString
