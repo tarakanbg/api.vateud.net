@@ -61,6 +61,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    country_select (1.2.0)
     curb (0.8.4)
     devise (3.0.0)
       bcrypt-ruby (~> 3.0)
@@ -173,6 +174,7 @@ DEPENDENCIES
   activerecord-mysql-adapter
   bootstrap-sass (~> 2.3.2.0)
   coffee-rails (~> 3.2.1)
+  country_select (~> 1.2.0)
   curb (~> 0.8.4)
   haml (~> 4.0.3)
   jquery-rails (= 2.3.0)

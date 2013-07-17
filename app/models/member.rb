@@ -3,7 +3,15 @@ class Member < ActiveRecord::Base
   attr_accessible :cid, :firstname, :lastname, :email, :rating, :pilot_rating, :humanized_atc_rating, :humanized_pilot_rating,
     :region, :country, :state, :division, :subdivision, :age_band, :experience, :reg_date, :susp_ends
 
+  has_one :welcome_email
+
+  after_create :create_welcome_email  
+
   LOCAL_CSV = "#{Dir.tmpdir}/vatsim_csv.csv"
+
+  def create_welcome_email
+    WelcomeEmail.create(member_id: self.id)
+  end
 
   def self.to_csv(options = {})
     columns = ["cid", "firstname", "lastname", "rating", "humanized_atc_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date"]
@@ -68,7 +76,7 @@ class Member < ActiveRecord::Base
       Curl::PostField.content('authid', '400201'),
       Curl::PostField.content('authpassword', 'Qw5I82To'),
       Curl::PostField.content('div', 'EUD'))
-    csv.body_str.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '').encode!('UTF-8', 'UTF-16').gsub!('"', '')
+    csv.body_str.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '?').encode!('UTF-8', 'UTF-16').gsub!('"', '')
   end
 
   def self.parse_csv

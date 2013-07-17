@@ -9,4 +9,8 @@ namespace :api do
 
   end
 
+  task :update => :environment do 
+    Member.parse_csv
+  end
+
 end

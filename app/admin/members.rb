@@ -16,7 +16,8 @@ ActiveAdmin.register Member do
   filter :subdivision
   
   
-  index do    
+  index do      
+    column :id
     column :cid
     column :firstname
     column :lastname
@@ -30,7 +31,8 @@ ActiveAdmin.register Member do
     column :region
     column :division
     column :subdivision   
-        
+    
+    actions  
   end
   
 end
