@@ -1,5 +1,5 @@
 class OnlineController < ApplicationController
-  caches_action :atc, :pilots, :arrivals, :departures, expires_in: 10.minutes
+  caches_action :atc, :pilots, :arrivals, :departures, expires_in: 5.minutes
 
   def index
   end
