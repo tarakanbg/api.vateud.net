@@ -133,6 +133,7 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    redcarpet (2.3.0)
     responders (0.9.3)
       railties (~> 3.1)
     sass (3.2.9)
@@ -183,6 +184,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.11)
   pg (~> 0.15.1)
   rails (= 3.2.13)
+  redcarpet (~> 2.3.0)
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)

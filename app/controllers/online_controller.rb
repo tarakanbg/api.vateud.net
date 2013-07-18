@@ -1,7 +1,10 @@
 class OnlineController < ApplicationController
   caches_action :atc, :pilots, :arrivals, :departures, expires_in: 5.minutes
 
-  def index
+  def help
+    m = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+    @content = m.render(File.open(Rails.root + "README.md", 'r').read)
+    # render :text => content
   end
 
   def atc
