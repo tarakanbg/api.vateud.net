@@ -8,7 +8,7 @@ class EmailsController < ApplicationController
     vacc_code = params[:id].downcase
     render text: "No joy! Your access token does not match the requested vacc" and return if vacc_code != @key.vacc_code.downcase
 
-    @members = Member.where(["subdivision = ?", params[:id]]).select("cid, firstname, lastname, email, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, susp_ends").reorder("reg_date DESC")
+    @members = Member.where(["subdivision = ?", params[:id].upcase]).select("cid, firstname, lastname, email, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, susp_ends").reorder("reg_date DESC")
 
     respond_to do |format|
       format.html { render text: "No joy! Specify json, xml or csv extension" }
