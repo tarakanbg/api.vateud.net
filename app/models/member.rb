@@ -78,11 +78,12 @@ class Member < ActiveRecord::Base
       Curl::PostField.content('div', 'EUD'))
     # csv.body_str.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '?').encode!('UTF-8', 'UTF-16').gsub!('"', '')
     csv.body_str.gsub!('"', '').force_encoding('UTF-8').encode!('UTF-8', 'UTF-8', :invalid => :replace)
+    # csv.body_str.gsub!('"', '').force_encoding('iso-8859-15').encode!('UTF-8', :invalid => :replace)
   end
 
   def self.parse_csv
     Member.create_local_data_file
-    CSV.foreach(LOCAL_CSV, encoding: "windows-1250:utf-8") do |row| 
+    CSV.foreach(LOCAL_CSV, encoding: "windows-1252:utf-8") do |row| 
       member = Member.find_by_cid(row[0]) || Member.new(:cid => row[0])
       member.update_attributes!(:rating => row[1], :humanized_atc_rating => Member.humanized_rating(row[1]),
         :pilot_rating => row[2], :humanized_pilot_rating => Member.humanized_pilot_rating(row[2]),
