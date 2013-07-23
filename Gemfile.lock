@@ -54,6 +54,7 @@ GEM
       sass (>= 3.2.0)
       thor
     builder (3.0.4)
+    chronic (0.9.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -103,6 +104,7 @@ GEM
     multi_json (1.7.7)
     mysql (2.9.1)
     mysql2 (0.3.11)
+    newrelic_rpm (3.6.5.130)
     orm_adapter (0.4.0)
     pg (0.15.1)
     polyamorous (0.5.0)
@@ -165,6 +167,9 @@ GEM
       time_diff (~> 0.3.0)
     warden (1.2.3)
       rack (>= 1.0)
+    whenever (0.8.1)
+      activesupport (>= 2.3.4)
+      chronic (>= 0.6.3)
     yaml_db (0.2.3)
 
 PLATFORMS
@@ -182,6 +187,7 @@ DEPENDENCIES
   json (~> 1.8.0)
   meta_search (>= 1.1.0.pre)
   mysql2 (~> 0.3.11)
+  newrelic_rpm
   pg (~> 0.15.1)
   rails (= 3.2.13)
   redcarpet (~> 2.3.0)
@@ -189,4 +195,5 @@ DEPENDENCIES
   sqlite3
   uglifier (>= 1.0.3)
   vatsim_online (~> 0.7.2)
+  whenever
   yaml_db (~> 0.2.3)

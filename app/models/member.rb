@@ -76,12 +76,13 @@ class Member < ActiveRecord::Base
       Curl::PostField.content('authid', '400201'),
       Curl::PostField.content('authpassword', 'dp4w67f'),
       Curl::PostField.content('div', 'EUD'))
-    csv.body_str.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '?').encode!('UTF-8', 'UTF-16').gsub!('"', '')
+    # csv.body_str.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '?').encode!('UTF-8', 'UTF-16').gsub!('"', '')
+    csv.body_str.gsub!('"', '').force_encoding('UTF-8').encode!('UTF-8', 'UTF-8', :invalid => :replace)
   end
 
   def self.parse_csv
     Member.create_local_data_file
-    CSV.foreach(LOCAL_CSV, encoding: "bom|utf-8") do |row| 
+    CSV.foreach(LOCAL_CSV, encoding: "windows-1251:utf-8") do |row| 
       member = Member.find_by_cid(row[0]) || Member.new(:cid => row[0])
       member.update_attributes!(:rating => row[1], :humanized_atc_rating => Member.humanized_rating(row[1]),
         :pilot_rating => row[2], :humanized_pilot_rating => Member.humanized_pilot_rating(row[2]),
@@ -92,7 +93,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.create_local_data_file
-    data = Tempfile.new('vatsim_csv', :encoding => 'utf-8')
+    data = Tempfile.new('vatsim_csv', :encoding => 'UTF-8')
     File.rename data.path, LOCAL_CSV
     File.open(LOCAL_CSV, "w+") {|f| f.write(Member.request_csv)}
     File.chmod(0777, LOCAL_CSV)

@@ -56,3 +56,7 @@ gem "json", "~> 1.8.0"
 
 gem "country_select", "~> 1.2.0"
 gem "redcarpet", "~> 2.3.0"
+
+gem 'newrelic_rpm'
+
+gem 'whenever', :require => false
