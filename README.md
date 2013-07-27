@@ -12,6 +12,7 @@
 * Action caching is used, all responses are cached, expiration time is 3 hours.
 * Authenticated endpoint for vACCs to obtain the emails of their own members (see below)
 * Public endpoints for obtaining online stations data (pilots, ATCOs) and scoping it by airport(s)/FIR(s)
+* Public endpoints for obtaining an always current list of RW NOTAMs scoped by airport(s)/FIR(s)
 
 The subset of data available includes:
 
@@ -216,5 +217,35 @@ Examples:
 
 __Note:__ The online stations responses are all being cached with expiration time set to 5 minutes.
 The online stations data is not limited to EUD, you can use it for any airport(s)/FIR(s) in the world.
+
+### G. Current RW NOTAMs
+
+__This portion of the API is powered by the [notams](http://rubygems.org/gems/notams) library.
+If you're curious to see in detail how it works and the full array of options it provides, head over
+[to the documentation](https://github.com/tarakanbg/notams).__
+
+These are public endpoints of the type: "http://api.vateud.net/notams/" + ICAO filter + format
+type extension
+
+The ICAO filter is a string of one or multiple comma separated ICAO codes
+(designating FIR(s) or airport(s)) that will be used to filter out the requested notams data.
+They are __not__ case sensitive. For example you can use "lqsa,lqmo" to get all notams for
+Sarajevo and Mostar airports or "lqsb" to get all notams related to Bosnia-Herzegovina FIR,
+or "LQSA,LQMO,LQSB" to get a combined list of the 2 airports NOTAMs plus all FIR-wide NOTAMs.
+
+The responses will return 3 attributes for each NOTAM:
+
+* ICAO - the code of the airport or FIR the NOTAM applies to
+* raw - the raw record of the notam, providing it's full unparsed contents
+* message - just the essential informational part of the notam, with all the overhead stripped out
+
+All NOTAMs responses are cached, the expiration time is currently set at 24 hours.
+
+Examples:
+
+    http://api.vateud.net/notams/lqsa.json              #=> returns all Sarajevo NOTAMs in JSON format  
+    http://api.vateud.net/notams/LQSA,LQMO,LQSB.xml     #=> returns all NOTAMs for Sarajevo and Mostar
+                                                            airports and BiH FIR in XML format
+    http://api.vateud.net/notams/loww.csv               #=> returns all NOTAMs for Vienna Airport in CSV
 
 That's pretty much it! Enjoy, feedback welcome :)

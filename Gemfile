@@ -60,3 +60,5 @@ gem "redcarpet", "~> 2.3.0"
 gem 'newrelic_rpm'
 
 gem 'whenever', :require => false
+
+gem 'notams'

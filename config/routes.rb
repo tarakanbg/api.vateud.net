@@ -10,6 +10,8 @@ Vaccs::Application.routes.draw do
   get 'online/pilots/:id' => 'online#pilots'
   get 'online/arrivals/:id' => 'online#arrivals'
   get 'online/departures/:id' => 'online#departures'
+  get 'notams/:id' => 'notams#show'
+
 
   devise_for :admin_users, ActiveAdmin::Devise.config
   # The priority is based upon order of creation:

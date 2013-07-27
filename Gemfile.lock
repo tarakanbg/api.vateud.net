@@ -105,6 +105,9 @@ GEM
     mysql (2.9.1)
     mysql2 (0.3.11)
     newrelic_rpm (3.6.5.130)
+    nokogiri (1.5.10)
+    notams (0.2.0)
+      nokogiri (~> 1.5.6)
     orm_adapter (0.4.0)
     pg (0.15.1)
     polyamorous (0.5.0)
@@ -188,6 +191,7 @@ DEPENDENCIES
   meta_search (>= 1.1.0.pre)
   mysql2 (~> 0.3.11)
   newrelic_rpm
+  notams
   pg (~> 0.15.1)
   rails (= 3.2.13)
   redcarpet (~> 2.3.0)
