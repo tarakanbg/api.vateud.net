@@ -1,0 +1,17 @@
+%row 
+  .span5
+    %h2 VATEUD members
+  .span7
+    .pull-right  
+      <a href="#members-filter" role="button" class="btn btn-success" data-toggle="modal"><i class="icon-search icon-white"></i> Filter Members</a>
+      <a href="/members" role="button" class="btn btn-danger"><i class="icon-list icon-white"></i> Clear Filters</a>
+
+=render "members_list"
+
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/members.json"
+  %li.active= link_to "XML", "/members.xml"
+  %li.active= link_to "CSV", "/members.csv"
+
+= render "members_search_form"

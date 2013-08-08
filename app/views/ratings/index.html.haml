@@ -1,47 +1,61 @@
-%h1 VATEUD API Ratings
+%h2 VATSIM ATC Ratings
 
 %table.table.table-striped.table-bordered.table-hover.table-condensed
   %tr
-    %th CODE
-    %th NAME
+    %th Code
+    %th Name
+    %th Abbreviation
 
   %tr
     %td 0
-    %td Suspended|SUSP
+    %td Suspended
+    %td=link_to "SUSP", "/ratings/0"
   %tr
     %td 1
-    %td Pilot/Observer|OBS
+    %td Pilot/Observer
+    %td=link_to "OBS", "/ratings/1"
   %tr
     %td 2
-    %td Student|S1
+    %td Student
+    %td=link_to "S1", "/ratings/2"
   %tr
     %td 3
-    %td Student 2|S2
+    %td Student 2
+    %td=link_to "S2", "/ratings/3"
   %tr
     %td 4
-    %td Senior Student|S3
+    %td Senior Student
+    %td=link_to "S3", "/ratings/4"
   %tr
     %td 5
-    %td Controller|CTR
+    %td Controller
+    %td=link_to "C1", "/ratings/5"
   %tr
     %td 6
     %td Not used
+    %td
   %tr
     %td 7
-    %td Senior Controller|CTR+
+    %td Senior Controller
+    %td=link_to "C3", "/ratings/7"
   %tr
     %td 8
-    %td Instructor|INS
+    %td Instructor
+    %td=link_to "INS", "/ratings/8"
   %tr
     %td 9
     %td Not used
+    %td
   %tr
     %td 10
-    %td Senior Instructor|INS+
+    %td Senior Instructor
+    %td=link_to "I3", "/ratings/10"
   %tr
     %td 11
-    %td Supervisor|SUP
+    %td Supervisor
+    %td=link_to "SUP", "/ratings/11"
   %tr
     %td 12
-    %td Administrator|ADM
+    %td Administrator
+    %td=link_to "ADM", "/ratings/12"
  

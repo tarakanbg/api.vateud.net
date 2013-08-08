@@ -1,0 +1,34 @@
+#members-filter.modal.hide
+  = search_form_for @search do |f|
+    .modal-header
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      %h3 Filter tasks
+    
+    .modal-body
+      = f.label "CID is:"
+      = f.text_field :cid_cont
+
+      = f.label "First Name contains:"
+      = f.text_field :firstname_cont
+
+      = f.label "Last Name contains:"
+      = f.text_field :lastname_cont
+
+      = f.label "ATC rating is:"
+      = f.text_field :humanized_atc_rating_cont
+
+      = f.label "Pilot rating contains:"
+      = f.text_field :humanized_pilot_rating_cont
+
+      = f.label "Country code is:"
+      = f.text_field :country_cont
+
+      = f.label "Registration date contains:"
+      = f.text_field :reg_date_cont
+
+      
+      
+    .modal-footer
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+      = f.submit "Search", :class => "btn btn-primary"
+    

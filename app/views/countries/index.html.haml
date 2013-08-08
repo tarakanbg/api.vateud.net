@@ -1,12 +1,12 @@
-%h1 VATEUD API Countries
+%h2 VATEUD Countries
 
 %table.table.table-striped.table-bordered.table-hover.table-condensed
   %tr
-    %th CODE
-    %th Country
+    %th= sort_link @search, :code, "Code"
+    %th= sort_link @search, :name, "Name"
 
-  - for country in @countries
+  - @countries.each do |country|
     %tr
-      %td= country.code
-      %td= country.name
-    
+      %td= link_to country.code, "/countries/#{country.code}"
+      %td= link_to country.name, "/countries/#{country.code}"
+        

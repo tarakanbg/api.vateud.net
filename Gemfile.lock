@@ -50,6 +50,8 @@ GEM
     bcrypt-ruby (3.1.1)
     bootstrap-sass (2.3.2.0)
       sass (~> 3.2)
+    bootstrap-will_paginate (0.0.9)
+      will_paginate
     bourbon (3.1.8)
       sass (>= 3.2.0)
       thor
@@ -136,6 +138,10 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     rake (10.1.0)
+    ransack (0.7.2)
+      actionpack (~> 3.0)
+      activerecord (~> 3.0)
+      polyamorous (~> 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (2.3.0)
@@ -173,6 +179,7 @@ GEM
     whenever (0.8.1)
       activesupport (>= 2.3.4)
       chronic (>= 0.6.3)
+    will_paginate (3.0.4)
     yaml_db (0.2.3)
 
 PLATFORMS
@@ -182,6 +189,7 @@ DEPENDENCIES
   activeadmin (~> 0.6.0)
   activerecord-mysql-adapter
   bootstrap-sass (~> 2.3.2.0)
+  bootstrap-will_paginate (~> 0.0.9)
   coffee-rails (~> 3.2.1)
   country_select (~> 1.2.0)
   curb (~> 0.8.4)
@@ -194,10 +202,12 @@ DEPENDENCIES
   notams
   pg (~> 0.15.1)
   rails (= 3.2.13)
+  ransack (~> 0.7.2)
   redcarpet (~> 2.3.0)
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
   vatsim_online (~> 0.7.2)
   whenever
+  will_paginate (~> 3.0.4)
   yaml_db (~> 0.2.3)

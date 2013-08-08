@@ -1,12 +1,12 @@
-%h1 VATEUD API Subdivisions
+%h2 VATEUD Subdivisions
 
 %table.table.table-striped.table-bordered.table-hover.table-condensed
   %tr
-    %th CODE
-    %th NAME
+    %th= sort_link @search, :code, "Code"
+    %th= sort_link @search, :name, "Name"
 
   - @subdivisions.each do |subdivision|
     %tr
-      %td= subdivision.code
-      %td= subdivision.name
+      %td= link_to subdivision.code, "/members/#{subdivision.code}"
+      %td= link_to subdivision.name, "/members/#{subdivision.code}"
     

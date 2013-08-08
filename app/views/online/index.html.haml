@@ -1,0 +1,8 @@
+%h2 Online stations
+
+.online-search
+  %h4 Enter ICAO filter
+  %p.italic full or partial, one or multiple comma separated ICAO codes, designating FIR(s) or airport(s):
+  = form_tag("/online/search", method: "get", :class => "form-search") do
+    = text_field_tag(:q)
+    = submit_tag("Search")

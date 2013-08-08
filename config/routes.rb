@@ -6,6 +6,8 @@ Vaccs::Application.routes.draw do
   resources :emails, :only => [:show]
   resources :subdivisions, :only => [:index]
   # get 'online/:id' => 'online#index'
+  get 'online' => 'online#index'
+  get 'online/search' => 'online#search'
   get 'online/atc/:id' => 'online#atc'
   get 'online/pilots/:id' => 'online#pilots'
   get 'online/arrivals/:id' => 'online#arrivals'

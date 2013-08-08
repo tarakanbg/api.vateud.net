@@ -1,7 +1,17 @@
 class OnlineController < ApplicationController
   caches_action :atc, :pilots, :arrivals, :departures, expires_in: 5.minutes
 
+  def index
+    @pagetitle = "Online Stations"
+  end
+
+  def search
+    filter = params[:q]
+    redirect_to "/online/atc/#{filter}"
+  end
+
   def help
+    @pagetitle = "Documentation"
     m = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     @content = m.render(File.open(Rails.root + "README.md", 'r').read)
     # render :text => content

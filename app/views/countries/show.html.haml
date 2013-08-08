@@ -1,0 +1,17 @@
+%row 
+  .span8
+    %h2= "Members from #{@country}"
+  .span4
+    .pull-right  
+      / <a href="#members-filter" role="button" class="btn btn-success" data-toggle="modal"><i class="icon-search icon-white"></i> Filter Members</a>
+      / <a href="/members" role="button" class="btn btn-danger"><i class="icon-list icon-white"></i> Clear Filters</a>
+
+=render "members/members_list"
+
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/countries/#{@code}.json"
+  %li.active= link_to "XML", "/countries/#{@code}.xml"
+  %li.active= link_to "CSV", "/countries/#{@code}.csv"
+
+/ = render "members_search_form"

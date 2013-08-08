@@ -62,3 +62,7 @@ gem 'newrelic_rpm'
 gem 'whenever', :require => false
 
 gem 'notams'
+
+gem "will_paginate", "~> 3.0.4"
+gem "bootstrap-will_paginate", "~> 0.0.9"
+gem "ransack", "~> 0.7.2"

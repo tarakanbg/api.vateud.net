@@ -1,0 +1,23 @@
+%table.table.table-striped.table-hover.table-bordered.table-condensed
+  %tr
+    %th= sort_link @search, :cid, "CID"
+    %th= sort_link @search, :firstname, "First name"
+    %th= sort_link @search, :lastname, "Last name"
+    %th= sort_link @search, :rating, "ATC rating"
+    %th= sort_link @search, :pilot_rating, "Pilot rating"
+    %th= sort_link @search, :country, "Country"
+    %th= sort_link @search, :subdivision, "VACC"
+    %th= sort_link @search, :reg_date, "Registration date"
+  - for member in @members_html
+    %tr
+      %td= member.cid
+      %td= member.firstname
+      %td= member.lastname
+      %td= link_to member.humanized_atc_rating, "/ratings/#{member.rating}" if member.rating
+      %td= member.humanized_pilot_rating
+      %td= link_to member.country, "/countries/#{member.country}" if member.country
+      %td= link_to member.subdivision, "/members/#{member.subdivision}" if member.subdivision
+      %td= member.reg_date
+
+
+= will_paginate @members_html
