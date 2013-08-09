@@ -1,7 +1,13 @@
 class MembersController < ApplicationController
   
-  caches_action :index, expires_in: 3.hours
-  caches_action :show, expires_in: 4.hours
+  # caches_action :index, expires_in: 3.hours
+  # caches_action :show, expires_in: 4.hours
+  caches_page :index, :if => Proc.new { |c| c.request.format.json? }, expires_in: 3.hours
+  caches_page :index, :if => Proc.new { |c| c.request.format.xml? }, expires_in: 3.hours
+  caches_page :index, :if => Proc.new { |c| c.request.format.csv? }, expires_in: 3.hours
+  caches_page :show, :if => Proc.new { |c| c.request.format.csv? }, expires_in: 4.hours
+  caches_page :show, :if => Proc.new { |c| c.request.format.json? }, expires_in: 4.hours
+  caches_page :show, :if => Proc.new { |c| c.request.format.xml? }, expires_in: 4.hours
 
   def index
     @pagetitle = "Members list"
