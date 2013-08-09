@@ -12,7 +12,7 @@
   - for station in @stations
     %tr
       %td= station.callsign
-      %td= raw("#{station.name}<br />#{station.cid}")
+      %td= raw("#{station.name}<br /><span class=\"label\">#{station.cid}</span>")
       %td= station.aircraft
       %td= station.origin
       %td= station.destination

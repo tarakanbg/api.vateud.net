@@ -1,6 +1,7 @@
 %h2= "NOTAMs for '#{@code.upcase}'"
 
-%p.italic These NOTAMs are automatically update from RW sources and are always current!
+%p
+  %span.label.label-info These NOTAMs are automatically updated from RW sources and are always current!
 
 .notams
   -for notam in @notams

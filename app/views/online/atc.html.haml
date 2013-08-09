@@ -15,7 +15,7 @@
     %tr
       %td= station.callsign
       %td= station.frequency
-      %td= raw("#{station.name}<br />#{station.cid}")
+      %td= raw("#{station.name}<br /><span class=\"label\">#{station.cid}</span>")
       %td= station.rating
       %td= station.online_since
       %td.atis= raw(station.atis_message)
