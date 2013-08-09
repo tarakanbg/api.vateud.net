@@ -137,7 +137,8 @@ __Features:__
 * vACCs are able to obtain member listings including their members' emails by using an authenticated endpoint utilizing unique access tokens
 * Accessing this endpoint without an access token will result in a 401 error
 * Access tokens are associated with a particular vACC and are only good for that vACC: they can't be used to access the member listings of other vACCs or any other scope of members (error message will be returned). I.e. an access token issued to vACCBUL is only good for fetching vACCBUL members, can't be used for fetching let's say VATITA or vACC Austria members or any members that have selected Bulgaria as a country but do not belong to vACCBUL.
-* Access tokens will be issued on vACC staff member request, preferably  coming from the vACC webmaster or director. You can request an access token for your vACC by creating a task, assigned to me (or the current VATEUD7) here: [url=http://tasks.vateud.net/]tasks.vateud.net[/url]
+* Access tokens will be issued on vACC staff member request, preferably  coming from the vACC webmaster or director. You can request an access token for your vACC by creating a task, assigned to me (or the current VATEUD7) here:
+[tasks.vateud.net](http://tasks.vateud.net/)
 * VATEUD reserves the right to revoke an access token and/or replace it if leaks or abuse is detected.
 
 __How it works:__

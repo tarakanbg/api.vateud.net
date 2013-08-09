@@ -35,7 +35,7 @@ class Member < ActiveRecord::Base
 
   def self.humanized_rating(rating)    
     case rating
-      when "0" then "Suspended"
+      when "0" then "Inactive"
       when "1" then "OBS"
       when "2" then "S1"
       when "3" then "S2"
