@@ -1,0 +1,10 @@
+%h2= "Online Pilot stations in '#{@code.upcase}'"
+
+= render "online_nav"
+
+= render "pilots_online"
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/online/pilots/#{@code}.json"
+  %li.active= link_to "XML", "/online/pilots/#{@code}.xml"
+  %li.active= link_to "CSV", "/online/pilots/#{@code}.csv"

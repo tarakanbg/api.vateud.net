@@ -12,6 +12,8 @@ Vaccs::Application.routes.draw do
   get 'online/pilots/:id' => 'online#pilots'
   get 'online/arrivals/:id' => 'online#arrivals'
   get 'online/departures/:id' => 'online#departures'
+  get 'notams' => 'notams#index'
+  get 'notams/search' => 'notams#search'
   get 'notams/:id' => 'notams#show'
 
 

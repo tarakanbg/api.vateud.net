@@ -14,15 +14,16 @@ class OnlineController < ApplicationController
     @pagetitle = "Documentation"
     m = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     @content = m.render(File.open(Rails.root + "README.md", 'r').read)
-    # render :text => content
   end
 
   def atc
+    @code = params[:id]
+    @pagetitle = "Who's online in #{@code.upcase}"
     @stations = []
-    params[:id].vatsim_online[:atc].each {|station| @stations << Station.new(station)}
+    @code.vatsim_online[:atc].each {|station| @stations << Station.new(station)}
 
     respond_to do |format|
-      format.html { render text: "No joy! Specify json, xml or csv extension" }
+      format.html 
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@stations) }
@@ -30,11 +31,13 @@ class OnlineController < ApplicationController
   end
 
   def pilots
+    @code = params[:id]
+    @pagetitle = "Who's online in #{@code.upcase}"
     @stations = []
-    params[:id].vatsim_online[:pilots].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
+    @code.vatsim_online[:pilots].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
 
     respond_to do |format|
-      format.html { render text: "No joy! Specify json, xml or csv extension" }
+      format.html 
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@stations) }
@@ -42,11 +45,13 @@ class OnlineController < ApplicationController
   end
 
   def arrivals
+    @code = params[:id]
+    @pagetitle = "Who's online in #{@code.upcase}"
     @stations = []
-    params[:id].vatsim_online[:arrivals].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
+    @code.vatsim_online[:arrivals].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
 
     respond_to do |format|
-      format.html { render text: "No joy! Specify json, xml or csv extension" }
+      format.html 
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@stations) }
@@ -54,11 +59,13 @@ class OnlineController < ApplicationController
   end
 
   def departures
+    @code = params[:id]
+    @pagetitle = "Who's online in #{@code.upcase}"
     @stations = []
-    params[:id].vatsim_online[:departures].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
+    @code.vatsim_online[:departures].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
 
     respond_to do |format|
-      format.html { render text: "No joy! Specify json, xml or csv extension" }
+      format.html 
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@stations) }

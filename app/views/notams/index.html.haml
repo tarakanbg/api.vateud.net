@@ -1,0 +1,8 @@
+%h2 NOTAMs
+
+.online-search
+  %h4 Enter ICAO filter
+  %p.italic one or multiple comma separated ICAO codes, designating FIR(s) or airport(s):
+  = form_tag("/notams/search", method: "get", :class => "form-search") do
+    = text_field_tag(:q, nil, class: 'input-medium search-query', placeholder: 'ICAO filter...')
+    = submit_tag("Fetch Notams")

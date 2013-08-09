@@ -1,0 +1,12 @@
+%h2= "NOTAMs for '#{@code.upcase}'"
+
+%p.italic These NOTAMs are automatically update from RW sources and are always current!
+
+.notams
+  -for notam in @notams
+    %pre= notam
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/notams/#{@code}.json"
+  %li.active= link_to "XML", "/notams/#{@code}.xml"
+  %li.active= link_to "CSV", "/notams/#{@code}.csv"

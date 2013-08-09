@@ -2,14 +2,21 @@ class NotamsController < ApplicationController
   caches_action :index, :show, expires_in: 24.hours
 
   def index
+    @pagetitle = "NOTAMs"
+  end
 
+  def search
+    filter = params[:q]
+    redirect_to "/notams/#{filter}"
   end
 
   def show
-    @notams = params[:id].notams(:objects => true)
+    @code = params[:id]
+    @notams = @code.notams(:objects => true)
+    @pagetitle = "NOTAMs for #{@code.upcase}"
 
     respond_to do |format|
-      format.html { render text: "No joy! Specify json, xml or csv extension" }
+      format.html 
       format.json { render json: @notams }
       format.xml { render xml: @notams.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@notams) }

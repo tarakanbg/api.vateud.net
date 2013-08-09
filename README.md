@@ -13,6 +13,7 @@
 * Authenticated endpoint for vACCs to obtain the emails of their own members (see below)
 * Public endpoints for obtaining online stations data (pilots, ATCOs) and scoping it by airport(s)/FIR(s)
 * Public endpoints for obtaining an always current list of RW NOTAMs scoped by airport(s)/FIR(s)
+* HTML interface for all public endpoints
 
 The subset of data available includes:
 
@@ -74,7 +75,8 @@ reg date in the data you can parse them any way you want.
 __Here's how it works:__
 
 You have basic url to poll with a GET request and you __must append either a json, xml or csv extension__
-to the end of the url to get the relevant format.
+to the end of the url to get the relevant format. For all public endpoints omitting the format extension
+will return an html response: part of the web interface of the API.
 
 All URL's use the __api.vateud.net__ subdomain, the older vaccs.vateud.net one is kept indefinitely
 for compatibility and CNAME-d to the main one.

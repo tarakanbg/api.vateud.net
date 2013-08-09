@@ -11,7 +11,7 @@ class MembersController < ApplicationController
     @members_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
 
     respond_to do |format|
-      format.html # { render text: "No joy! Specify json, xml or csv extension" }
+      format.html
       format.json { render json: @members }
       format.xml { render xml: @members.to_xml(skip_types: true) }
       format.csv { send_data @members.to_csv }
@@ -30,7 +30,7 @@ class MembersController < ApplicationController
     @members_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
 
     respond_to do |format|
-      format.html #{ render "index" }
+      format.html
       format.json { render json: @members }
       format.xml { render xml: @members.to_xml(skip_types: true) }
       format.csv { send_data @members.to_csv }

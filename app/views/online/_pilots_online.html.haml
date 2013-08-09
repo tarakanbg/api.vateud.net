@@ -1,0 +1,21 @@
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th Callsign
+    %th Name / CID
+    %th Aircraft
+    %th Origin
+    %th Destination
+    %th Route
+    %th Altitude
+    %th GS
+
+  - for station in @stations
+    %tr
+      %td= station.callsign
+      %td= raw("#{station.name}<br />#{station.cid}")
+      %td= station.aircraft
+      %td= station.origin
+      %td= station.destination
+      %td.route= station.route
+      %td= station.altitude
+      %td= station.groundspeed

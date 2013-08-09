@@ -1,0 +1,26 @@
+%h2= "Online ATC stations in '#{@code.upcase}'"
+
+= render "online_nav"
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th Callsign
+    %th Frequency
+    %th Name / CID
+    %th Rating
+    %th Online Since
+    %th.atis ATIS
+
+  - for station in @stations
+    %tr
+      %td= station.callsign
+      %td= station.frequency
+      %td= raw("#{station.name}<br />#{station.cid}")
+      %td= station.rating
+      %td= station.online_since
+      %td.atis= raw(station.atis_message)
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/online/atc/#{@code}.json"
+  %li.active= link_to "XML", "/online/atc/#{@code}.xml"
+  %li.active= link_to "CSV", "/online/atc/#{@code}.csv"
