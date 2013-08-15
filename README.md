@@ -3,7 +3,6 @@
 
 ## Features
 
-
 * The API supports __json__, __xml__ and __csv__ for its data. Use whatever you prefer.
 * It requires no authentication, no API keys, just send a plain GET request and you're served.
 * Be reasonable when polling for changes: the data is only updated once a day anyway.
@@ -13,6 +12,7 @@
 * Authenticated endpoint for vACCs to obtain the emails of their own members (see below)
 * Public endpoints for obtaining online stations data (pilots, ATCOs) and scoping it by airport(s)/FIR(s)
 * Public endpoints for obtaining an always current list of RW NOTAMs scoped by airport(s)/FIR(s)
+* Public endpoints for obtaining an always current list of airport charts
 * HTML interface for all public endpoints
 
 The subset of data available includes:
@@ -20,17 +20,17 @@ The subset of data available includes:
 ### For the members data:
 
 
-* Vatsim ID
-* First and last name
-* ATC Rating
-* Pilot Rating
-* Humanized ATC Rating
-* Humanized Pilot Rating
-* Country
-* Registration date
-* Subdivision (vACC)
-* Email: by using the authenticated vACC specific endpoint (see below)
-* Suspension end date (if any): by using the authenticated vACC specific endpoint (see below)
+* `Vatsim ID`
+* `First and last name`
+* `ATC Rating`
+* `Pilot Rating`
+* `Humanized ATC Rating`
+* `Humanized Pilot Rating`
+* `Country`
+* `Registration date`
+* `Subdivision (vACC)`
+* `Email:` by using the authenticated vACC specific endpoint (see below)
+* `Suspension end date` (if any): by using the authenticated vACC specific endpoint (see below)
 
 _Note:_ The first/last names are preemptively capitalized "on the fly" for you; many aren't in the VATSIM
 database. Also I'm humanizing the ATC and pilot ratings so you don't have to :) The original integer values
@@ -38,35 +38,35 @@ for both ratings are kept in the data for compatibility, should you need them.
 
 ### For the online stations data:
 
-* cid (VATSIM ID)
-* callsign
-* name
-* role
-* frequency
-* altitude
-* planned_altitude (or FL)
-* heading
-* groundspeed
-* transponder
-* aircraft
-* origin
-* destination
-* route
-* rating (returns a humanized version of the VATSIM rating: S1, S2, S3, C1, etc...)
-* facility
-* remarks
-* atis (raw atis, as reported from VATSIM, including voice server as first line)
-* atis_message (a humanized version of the ATC atis w/o server and with lines split)
-* logon (login time as unparsed time string: 20120722091954)
-* online_since (returns the station login time parsed as a Ruby Time object in UTC)
-* latitude
-* longitude
-* latitude_humanized (e.g. N44.09780)
-* longitude_humanized (e.g. W58.41483)
-* qnh_in (indicated QNH in inches Hg)
-* qnh_mb (indicated QNH in milibars/hectopascals)
-* flight_type (I for IFR, V for VFR, etc)
-* gcmap (returns a great circle map image url)
+* `cid` (VATSIM ID)
+* `callsign`
+* `name`
+* `role`
+* `frequency`
+* `altitude`
+* `planned_altitude` (or FL)
+* `heading`
+* `groundspeed`
+* `transponder`
+* `aircraft`
+* `origin`
+* `destination`
+* `route`
+* `rating` (returns a humanized version of the VATSIM rating: S1, S2, S3, C1, etc...)
+* `facility`
+* `remarks`
+* `atis` (raw atis, as reported from VATSIM, including voice server as first line)
+* `atis_message` (a humanized version of the ATC atis w/o server and with lines split)
+* `logon` (login time as unparsed time string: 20120722091954)
+* `online_since` (returns the station login time parsed as a Ruby Time object in UTC)
+* `latitude`
+* `longitude`
+* `latitude_humanized` (e.g. N44.09780)
+* `longitude_humanized` (e.g. W58.41483)
+* `qnh_in` (indicated QNH in inches Hg)
+* `qnh_mb` (indicated QNH in milibars/hectopascals)
+* `flight_type` (I for IFR, V for VFR, etc)
+* `gcmap` (returns a great circle map image url)
 
 __You can either request all EUD members or scope them through a subdivision (vACC) or country or rating.__
 All records are sorted in reverse chronological order for conveneince (newest on top), but granted you have the
@@ -238,9 +238,9 @@ or "LQSA,LQMO,LQSB" to get a combined list of the 2 airports NOTAMs plus all FIR
 
 The responses will return 3 attributes for each NOTAM:
 
-* ICAO - the code of the airport or FIR the NOTAM applies to
-* raw - the raw record of the notam, providing it's full unparsed contents
-* message - just the essential informational part of the notam, with all the overhead stripped out
+* `ICAO` - the code of the airport or FIR the NOTAM applies to
+* `raw` - the raw record of the notam, providing it's full unparsed contents
+* `message` - just the essential informational part of the notam, with all the overhead stripped out
 
 All NOTAMs responses are cached, the expiration time is currently set at 24 hours.
 
@@ -250,5 +250,33 @@ Examples:
     http://api.vateud.net/notams/LQSA,LQMO,LQSB.xml     #=> returns all NOTAMs for Sarajevo and Mostar
                                                             airports and BiH FIR in XML format
     http://api.vateud.net/notams/loww.csv               #=> returns all NOTAMs for Vienna Airport in CSV
+    http://api.vateud.net/notams/lbsf                   #=> returns all NOTAMs for Sofia as HTML listing
+
+### G. Airport Charts
+
+These are public endpoints of the type: "http://api.vateud.net/charts/" + airport ICAO code + format
+type extension
+
+Omitting the format type extension will return an html response with a chart listing (part of the API [web
+interface](http://api.vateud.net/charts))
+
+The response will return 4 attributes for each chart:
+
+* `ICAO` - the code of the airport the chart refers to
+* `name` - the name of the chart
+* `url_aip` - link to the official source of the chart
+* `url_charts_aero` - link to the cached version of the chart at charts.aero
+
+All chart responses are cached, the expiration time is currently set at 2 hours.
+
+Examples:
+
+    http://api.vateud.net/charts/lowi.json              #=> returns all Innsbruck charts in JSON format  
+    http://api.vateud.net/charts/EGLC.xml               #=> returns all London City charts in XML format
+    http://api.vateud.net/charts/lgav.csv               #=> returns all Athens airport charts in CSV
+    http://api.vateud.net/charts/loww                   #=> returns an HTML listing of all Vienna charts
+
+The chart listings are automatically synchronized with RW sources and are __always current__. Note, we only
+provide links to the publications, not physical files. __Not to be used for real world navigation!__
 
 That's pretty much it! Enjoy, feedback welcome :)

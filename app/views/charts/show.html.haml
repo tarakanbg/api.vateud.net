@@ -1,0 +1,22 @@
+%h2= "Charts for '#{@code.upcase}'"
+
+%p
+  %span.label.label-info These charts are automatically updated from RW sources and are always current!
+  %br
+  %span.label.label-important Flight simulation use only! Not to be used for real world navigation!
+
+%table.charts.table.table-striped.table-hover.table-bordered.table-condensed
+  %tr
+    %th Name
+    %th Link (AIP)
+    %th.link-aero Link (charts.aero)
+  - for chart in @charts
+    %tr
+      %td= chart.name
+      %td= link_to "Download", chart.url_aip
+      %td.link-aero= link_to "Download Cached", chart.url_charts_aero
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/charts/#{@code}.json"
+  %li.active= link_to "XML", "/charts/#{@code}.xml"
+  %li.active= link_to "CSV", "/charts/#{@code}.csv"

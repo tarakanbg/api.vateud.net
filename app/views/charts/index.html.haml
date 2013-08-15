@@ -1,0 +1,7 @@
+%h2 Charts
+
+.online-search
+  %h4 Enter Airport ICAO
+  = form_tag("/charts/search", method: "get", :class => "form-search") do
+    = text_field_tag(:q, nil, class: 'input-medium search-query', placeholder: 'Airport ICAO code...')
+    = submit_tag("Fetch Charts")

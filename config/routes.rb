@@ -1,6 +1,7 @@
 Vaccs::Application.routes.draw do
 
   resources :members, :only => [:index, :show]
+  # resources :charts, :only => [:index, :show]
   resources :countries, :only => [:index, :show]
   resources :ratings, :only => [:index, :show]
   resources :emails, :only => [:show]
@@ -15,6 +16,9 @@ Vaccs::Application.routes.draw do
   get 'notams' => 'notams#index'
   get 'notams/search' => 'notams#search'
   get 'notams/:id' => 'notams#show'
+  get 'charts' => 'charts#index'
+  get 'charts/search' => 'charts#search'
+  get 'charts/:id' => 'charts#show'
 
 
   devise_for :admin_users, ActiveAdmin::Devise.config
