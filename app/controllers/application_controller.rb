@@ -14,7 +14,10 @@ class ApplicationController < ActionController::Base
     user_agent_name = user_agent.name
     user_agent_version = user_agent.version.major
     os = user_agent.os.to_s
-    ApiCall.create(endpoint: endpoint, ip: ip, parameters: parameters, user_agent: user_agent_name,
-                   user_agent_version: user_agent_version, user_os: os)
+    request_format = request.format.symbol
+    unless endpoint.include? "admin"
+      ApiCall.create(endpoint: endpoint, ip: ip, parameters: parameters, user_agent: user_agent_name,
+                   user_agent_version: user_agent_version, user_os: os, request_format: request_format)
+    end
   end
 end
