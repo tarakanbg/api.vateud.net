@@ -68,3 +68,5 @@ gem "bootstrap-will_paginate", "~> 0.0.9"
 gem "ransack", "~> 0.7.2"
 
 # gem "nokogiri", "~> 1.6.0"
+
+gem "user_agent_parser", "~> 2.1.0"

@@ -172,6 +172,7 @@ GEM
     uglifier (2.1.2)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
+    user_agent_parser (2.1.0)
     vatsim_online (0.7.2)
       curb (~> 0.8.4)
       gcmapper (~> 0.4.0)
@@ -209,6 +210,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   sqlite3
   uglifier (>= 1.0.3)
+  user_agent_parser (~> 2.1.0)
   vatsim_online (~> 0.7.2)
   whenever
   will_paginate (~> 3.0.4)

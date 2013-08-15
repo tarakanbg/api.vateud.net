@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  endpoint: MyString
+  parameters: MyString
+  ip: MyString
+  user_agent: MyString
+
+two:
+  endpoint: MyString
+  parameters: MyString
+  ip: MyString
+  user_agent: MyString
