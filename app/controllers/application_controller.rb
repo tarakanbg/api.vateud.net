@@ -11,9 +11,9 @@ class ApplicationController < ActionController::Base
     parameters = params[:id] ? params[:id].upcase : nil
     ip = request.remote_ip
     user_agent = UserAgentParser.parse request.env["HTTP_USER_AGENT"]
-    user_agent_name = user_agent.name
-    user_agent_version = user_agent.version.major
-    os = user_agent.os.to_s
+    user_agent_name = user_agent.name if user_agent
+    user_agent_version = user_agent.version.major if user_agent && user_agent.version
+    os = user_agent.os.to_s if user_agent && user_agent.os
     request_format = request.format.symbol
     unless endpoint.include? "admin"
       ApiCall.create(endpoint: endpoint, ip: ip, parameters: parameters, user_agent: user_agent_name,
