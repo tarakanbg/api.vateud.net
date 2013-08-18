@@ -11,7 +11,7 @@ class ChartsController < ApplicationController
   end
 
   def show
-    @code = params[:id]
+    @code = params[:id].downcase
     @charts = ChartFetcher.new(@code).charts
     @pagetitle = "Charts for #{@code.upcase}"
 

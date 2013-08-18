@@ -252,7 +252,7 @@ Examples:
     http://api.vateud.net/notams/loww.csv               #=> returns all NOTAMs for Vienna Airport in CSV
     http://api.vateud.net/notams/lbsf                   #=> returns all NOTAMs for Sofia as HTML listing
 
-### G. Airport Charts
+### H. Airport Charts
 
 These are public endpoints of the type: "http://api.vateud.net/charts/" + airport ICAO code + format
 type extension
