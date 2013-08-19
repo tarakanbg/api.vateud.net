@@ -1,5 +1,6 @@
 Vaccs::Application.routes.draw do
 
+  get 'members/validate' => 'members#validate'
   resources :members, :only => [:index, :show]
   # resources :charts, :only => [:index, :show]
   resources :countries, :only => [:index, :show]

@@ -279,4 +279,30 @@ Examples:
 The chart listings are automatically synchronized with RW sources and are __always current__. Note, we only
 provide links to the publications, not physical files. __Not to be used for real world navigation!__
 
+### I. Member Validation
+
+This endpoint is of the type: "http://api.vateud.net/members/validate/". It receives a member cid
+and email (sent along a GET request as headers) and matches them against
+the DB. It returns `true` if a matching cid/email pair is found or otherwise returns `false`.
+
+Useful for vACCs that run user registration checks on their websites to avoid bot registrations and (to 
+a certain extent) impersonation.
+
+Examples:
+    
+    # Curl command line:
+
+    curl api.vateud.net/members/validate -H 'cid: 1175035' -H 'email: tarakan.sv@gmail.com'  #=> true
+    curl api.vateud.net/members/validate -H 'cid: 1175036' -H 'email: tarakan.sv@gmail.ney'  #=> false
+
+    # An example Ruby method
+
+    def validate_member(cid, email)
+      response = Curl::Easy.http_get("api.vateud.net/members/validate") do |curl|
+        curl.headers['cid'] = cid
+        curl.headers['email'] = email
+      end    
+    end
+
+
 That's pretty much it! Enjoy, feedback welcome :)

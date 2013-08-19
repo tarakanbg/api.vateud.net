@@ -43,5 +43,20 @@ class MembersController < ApplicationController
     end
   end
 
+  def validate
+    cid = request.headers["cid"] if request.headers["cid"]
+    email = request.headers["email"] if request.headers["email"]
+    if cid && email
+      member = Member.find_by_cid_and_email(cid, email)
+    else
+      member = nil
+    end
+    member.nil? ? @response_text = "false" : @response_text = "true"
+
+    respond_to do |format|
+      format.html {render :layout => false}
+    end
+  end
+
   
 end
