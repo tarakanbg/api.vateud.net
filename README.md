@@ -283,7 +283,7 @@ provide links to the publications, not physical files. __Not to be used for real
 
 This endpoint is of the type: "http://api.vateud.net/members/validate/". It receives a member cid
 and email (sent along a GET request as headers) and matches them against
-the DB. It returns `true` if a matching cid/email pair is found or otherwise returns `false`.
+the DB. It returns `1` if a matching cid/email pair is found or otherwise returns `0`.
 
 Useful for vACCs that run user registration checks on their websites to avoid bot registrations and (to 
 a certain extent) impersonation.
@@ -292,8 +292,8 @@ Examples:
     
     # Curl command line:
 
-    curl api.vateud.net/members/validate -H 'cid: 1175035' -H 'email: tarakan.sv@gmail.com'  #=> true
-    curl api.vateud.net/members/validate -H 'cid: 1175036' -H 'email: tarakan.sv@gmail.ney'  #=> false
+    curl api.vateud.net/members/validate -H 'cid: 1175035' -H 'email: tarakan.sv@gmail.com'  #=> 1
+    curl api.vateud.net/members/validate -H 'cid: 1175036' -H 'email: tarakan.sv@gmail.ney'  #=> 0
 
     # An example Ruby method
 

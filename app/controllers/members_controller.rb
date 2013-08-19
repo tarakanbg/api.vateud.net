@@ -51,7 +51,7 @@ class MembersController < ApplicationController
     else
       member = nil
     end
-    member.nil? ? @response_text = "false" : @response_text = "true"
+    member.nil? ? @response_text = "0" : @response_text = "1"
 
     respond_to do |format|
       format.html {render :layout => false}
