@@ -1,0 +1,33 @@
+%row 
+  .span8
+    %h2= "User details for #{@member.cid}"
+  .span4
+    .pull-right  
+      
+
+%table.table.table-striped.table-hover.table-bordered.table-condensed
+  %tr
+    %th CID
+    %th First name
+    %th Last name
+    %th ATC rating
+    %th Pilot rating
+    %th Country
+    %th VACC
+    %th Registration date
+  
+  %tr
+    %td= link_to @member.cid, "/members/id/#{@member.cid}"
+    %td= @member.firstname
+    %td= @member.lastname
+    %td= link_to @member.humanized_atc_rating, "/ratings/#{@member.rating}" if @member.rating
+    %td= @member.humanized_pilot_rating
+    %td= link_to @member.country, "/countries/#{@member.country}" if @member.country
+    %td= link_to @member.subdivision, "/members/#{@member.subdivision}" if @member.subdivision
+    %td= @member.reg_date
+
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/members/id/#{@cid}.json"
+  %li.active= link_to "XML", "/members/id/#{@cid}.xml"
+  %li.active= link_to "CSV", "/members/id/#{@cid}.csv"

@@ -23,6 +23,14 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def to_csv_single(options = {})
+    columns = ["cid", "firstname", "lastname", "rating", "humanized_atc_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date"]
+    CSV.generate(options) do |csv|
+      csv << columns
+      csv << self.attributes.values_at(*columns)
+    end
+  end
+
   def self.to_csv_with_emails(options = {})
     columns = ["cid", "firstname", "lastname", "email", "rating", "humanized_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date", "susp_ends"]
     CSV.generate(options) do |csv|

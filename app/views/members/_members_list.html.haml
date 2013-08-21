@@ -10,7 +10,7 @@
     %th= sort_link @search, :reg_date, "Registration date"
   - for member in @members_html
     %tr
-      %td= member.cid
+      %td= link_to member.cid, "/members/id/#{member.cid}"
       %td= member.firstname
       %td= member.lastname
       %td= link_to member.humanized_atc_rating, "/ratings/#{member.rating}" if member.rating

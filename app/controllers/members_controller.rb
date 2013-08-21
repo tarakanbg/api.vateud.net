@@ -58,5 +58,18 @@ class MembersController < ApplicationController
     end
   end
 
+  def single
+    @cid = params[:id]
+    @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date")
+    @pagetitle = "User details for #{@member.cid}"
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @member }
+      format.xml { render xml: @member.to_xml(skip_types: true) }
+      format.csv { send_data @member.to_csv_single }
+    end
+  end
+
   
 end

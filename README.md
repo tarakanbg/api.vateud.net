@@ -281,7 +281,7 @@ provide links to the publications, not physical files. __Not to be used for real
 
 ### I. Member Validation
 
-This endpoint is of the type: "http://api.vateud.net/members/validate/". It receives a member cid
+This endpoint is of the type: `http://api.vateud.net/members/validate/`. It receives a member cid
 and email (sent along a GET request as headers) and matches them against
 the DB. It returns `1` if a matching cid/email pair is found or otherwise returns `0`.
 
@@ -303,6 +303,23 @@ Examples:
         curl.headers['email'] = email
       end    
     end
+
+### J. Single member details
+
+This endpoint is of the type: `http://api.vateud.net/members/id/` + `vatsim cid` + format type extension.
+
+Omitting the format type extension will return an html response with the member details 
+(part of the API web interface)
+
+The data and logic is exactly the same as with other "members" endpoints with the only difference that
+this one only returns the details of a single member, identified by their vatsim CID.
+
+_Examples:_
+
+    http://api.vateud.net/members/id/1264903.json    #=> returns member's details in JSON format  
+    http://api.vateud.net/members/id/1092003.xml     #=> returns member's details in XML format  
+    http://api.vateud.net/members/id/973575.csv      #=> returns member's details in CSV format  
+    http://api.vateud.net/members/id/890112          #=> returns member's details as HTML  
 
 
 That's pretty much it! Enjoy, feedback welcome :)
