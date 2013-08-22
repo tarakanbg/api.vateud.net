@@ -314,12 +314,34 @@ Omitting the format type extension will return an html response with the member 
 The data and logic is exactly the same as with other "members" endpoints with the only difference that
 this one only returns the details of a single member, identified by their vatsim CID.
 
+This endpoint allows __optionally__ sending a vACC access token as a __header__ in the following syntax:
+_'Authorization: Token token="your-vacc-access-token"'_.
+
+If a valid access token is received, the member details returned will be augmented with 2 extra attribites:
+member email address and suspension expiration date (if any). This extra data will only be included if the
+submitted vacc token matches the affeccted member vacc.
+
+If no access token is sent or the access token is invalid or the access token does not match the queried
+member vacc, then the standart set of public details will be returned, not including the email, etc.
+
+
 _Examples:_
 
     http://api.vateud.net/members/id/1264903.json    #=> returns member's details in JSON format  
     http://api.vateud.net/members/id/1092003.xml     #=> returns member's details in XML format  
     http://api.vateud.net/members/id/973575.csv      #=> returns member's details in CSV format  
     http://api.vateud.net/members/id/890112          #=> returns member's details as HTML  
+
+    curl api.vateud.net/members/id/890112.json -H 'Authorization: Token token="valid-access-token"'
+                        #=> returns augmented set of member's details (including email) in json format
+    curl api.vateud.net/members/id/890112.xml -H 'Authorization: Token token="valid-access-token"'
+                        #=> returns augmented set of member's details (including email) in xml format
+
+    curl api.vateud.net/members/id/890112.json -H 'Authorization: Token token="invalid-access-token"'
+                #=> returns standart public set of member's details (not including email) in json format
+    curl api.vateud.net/members/id/890112.csv -H 'Authorization: Token token="invalid-access-token"'
+                        #=> returns standart set of member's details (not including email) in csv format
+
 
 
 That's pretty much it! Enjoy, feedback welcome :)

@@ -60,7 +60,22 @@ class MembersController < ApplicationController
 
   def single
     @cid = params[:id]
-    @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date")
+    auth = request.headers["Authorization"] if request.headers["Authorization"]
+    if auth
+      authenticate_or_request_with_http_token do |token, options|
+        if ApiKey.exists?(access_token: token)
+          @key = ApiKey.find_by_access_token(token)
+        else
+          @key = ApiKey.new(:vacc_code => "none")
+        end
+      end
+      @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, email, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, susp_ends")
+      if @member.subdivision.downcase != @key.vacc_code.downcase
+        @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date")
+      end
+    else
+      @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date")
+    end
     @pagetitle = "User details for #{@member.cid}"
 
     respond_to do |format|
