@@ -1,5 +1,5 @@
 class ChartsController < ApplicationController
-  caches_action :show, expires_in: 2.hours
+  caches_action :show, expires_in: 4.hours
 
   def index
     @pagetitle = "Charts"
@@ -16,10 +16,17 @@ class ChartsController < ApplicationController
     @pagetitle = "Charts for #{@code.upcase}"
 
     respond_to do |format|
-      format.html 
-      format.json { render json: @charts }
-      format.xml { render xml: @charts.as_json.to_xml(skip_types: true) }
-      format.csv { send_data csv_data(@charts) }
+      if @charts == "No charts available"
+        format.html { render :text => "No charts available for this airport" }
+        format.json { render :text => "No charts available for this airport" }
+        format.xml { render :text => "No charts available for this airport" }
+        format.csv { render :text => "No charts available for this airport" }
+      else
+        format.html 
+        format.json { render json: @charts }
+        format.xml { render xml: @charts.as_json.to_xml(skip_types: true) }
+        format.csv { send_data csv_data(@charts) }
+      end
     end
   end
 

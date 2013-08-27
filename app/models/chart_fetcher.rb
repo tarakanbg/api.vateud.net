@@ -15,6 +15,8 @@ class ChartFetcher
   def initialize(icao, args = nil)
     # process_arguments(args) if args.class == Hash
     @icao = icao
+    @raw = raw_list
+    return @charts = "No charts available" if @raw == "NADA"
     @plates = plates_list  
     @plate_names = plate_names
     @charts = [] 
@@ -24,17 +26,22 @@ class ChartFetcher
 
   def raw_list
     Nokogiri::HTML(open("http://charts.aero/airport/#{@icao}"))
+  rescue RuntimeError
+    "NADA"
   end
 
   def plates_list
-    self.raw_list.css('div.airport table td.col2 a').map { |link| link['href'] }
+    # return "NADA" if @raw == "NADA"
+    @raw.css('div.airport table td.col2 a').map { |link| link['href'] }
   end
 
   def plate_names
-    self.raw_list.css('div.airport table td.col2 a').map { |link| link.text }
+    # return "NADA" if @raw == "NADA"
+    @raw.css('div.airport table td.col2 a').map { |link| link.text }
   end
 
   def grouped_plates
+    # return "NADA" if @raw == "NADA"
     while @plates.count > 0
       url = @plates.shift
       url_cached = @plates.shift
