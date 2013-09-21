@@ -60,5 +60,6 @@ module Vaccs
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    config.action_controller.page_cache_directory = "#{Rails.root}/public/cache" 
   end
 end
