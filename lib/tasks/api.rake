@@ -15,7 +15,7 @@ namespace :api do
 
   task :cleanup => :environment do 
     cache_dir = ActionController::Base.page_cache_directory
-    unless cache_dir == RAILS_ROOT+"/public"
+    unless cache_dir == Rails.root+"/public"
       FileUtils.rm_r(Dir.glob(cache_dir+"/*")) rescue Errno::ENOENT
     end
   end
