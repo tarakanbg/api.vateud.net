@@ -279,6 +279,13 @@ Examples:
 The chart listings are automatically synchronized with RW sources and are __always current__. Note, we only
 provide links to the publications, not physical files. __Not to be used for real world navigation!__
 
+#### Overriding chart titles
+
+Ocassionally, chart names, as provided from our data sources, might not match the physical chart name. 
+We have implemented the logic and interface for easily overriding such discrepancies. If you notice a title issue,
+please [submit a task](http://tasks.vateud.net/) to VATEUD7, specifying the airport ICAO and the correct
+chart title. 
+
 ### I. Member Validation
 
 This endpoint is of the type: `http://api.vateud.net/members/validate/`. It receives a member cid
