@@ -20,6 +20,7 @@ class ChartFetcher
     @plates = plates_list  
     @plate_names = plate_names
     @charts = [] 
+    @overrides = ChartOverride.where(:icao => @icao.upcase)
     grouped_plates
     list_charts
   end
@@ -52,8 +53,26 @@ class ChartFetcher
   end
 
   def list_charts
+    name_overrides
     @charts
   end
+
+  def name_overrides
+    if @overrides
+      apply_overrides
+    end
+  end
+
+  def apply_overrides
+    @overrides.each do |orr|
+      @charts.each do |chart|
+        chart.name.gsub!(orr.find_string, orr.replace_with)
+      end
+    end
+  end
+
+
+
 
 
   # def self.csv_column_headers

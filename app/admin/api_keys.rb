@@ -1,5 +1,5 @@
 ActiveAdmin.register ApiKey do
-  menu :parent => "Reference", :priority => 3
+  menu :parent => "Edit", :priority => 3
 
   form do |f|
     f.inputs "Details" do

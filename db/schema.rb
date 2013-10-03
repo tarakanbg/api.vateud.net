@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130815203458) do
+ActiveRecord::Schema.define(:version => 20131003185908) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -61,6 +61,14 @@ ActiveRecord::Schema.define(:version => 20130815203458) do
   create_table "api_keys", :force => true do |t|
     t.string   "access_token"
     t.string   "vacc_code"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "chart_overrides", :force => true do |t|
+    t.string   "icao"
+    t.string   "find_string"
+    t.string   "replace_with"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
