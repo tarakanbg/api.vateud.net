@@ -349,6 +349,35 @@ _Examples:_
     curl api.vateud.net/members/id/890112.csv -H 'Authorization: Token token="invalid-access-token"'
                         #=> returns standart set of member's details (not including email) in csv format
 
+### K. Online stations data by callsign
 
+__This portion of the API is powered by the [vatsim_online](https://rubygems.org/gems/vatsim_online) library.
+If you're curious to see in detail how it works and the full array of options it provides, head over
+[to the documentation](https://github.com/tarakanbg/vatsim_online#vatsim-online).__
+
+
+These are public endpoints of the type: "http://api.vateud.net/online/callsign/" + callsign filter + format
+type extension
+
+The callsigns can designate both pilot and ATC stations.
+
+The callsign filter is a string of full or partial, one or multiple comma separated callsigns
+that will be used to filter out the requested online data.
+They are __not__ case sensitive. For example you can use the "baw" filter to show all British Airways flights,
+or "loww,aua" filter to show all atc stations for Vienna airport and all Austrian Airlines flights, or 
+"ach, afr" filter to show all Air Child and Air France flights, etc
+
+Examples:
+
+    http://api.vateud.net/online/callsign/baw.json        #=> returns all British Airways flights in JSON format  
+    http://api.vateud.net/online/callsign/afr.xml         #=> returns all Air France flights in XML format  
+    http://api.vateud.net/online/callsign/aua,LOWW.csv    #=> returns all Austrian Airlines flights and all
+                                                              Vienna airport stations in CSV format  
+    http://api.vateud.net/online/callsign/ach             #=> returns all Air Child flights as HTML (part of the API web interface)
+      
+    ....etc.....  
+
+__Note:__ The online stations responses are all being cached with expiration time set to 5 minutes.
+The online stations data is not limited to EUD, you can use it for any stations on the network.
 
 That's pretty much it! Enjoy, feedback welcome :)

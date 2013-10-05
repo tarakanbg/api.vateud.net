@@ -6,3 +6,9 @@
   = form_tag("/online/search", method: "get", :class => "form-search") do
     = text_field_tag(:q, nil, class: 'input-medium search-query', placeholder: 'ICAO filter...')
     = submit_tag("Search")
+
+  %h4 Enter CALLSIGN filter
+  %p.italic full or partial, one or multiple comma separated callsigns:
+  = form_tag("/online/search_callsign", method: "get", :class => "form-search") do
+    = text_field_tag(:q, nil, class: 'input-medium search-query', placeholder: 'CALLSIGN filter...')
+    = submit_tag("Search")  

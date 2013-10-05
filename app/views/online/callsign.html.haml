@@ -1,0 +1,54 @@
+%h2= "Online stations by callsign: '#{@code.upcase}'"
+
+%h3 PILOT stations
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th Callsign
+    %th Name / CID
+    %th Aircraft
+    %th Origin
+    %th Destination
+    %th Route
+    %th Altitude
+    %th GS
+
+  - for station in @stations
+    -if station.role == "PILOT"
+      %tr
+        %td= station.callsign
+        %td= raw("#{station.name}<br /><span class=\"label\">#{station.cid}</span>")
+        %td= station.aircraft
+        %td= station.origin
+        %td= station.destination
+        %td.route= station.route
+        %td= station.altitude
+        %td= station.groundspeed
+
+%h3 ATC stations
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th Callsign
+    %th Frequency
+    %th Name / CID
+    %th Rating
+    %th Online Since
+    %th.atis ATIS
+
+  - for station in @stations
+    -if station.role == "ATC"
+      %tr
+        %td= station.callsign
+        %td= station.frequency
+        %td= raw("#{station.name}<br /><span class=\"label\">#{station.cid}</span>")
+        %td= station.rating
+        %td= station.online_since
+        %td.atis= raw(station.atis_message)
+
+
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/online/departures/#{@code}.json"
+  %li.active= link_to "XML", "/online/departures/#{@code}.xml"
+  %li.active= link_to "CSV", "/online/departures/#{@code}.csv"

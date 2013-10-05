@@ -1,5 +1,5 @@
 class OnlineController < ApplicationController
-  caches_action :atc, :pilots, :arrivals, :departures, expires_in: 5.minutes
+  caches_action :atc, :pilots, :arrivals, :departures, :callsign, expires_in: 5.minutes
 
   def index
     @pagetitle = "Online Stations"
@@ -8,6 +8,11 @@ class OnlineController < ApplicationController
   def search
     filter = params[:q]
     redirect_to "/online/atc/#{filter}"
+  end
+
+  def search_callsign
+    filter = params[:q]
+    redirect_to "/online/callsign/#{filter}"
   end
 
   def help
@@ -63,6 +68,20 @@ class OnlineController < ApplicationController
     @pagetitle = "Who's online in #{@code.upcase}"
     @stations = []
     @code.vatsim_online[:departures].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: @stations }
+      format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
+      format.csv { send_data csv_data(@stations) }
+    end
+  end
+
+  def callsign
+    @code = params[:id]
+    @pagetitle = "Who's online by callsign: #{@code.upcase}"
+    @stations = []
+    @code.vatsim_callsign.each {|station| @stations << Station.new(station)}
 
     respond_to do |format|
       format.html 
