@@ -6,6 +6,7 @@ class Member < ActiveRecord::Base
   has_one :welcome_email
 
   after_create :create_welcome_email  
+  has_paper_trail
 
   LOCAL_CSV = "#{Dir.tmpdir}/vatsim_csv.csv"
 

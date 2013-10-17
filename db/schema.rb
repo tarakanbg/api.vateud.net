@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131003185908) do
+ActiveRecord::Schema.define(:version => 20131017135714) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(:version => 20131003185908) do
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
   create_table "admin_users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                  :default => "",    :null => false
+    t.string   "encrypted_password",     :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -39,8 +39,14 @@ ActiveRecord::Schema.define(:version => 20131003185908) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.boolean  "admin",                  :default => false
+    t.string   "name"
+    t.integer  "vatsimid"
+    t.integer  "subdivision_id"
+    t.string   "position"
+    t.integer  "roles_mask"
   end
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
@@ -80,6 +86,19 @@ ActiveRecord::Schema.define(:version => 20131003185908) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "events", :force => true do |t|
+    t.string   "title"
+    t.string   "subtitle"
+    t.datetime "starts"
+    t.datetime "ends"
+    t.string   "banner_url"
+    t.text     "description"
+    t.string   "airports"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "admin_user_id"
+  end
+
   create_table "members", :force => true do |t|
     t.integer  "cid"
     t.string   "firstname"
@@ -102,12 +121,45 @@ ActiveRecord::Schema.define(:version => 20131003185908) do
     t.integer  "rating"
   end
 
+  create_table "rails_admin_histories", :force => true do |t|
+    t.text     "message"
+    t.string   "username"
+    t.integer  "item"
+    t.string   "table"
+    t.integer  "month",      :limit => 2
+    t.integer  "year",       :limit => 8
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
+  create_table "subdivisions", :force => true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.string   "website"
+    t.text     "introtext"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "vaccs", :force => true do |t|
     t.string   "country"
     t.string   "vacc"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "versions", :force => true do |t|
+    t.string   "item_type",  :null => false
+    t.integer  "item_id",    :null => false
+    t.string   "event",      :null => false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
 
   create_table "welcome_emails", :force => true do |t|
     t.integer  "member_id"

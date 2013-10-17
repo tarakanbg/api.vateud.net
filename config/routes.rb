@@ -1,5 +1,8 @@
 Vaccs::Application.routes.draw do
 
+  devise_for :admin_users
+  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+
   get 'members/validate' => 'members#validate'
   get 'members/id/:id' => 'members#single'
   resources :members, :only => [:index, :show]
@@ -8,6 +11,7 @@ Vaccs::Application.routes.draw do
   resources :ratings, :only => [:index, :show]
   resources :emails, :only => [:show]
   resources :subdivisions, :only => [:index]
+  resources :events
   # get 'online/:id' => 'online#index'
   get 'online' => 'online#index'
   get 'online/search' => 'online#search'
@@ -25,7 +29,6 @@ Vaccs::Application.routes.draw do
   get 'charts/:id' => 'charts#show'
 
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -83,5 +86,5 @@ Vaccs::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
-  ActiveAdmin.routes(self)
+  # ActiveAdmin.routes(self)
 end

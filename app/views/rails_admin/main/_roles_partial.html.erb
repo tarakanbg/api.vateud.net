@@ -1,0 +1,9 @@
+<% if current_admin_user.admin? %>
+  <% for role in AdminUser::ROLES %>
+    <%= check_box_tag "admin_user[roles][#{role}]", role, admin_user.roles.include?(role), {:name => "admin_user[roles][]"}%>
+    <%= label_tag "admin_user_roles_#{role}", role.humanize %><br />
+  <% end %>
+  <%= hidden_field_tag "admin_user[roles][]", "" %>
+<% else %>  
+  <em>Roles not accessible</em>
+<% end %>

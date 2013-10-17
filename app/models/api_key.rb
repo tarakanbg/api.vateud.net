@@ -1,6 +1,8 @@
 class ApiKey < ActiveRecord::Base
   attr_accessible :access_token, :vacc_code
   before_create :generate_access_token
+
+  has_paper_trail
   
 private
   

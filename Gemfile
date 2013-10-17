@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.14'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -40,8 +40,12 @@ gem "jquery-rails", "2.3.0"
 gem "mysql2", "~> 0.3.11"
 gem "activerecord-mysql-adapter"
 
-gem "activeadmin", "~> 0.6.0"
-gem "meta_search",    '>= 1.1.0.pre'
+# gem "activeadmin", "~> 0.6.0"
+# gem "meta_search",    '>= 1.1.0.pre'
+gem "devise", "~> 3.1.1"
+gem "rails_admin", "~> 0.4.9"
+gem "paper_trail", "~> 2.7.2"
+gem "cancan", "~> 1.6.10"
 
 gem "yaml_db", "~> 0.2.3"
 gem "haml", "~> 4.0.3"
@@ -70,3 +74,4 @@ gem "ransack", "~> 0.7.2"
 # gem "nokogiri", "~> 1.6.0"
 
 gem "user_agent_parser", "~> 2.1.0"
+gem "simple_form", "~> 2.1.0"

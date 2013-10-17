@@ -1,0 +1,20 @@
+.row
+  #login.center
+    %h2.center Sign up
+    = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+      .inputs
+        = f.input :email, :label => false, :placeholder => 'E-mail', :required => true, :autofocus => true
+        = f.input :name, :label => false, :placeholder => 'First and Last Name', :required => true
+        = f.input :vatsimid, :label => false, :placeholder => 'VATSIM ID', :required => true
+        = f.association :subdivision, :label => false, prompt: "Select your vACC...", :required => true
+        = f.input :position, :label => false, :placeholder => 'Staff Position', :required => true
+        = f.input :password, :label => false, :placeholder => 'Password', :required => true
+        = f.input :password_confirmation, :label => false, :placeholder => 'Password Confirmation', :required => true
+      
+      .clear
+      %p
+      .actions.center
+        = f.button :submit, "Sign up", :class => 'btn btn-success btn-large'
+      .clear
+    .center
+      = render "devise/shared/links"
