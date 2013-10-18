@@ -7,6 +7,18 @@ class Ability
     if user && user.admin?
       can :manage, :all      
     end
+    if user
+      if user.is? :events
+        can :index, Event         # included in :read
+        can :new, Event           # included in :create
+        can :export, Event
+        can :show, Event            # included in :read
+        can :edit, Event
+        can :read, Subdivision 
+        # can :history, Event       # for HistoryIndex
+        # can :destroy, Event       # for BulkDelete
+      end
+    end
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
