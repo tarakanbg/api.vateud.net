@@ -1,0 +1,22 @@
+%table.table.table-striped.table-hover.table-bordered.table-condensed
+  %tr
+    %th= sort_link @search, :title, "Title"
+    %th= sort_link @search, :airports, "Airports"
+    %th= sort_link @search, :starts, "Starts"
+    %th= sort_link @search, :ends, "Ends"
+    %th= "vACCs"
+    
+  - for event in @events_html
+    %tr
+      %td= link_to event.title, "/events/#{event.id}"
+      %td= event.airports
+      %td= event.starts
+      %td= event.ends
+      %td
+        - event.subdivisions.each do |sub|
+          = link_to sub.name, "/events/vacc/#{sub.code}/"
+          = " "          
+      
+
+
+= will_paginate @events_html

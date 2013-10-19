@@ -1,0 +1,26 @@
+%row 
+  .span12
+    %h2= "#{@event.title} details"
+
+
+%row
+  .span12
+    %h3= @event.subtitle
+    = image_tag @event.banner_url unless @event.banner_url.blank?
+    %h4
+      Airports:
+      = @event.airports
+    %h4
+      Organized by: 
+      - @event.subdivisions.each do |sub|
+        = sub.name + " "          
+    %h4 Description: 
+    %p= raw(@event.description)      
+
+%row
+  %ul.nav.nav-pills
+    %li.active= link_to "JSON", "/events/#{@event.id}.json"
+    %li.active= link_to "XML", "/events/#{@event.id}.xml"
+    %li.active= link_to "CSV", "/events/#{@event.id}.csv"
+    %li.active= link_to "ICS/iCAL", "/events/#{@event.id}.ics"
+

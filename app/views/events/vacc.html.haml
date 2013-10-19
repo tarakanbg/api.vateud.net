@@ -1,0 +1,18 @@
+%row 
+  .span7
+    %h2= "Events for #{@vacc.name}"
+  .span5
+    / .pull-right  
+    /   <a href="#members-filter" role="button" class="btn btn-success" data-toggle="modal"><i class="icon-search icon-white"></i> Filter Members</a>
+    /   <a href="/members" role="button" class="btn btn-danger"><i class="icon-list icon-white"></i> Clear Filters</a>
+
+=render "events_list"
+
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/events/#{@code}.json"
+  %li.active= link_to "XML", "/events/#{@code}.xml"
+  %li.active= link_to "CSV", "/events/#{@code}.csv"
+  %li.active= link_to "ICS/iCAL", "/events/#{@code}.ics"
+
+/ = render "members_search_form"

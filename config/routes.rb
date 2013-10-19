@@ -1,5 +1,7 @@
 Vaccs::Application.routes.draw do
 
+  mount Rich::Engine => '/rich', :as => 'rich'
+
   devise_for :admin_users
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
@@ -11,6 +13,7 @@ Vaccs::Application.routes.draw do
   resources :ratings, :only => [:index, :show]
   resources :emails, :only => [:show]
   resources :subdivisions, :only => [:index]
+  get 'events/vacc/:id' => 'events#vacc'
   resources :events
   # get 'online/:id' => 'online#index'
   get 'online' => 'online#index'

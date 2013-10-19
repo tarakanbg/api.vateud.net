@@ -75,3 +75,6 @@ gem "ransack", "~> 0.7.2"
 
 gem "user_agent_parser", "~> 2.1.0"
 gem "simple_form", "~> 2.1.0"
+
+gem "icalendar", "~> 1.4.3"
+gem "rich", "~> 1.4.6"

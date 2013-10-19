@@ -381,3 +381,12 @@ __Note:__ The online stations responses are all being cached with expiration tim
 The online stations data is not limited to EUD, you can use it for any stations on the network.
 
 That's pretty much it! Enjoy, feedback welcome :)
+
+
+
+
+
+
+Create:
+
+curl -X POST -H "Content-Type: application/json" -d '{"airports":"LBSF,LQSA","banner_url":"http://domain.net/image.jpg","description":"example description, can contain HTML","ends":"2013-10-27T22:00:00Z","starts":"2013-10-27T20:00:00Z","subtitle":"event subtitle","title":"Our Grand Event","vaccs":"BULG,BHZ"}' http://localhost:3000/events
