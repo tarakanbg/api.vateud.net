@@ -45,9 +45,11 @@ class ChartFetcher
     # return "NADA" if @raw == "NADA"
     while @plates.count > 0
       url = @plates.shift
-      url_cached = @plates.shift
+      # url_cached = @plates.shift if @plates.first.include?("charts.aero")
+      @plates.first.include?("charts.aero") ? url_cached = @plates.shift : url_cached = "http://charts.aero"
       name = @plate_names.shift
-      name_cached = @plate_names.shift
+      # name_cached = @plate_names.shift if @plate_names.first.include?("CACHED")
+      @plate_names.first.include?("CACHED") ? name_cached = @plate_names.shift : name_cached = "No cached version"
       @charts << Chart.new(icao = @icao, name = name, url_aip = url, url_charts_aero = url_cached)
     end
   end
