@@ -383,10 +383,209 @@ The online stations data is not limited to EUD, you can use it for any stations 
 That's pretty much it! Enjoy, feedback welcome :)
 
 
+### L. Events management (calendar)
+
+The VATEUD events management and calendar API is designed to solve the issue of having multiple standalone
+(isolated) calendar solutions for each vACC and for VATEUD separately and to overcome the limitations of the
+existing EUD calendar, which is a self contained "silo" with web interface only, and no ways of programmatically
+reading, creating or updating event data. The new system provides event organizers across EUD with
+a **single** point of posting and updating their event announcements following the principle of "publish once
+(or edit once), display anywhere". This also ensures that all pilots will have the same, full event information
+wherever they look.
+
+The events management API provides the following abilities:
+
+1. Create, edit, delete events
+  - a) Via web interface
+  - b) Programmatically, via authenticated REST-ful API calls
+2. Retrieve and scope events
+  - in 4 different formats JSON, XML, CSV and __ICS/iCAL__ for integration with calendar tools/apps
+  - scoped either globally (all VATEUD events) or per vACC (each vACCs events listing)
+
+These abilities ensure the following use cases are satisfied:
+
+* vACCs don't have to maintain their own calendar systems, they can pull their vACC events from the EUD
+  API in any convenient format and just visualize them on their websites.
+* vACCs that maintain their own calendar systems can easily synchronize their data with the EUD calendar 
+  when creating or updating an event on their end by simultaneously sending calls to the EUD API
+* Any 3rd party service can use the events API to list VATEUD events. This is how, for example, the new VATEUD
+  website will be getting its event data
+* The choice between using web backend for events management or using the RESTful API gives both technical and
+  non-technical users/vaccs the opportunity to utilize the system without being inconvenienced
+
+#### Reading (retrieving) event data
+
+For retrieving the __unscoped VATEUD events data__ (for all vaccs), use the following endpoint:
+`http://api.vateud.net/events + format type extension`
+
+**Examples:**
+
+    http://api.vateud.net/events.json    #=> returns all EUD events in JSON format
+    http://api.vateud.net/events.xml     #=> returns all EUD events in XML format
+    http://api.vateud.net/events.csv     #=> returns all EUD events in CSV format
+    http://api.vateud.net/events.ics     #=> returns all EUD events in ICS format
+    http://api.vateud.net/events         #=> returns all EUD events as HTML listing (part of the API web frontend)
 
 
+For retrieving the __events data scoped by vACC__ (events by a particular vacc only), use the following endpoint:
+`http://api.vateud.net/events/vacc/vacc_code + format type extension`
+
+The list of vACC codes is available at [http://api.vateud.net/subdivisions](http://api.vateud.net/subdivisions)
+
+**Examples:**
+
+    http://api.vateud.net/events/vacc/BHZ.json   #=> returns all Bosnia & Herzegovina events in JSON format
+    http://api.vateud.net/events/vacc/AUST.xml   #=> returns all Austria events in XML format
+    http://api.vateud.net/events/vacc/GER.csv    #=> returns all Germany events in CSV format
+    http://api.vateud.net/events/vacc/GRЕ.ics    #=> returns all Greek events in ICS format
+    http://api.vateud.net/events/vacc/BHZ        #=> returns all Bosnia & Herzegovina events as HTML (part of the API web frontend)
+
+For retrieving the __details of an individual event__, use the following endpoint:
+`http://api.vateud.net/events/event_id + format type extension`
+
+**Examples:**
+
+    http://api.vateud.net/events/4.json  #=> returns the details with event with id 4 in JSON format
+    http://api.vateud.net/events/1.xml   #=> returns the details with event with id 1 in XML format
+    http://api.vateud.net/events/2.csv   #=> returns the details with event with id 2 in CSV format
+    http://api.vateud.net/events/3.ics   #=> returns the details with event with id 3 in ICS format
+    http://api.vateud.net/events/1       #=> returns the details with event with id 1 as HTML (part of the API web frontend)
+
+#### Creating, editing and deleting events programmatically
+
+In order to use the RESTful API CRUD (create, edit and delete endpoints) you'll need an API access token for your vACC.
+These 3 endpoints only accept authenticated calls. Read above on how to request an API token.
+
+##### Event record attributes
+
+Each event record can accept the following attributes:
+
+* `title` - the event name
+* `subtitle` - snappy short event summary, i.e. "ICAO fully staffed"
+* `airports` - a comma separated list of the event airports (ICAO codes)
+* `description` - the event description. No length limit, can contain HTML
+* `banner_url` - a link to your banner image, if any
+* `starts` - starting date and time for the event (zulu) in the following format: "2013-10-27T20:00:00Z". The T letter denotes the beginning of the time string, separating the date and time.
+* `ends` - ending date and time for the event (zulu) in the following format: "2013-10-27T20:00:00Z". The T letter denotes the beginning of the time string, separating the date and time.
+* `vaccs` - the vACCs (one or many) that are organizing the event. Determined programmatically by the access token, not editable via remote calls
+* `id` - unique numeric identifier, returned by the application on create and update calls, not editable
+
+##### RESTful principle explained
+
+The VATEUD API follows the [RESTful](http://en.wikipedia.org/wiki/Representational_state_transfer) convention, meaning you send remote calls to a certain endpoint (optionally
+including an id), plus you also send in JSON data for the record that you want published/changed and you also
+authenticate yourself on behalf of a vACC with an API token. The __type of HTTP request__ that you're sending in
+determines the type of action that you want in the following way:
+
+* __GET__ requests are for __reading__ records
+* __POST__ requests are for __creating__ records
+* __PUT__ requests are for __updating__ records
+* __DELETE__ requests are for __destroying__ records
 
 
-Create:
+##### Creating an event record
 
-curl -X POST -H "Content-Type: application/json" -d '{"airports":"LBSF,LQSA","banner_url":"http://domain.net/image.jpg","description":"example description, can contain HTML","ends":"2013-10-27T22:00:00Z","starts":"2013-10-27T20:00:00Z","subtitle":"event subtitle","title":"Our Grand Event","vaccs":"BULG,BHZ"}' http://localhost:3000/events
+In order to create an event, you send an HTTP __POST request__ to `http://api.vateud.net/events` with the JSON details
+of the new event and with your API token (sent as a HEADER along with the request)
+
+__Example:__
+
+    curl -X POST -H "Content-Type: application/json" -d '{"airports":"LBSF,LQSA","banner_url":"http://domain.net/image.jpg",
+      "description":"example description, can contain HTML","ends":"2013-10-27T22:00:00Z","starts":"2013-10-27T20:00:00Z",
+      "subtitle":"event subtitle","title":"Our Grand Event"}' http://api.vateud.net/events -H 'Authorization: Token token="your-vacc-authorization-token"'
+
+__Notes:__
+
+* The example is a command line CURL call in a UNIX-based OS. The exact syntax will vary depending on the http client
+  implementation and the language you're using. Refer to your http client's documentation for full reference.
+* The order of attributes in the JSON string is irrelevant. In the above example they're ordered alphabetically,
+  but you can do as you please, just remember to wrap both the attribute name and the attribute value in quotes, use
+  colon between the name (label) and the value, and separate the pairs with commas
+* In the example I have added a header specifying the MIME type of the data that I'm sending: in our case application/json.
+  Strictly speaking this is not necessary. The application expects json and will recognize and accept it even without Content-Type
+  header. Nevertheless it's a general good practice to declare the content type when sending data across, so better do it for consistency.
+* Note: the Authentication token is sent along as a HEADER!
+* If the call has been successful and the record is created, the endpoint will return the new record as JSON, including
+  all attributes PLUS the newly created record ID. You probably want to catch and store the ID if you want to be able to
+  programmatically edit or delete this record in the future.
+* The new event will be tagged and assigned to the vACC that corresponds to the authentication token used
+* No record will be created without an authentication token
+
+##### Editing (updating) an event record
+
+In order to edit (update) an event, you send an HTTP __PUT request__ to `http://api.vateud.net/events/event_id` with the JSON details
+that you want changed and with your API token (sent as a HEADER along with the request). Note you need to pass the
+event ID to the URL
+
+__Example:__
+
+    curl -X PUT -H "Content-Type: application/json" -d '{"subtitle":"New subtitle","title":"New title"}'
+       http://api.vateud.net/events/1 -H 'Authorization: Token token="your-vacc-access-token"'
+
+__Notes:__
+
+* You only need to pass the attributes that you want changed, not all attributes. The order is irrelevant.
+* In the example above, the record changed has an ID of 1
+* The Authentication token is sent along as a HEADER!
+* If the call has been successful and the record is updated, the endpoint will return the full record as JSON, including
+  all attributes plus the id.
+* The record will not be updated (error message returned) without an authentication token
+* The record will not be updated (error message returned) if the authentication token's vACC doesn't match
+  the event record vACC
+
+##### Deleting an event record
+
+In order to delete an event, you send an HTTP __DELETE request__ to `http://api.vateud.net/events/event_id` with
+your API token (sent as a HEADER along with the request). Note you need to pass the event ID to the URL, but you
+don't need to send any JSON data at this time
+
+__Example:__
+
+    curl -X DELETE http://localhost:3000/events/3 -H 'Authorization: Token token="your-vacc-access-token"'
+
+__Notes:__
+
+* In the example above, the record changed has an ID of 3
+* The Authentication token is sent along as a HEADER!
+* The record will not be deleted (error message returned) without an authentication token
+* The record will not be deleted (error message returned) if the authentication token's vACC doesn't match
+  the event record vACC
+
+#### Creating, editing and deleting events via the web backend interface
+
+The backend administrative interface for the VATEUD API is accessible via [http://api.vateud.net/admin](http://api.vateud.net/admin).
+There's also a link called "Staff Zone" in the menu pointing that way.
+
+The backend requires registration, which is open to all users.
+
+The backend functionality available to individual users is dependant on the user's roles. Initially all users
+start with no roles and they have access to no functionality. When logged in they see a blank dashboard.
+So don't panick, when you initially register, log in and see nothing useful :) A user needs to be assigned
+one or multiple roles by an admin in order to get backend functionality and menus accessible.
+
+The currently available roles are:
+
+* `admin` - unrestricted access
+* `events` - access to events management
+* `staff` - access to vACC details and staff lists management (pending future update)
+
+Admins are notified by email when a new user signs up, and after checking their credentials, they'll assign him
+roles, usually within the day.
+
+___We will only enable accounts created by vACC staff members.___
+
+Users with an "Events" role will see an interface similar to the one below:
+
+![Events Backend Index](http://i.imgur.com/UPOOl7y.png)
+
+Search and export functionality is available for convenience.
+
+The Add and Edit forms look like this and are self explanatory (the description field supports
+rich text formatting and comes with a WYSIWYG editor):
+
+![New Event Form](http://i.imgur.com/MDkr5Ku.png)
+
+The following restrictions apply when manipulating event records via the web backend:
+
+* a user can only edit an event if the event's vACC matches the user vacc
+* a user can only delete an event if the event's vACC matches the user vacc

@@ -13,10 +13,20 @@ class AdminUser < ActiveRecord::Base
 
   has_paper_trail
 
+  scope :admins, where(:admin => true)
+  after_create :send_welcome_emails
+
   ROLES = %w[events staff]
 
+  def send_welcome_emails
+    admins = AdminUser.admins    
+    emails = []
+    admins.each {|u| emails << u.email}    
+    MemberMailer.new_user_admins_email(self, emails).deliver if emails.count > 0
+  end
+
   def roles=(roles)
-  self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.inject(0, :+)
+    self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.inject(0, :+)
   end
 
   def roles

@@ -12,6 +12,24 @@ class Event < ActiveRecord::Base
   rails_admin do 
     navigation_label 'vACC Staff Zone'
 
+    list do
+      field :id do
+        column_width 40
+      end
+      field :title do
+        column_width 220
+        pretty_value do          
+          id = bindings[:object].id
+          title = bindings[:object].title
+          bindings[:view].link_to "#{title}", bindings[:view].rails_admin.show_path('event', id)
+        end
+      end
+      field :starts
+      field :ends
+      field :airports
+      field :subdivisions    
+    end
+
     edit do
       field :title
       field :subtitle
@@ -131,5 +149,6 @@ class Event < ActiveRecord::Base
     end
     self.subdivision_ids = ids
   end
+
 
 end

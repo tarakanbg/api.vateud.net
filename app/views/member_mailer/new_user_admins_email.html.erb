@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p><em>This is an automated email message, please do not reply!</em></p>
+    
+    <h1>Dear VATEUD API admin,</h1>
+    <p>
+      A new user just registered in API application.<br/><br/>
+      
+      User details:<br/><br/>
+
+      Name: <%= @user.name %><br/>
+      VATSIM ID: <%= @user.vatsimid %><br/>
+      Email: <%= @user.email %><br/>
+      vACC: <%= @user.subdivision.name %><br/>
+      Position: <%= @user.position %><br/>
+      
+      
+    </p>
+    <p>
+      You can set this user's roles and permissions by visiting <%= URI.join(root_url, "admin") %>
+    </p>
+    <p>Good luck and have a great day!</p>
+    <p><em><strong>The VATEUD Web Services Team</strong></em></p>
+  </body>
+</html>

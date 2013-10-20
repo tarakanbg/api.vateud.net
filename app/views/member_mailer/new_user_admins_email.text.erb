@@ -1,0 +1,20 @@
+*This is an automated email message, please do not reply!*
+    
+Dear VATEUD API admin,
+
+A new user just registered in API application.
+
+User details:
+
+Name: <%= @user.name %>
+VATSIM ID: <%= @user.vatsimid %>
+Email: <%= @user.email %>
+vACC: <%= @user.subdivision.name %>
+Position: <%= @user.position %>
+
+
+You can set this user's roles and permissions by visiting <%= URI.join(root_url, "admin") %>
+
+Good luck and have a great day!
+
+*The VATEUD Web Services Team*

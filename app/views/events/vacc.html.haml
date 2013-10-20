@@ -10,9 +10,9 @@
 
 
 %ul.nav.nav-pills
-  %li.active= link_to "JSON", "/events/#{@code}.json"
-  %li.active= link_to "XML", "/events/#{@code}.xml"
-  %li.active= link_to "CSV", "/events/#{@code}.csv"
-  %li.active= link_to "ICS/iCAL", "/events/#{@code}.ics"
+  %li.active= link_to "JSON", "/events/vacc/#{@code}.json"
+  %li.active= link_to "XML", "/events/vacc/#{@code}.xml"
+  %li.active= link_to "CSV", "/events/vacc/#{@code}.csv"
+  %li.active= link_to "ICS/iCAL", "/events/vacc/#{@code}.ics"
 
 / = render "members_search_form"

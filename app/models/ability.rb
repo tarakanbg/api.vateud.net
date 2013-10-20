@@ -13,10 +13,10 @@ class Ability
         can :new, Event           # included in :create
         can :export, Event
         can :show, Event            # included in :read
-        can :edit, Event
+        can :edit, Event, :subdivisions => {:id => user.subdivision.id}
         can :read, Subdivision 
+        can :destroy, Event, :subdivisions => {:id => user.subdivision.id}
         # can :history, Event       # for HistoryIndex
-        # can :destroy, Event       # for BulkDelete
       end
     end
     # Define abilities for the passed in user here. For example:

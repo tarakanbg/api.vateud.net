@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_filter :restrict_access, :only => [:create, :update, :destroy]   
+
   def index
     @pagetitle = "Events Calendar"
     # @events = Event.select("title, subtitle, airports, banner_url, description, starts, ends").reorder("starts DESC")
@@ -62,13 +64,61 @@ class EventsController < ApplicationController
   end
 
   def create
+    authenticate_or_request_with_http_token do |token, options|
+      @key = ApiKey.find_by_access_token(token)
+    end
+
     @event = Event.new(params[:event])
+    @event.vaccs = @key.vacc_code.upcase
     if @event.save      
       respond_to do |format|
         format.json{render :json => @event, :status => :created }
       end
+    else
+      format.json { render json: @event.errors, status: :unprocessable_entity }
     end
   end
 
+  def update
+    authenticate_or_request_with_http_token do |token, options|
+      @key = ApiKey.find_by_access_token(token)
+    end
+
+    @event = Event.find(params[:id])
+    vacc_codes = []
+    @event.subdivisions.each {|sub| vacc_codes << sub.code.upcase}
+    render text: "No joy! Your access token does not match the event vaccs" and return unless vacc_codes.include? @key.vacc_code.upcase
+    respond_to do |format|
+      if @event.update_attributes(params[:event])        
+        format.json { render :json => @event, :status => :updated }
+      else        
+        format.json { render json: @event.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    authenticate_or_request_with_http_token do |token, options|
+      @key = ApiKey.find_by_access_token(token)
+    end
+
+    @event = Event.find(params[:id])
+    vacc_codes = []
+    @event.subdivisions.each {|sub| vacc_codes << sub.code.upcase}
+    render text: "No joy! Your access token does not match the event vaccs" and return unless vacc_codes.include? @key.vacc_code.upcase
+    
+    @event.destroy
+
+    respond_to do |format|
+      format.json { head :no_content }
+    end
+  end
+
+private
+  def restrict_access
+    authenticate_or_request_with_http_token do |token, options|
+      ApiKey.exists?(access_token: token)
+    end
+  end
   
 end
