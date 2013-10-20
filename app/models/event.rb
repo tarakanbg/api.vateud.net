@@ -140,14 +140,16 @@ class Event < ActiveRecord::Base
   end
 
   def assign_subdivisions
-    vaccs = self.vaccs.split(",")
-    vaccs.each { |v| v.strip! }
-    ids = []
-    vaccs.each do |v|
-      sub = Subdivision.find_by_code(v)
-      ids << sub.id
+    unless self.vaccs.blank?
+      vaccs = self.vaccs.split(",")
+      vaccs.each { |v| v.strip! }
+      ids = []
+      vaccs.each do |v|
+        sub = Subdivision.find_by_code(v)
+        ids << sub.id
+      end
+      self.subdivision_ids = ids
     end
-    self.subdivision_ids = ids
   end
 
 
