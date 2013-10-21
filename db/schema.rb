@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131019155601) do
+ActiveRecord::Schema.define(:version => 20131021155955) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -82,8 +82,10 @@ ActiveRecord::Schema.define(:version => 20131019155601) do
   create_table "countries", :force => true do |t|
     t.string   "code"
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.boolean  "eud",            :default => false
+    t.integer  "subdivision_id"
   end
 
   create_table "events", :force => true do |t|
@@ -157,8 +159,10 @@ ActiveRecord::Schema.define(:version => 20131019155601) do
     t.string   "name"
     t.string   "website"
     t.text     "introtext"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "hidden",     :default => false
+    t.boolean  "official",   :default => true
   end
 
   create_table "vaccs", :force => true do |t|

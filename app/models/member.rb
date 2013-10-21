@@ -115,5 +115,9 @@ class Member < ActiveRecord::Base
     File.chmod(0777, LOCAL_CSV)
   end
 
+  rails_admin do 
+    navigation_label 'Reference'
+  end
+
   
 end

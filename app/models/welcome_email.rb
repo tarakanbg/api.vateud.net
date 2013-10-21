@@ -7,4 +7,8 @@ class WelcomeEmail < ActiveRecord::Base
   def send_welcome_mail
     MemberMailer.welcome_mail(self.member).deliver    
   end
+
+  rails_admin do 
+    navigation_label 'Reference'
+  end
 end

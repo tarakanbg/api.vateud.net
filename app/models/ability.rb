@@ -5,7 +5,21 @@ class Ability
     can :access, :rails_admin   # grant access to rails_admin
     can :dashboard  
     if user && user.admin?
-      can :manage, :all      
+      can :manage, AdminUser     
+      can :manage, Event     
+      can :manage, ApiKey
+      can :manage, ChartOverride
+
+      can :read, Subdivision     
+      can :edit, Subdivision     
+      
+      can :read, Country
+      can :edit, Country
+      # can :manage, Staff
+      can :read, Member
+      can :read, Vacc
+      can :read, WelcomeEmail
+      can :read, ApiCall
     end
     if user
       if user.is? :events

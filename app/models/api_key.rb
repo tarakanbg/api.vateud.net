@@ -3,6 +3,10 @@ class ApiKey < ActiveRecord::Base
   before_create :generate_access_token
 
   has_paper_trail
+
+  rails_admin do 
+    navigation_label 'API management'
+  end
   
 private
   

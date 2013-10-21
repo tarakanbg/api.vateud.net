@@ -40,7 +40,7 @@ class AdminUser < ActiveRecord::Base
   end
 
   rails_admin do 
-    navigation_label 'Administrative records'  
+    navigation_label 'API management'  
 
     edit do
       field :name
@@ -64,7 +64,7 @@ class AdminUser < ActiveRecord::Base
         pretty_value do          
           id = bindings[:object].id
           name = bindings[:object].name
-          bindings[:view].link_to "#{name}", bindings[:view].rails_admin.show_path('user', id)
+          bindings[:view].link_to "#{name}", bindings[:view].rails_admin.show_path('admin_user', id)
         end
       end
       field :email

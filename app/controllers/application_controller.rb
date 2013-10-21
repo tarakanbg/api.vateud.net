@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     user_agent_version = user_agent.version.major if user_agent && user_agent.version
     os = user_agent.os.to_s if user_agent && user_agent.os
     request_format = request.format.symbol
-    unless endpoint.include? "admin" or endpoint.include? "events" or user_agent_name == "Googlebot"
+    unless endpoint.include? "admin" or user_agent_name == "Googlebot"
       ApiCall.create(endpoint: endpoint, ip: ip, parameters: parameters, user_agent: user_agent_name,
                    user_agent_version: user_agent_version, user_os: os, request_format: request_format)
     end
