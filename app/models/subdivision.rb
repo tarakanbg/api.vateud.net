@@ -21,8 +21,20 @@ class Subdivision < ActiveRecord::Base
     navigation_label 'vACC Staff Zone'
 
     list do
-      field :code
-      field :name
+      field :code  do        
+        pretty_value do          
+          id = bindings[:object].id
+          code = bindings[:object].code
+          bindings[:view].link_to "#{code}", bindings[:view].rails_admin.show_path('subdivision', id)
+        end
+      end
+      field :name   do        
+        pretty_value do          
+          id = bindings[:object].id
+          name = bindings[:object].name
+          bindings[:view].link_to "#{name}", bindings[:view].rails_admin.show_path('subdivision', id)
+        end
+      end
       field :official
       field :hidden
       field :countries

@@ -34,8 +34,20 @@ class StaffMember < ActiveRecord::Base
 
     list do
       field :subdivision
-      field :callsign
-      field :position
+      field :callsign do        
+        pretty_value do          
+          id = bindings[:object].id
+          callsign = bindings[:object].callsign
+          bindings[:view].link_to "#{callsign}", bindings[:view].rails_admin.show_path('staff_member', id)
+        end
+      end
+      field :position do        
+        pretty_value do          
+          id = bindings[:object].id
+          position = bindings[:object].position
+          bindings[:view].link_to "#{position}", bindings[:view].rails_admin.show_path('staff_member', id)
+        end
+      end
       field :cid
       field :vateud_confirmed do
         read_only true
