@@ -55,7 +55,7 @@ class StaffMember < ActiveRecord::Base
       field :member
     end
 
-    edit do
+    edit do     
       field :subdivision
       field :callsign
       field :position

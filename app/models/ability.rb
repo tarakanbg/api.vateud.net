@@ -37,6 +37,23 @@ class Ability
         can :read, Subdivision 
         can :history, Subdivision 
       end
+      if user.is? :staff
+        can :read, Event         
+        can :history, Event
+        can :index, Subdivision 
+        can :read, Subdivision 
+        can :history, Subdivision 
+        can :export, Subdivision 
+        can :edit, Subdivision, :id => user.subdivision.id
+        can :read, Country
+        can :read, StaffMember
+        can :history, StaffMember
+        can :export, StaffMember
+        can :edit, StaffMember, :vacc_code => user.subdivision.code
+        can :destroy, StaffMember, :vacc_code => user.subdivision.code
+        can :new, StaffMember, :vacc_code => user.subdivision.code
+        # can :read, Member
+      end
     end
     # Define abilities for the passed in user here. For example:
     #
