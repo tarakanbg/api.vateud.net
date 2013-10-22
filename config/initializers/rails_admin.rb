@@ -18,7 +18,7 @@ RailsAdmin.config do |config|
   # config.audit_with :history, 'AdminUser'  
 
   # Or with a PaperTrail: (you need to install it first)
-  config.audit_with :paper_trail, 'AdminUser'
+  config.audit_with :history, 'AdminUser'
 
   # Display empty fields in show views:
   config.compact_show_view = true

@@ -6,6 +6,7 @@ class Subdivision < ActiveRecord::Base
   has_many :admin_users
   has_many :countries, :inverse_of => :subdivision
   has_and_belongs_to_many :events
+  has_many :staff_members, :primary_key => 'code', :foreign_key => 'vacc_code'
 
   validates :code, :name, :website, :introtext, :presence => true
 
@@ -18,6 +19,14 @@ class Subdivision < ActiveRecord::Base
 
   rails_admin do 
     navigation_label 'vACC Staff Zone'
+
+    list do
+      field :code
+      field :name
+      field :official
+      field :hidden
+      field :countries
+    end
 
     edit do
       field :code do

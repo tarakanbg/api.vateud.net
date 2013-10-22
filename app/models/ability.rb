@@ -9,12 +9,15 @@ class Ability
       can :manage, Event     
       can :manage, ApiKey
       can :manage, ChartOverride
+      can :manage, StaffMember
 
       can :read, Subdivision     
       can :edit, Subdivision     
+      can :history, Subdivision     
       
       can :read, Country
       can :edit, Country
+      can :history, Country
       # can :manage, Staff
       can :read, Member
       can :read, Vacc
@@ -23,14 +26,16 @@ class Ability
     end
     if user
       if user.is? :events
-        can :index, Event         # included in :read
-        can :new, Event           # included in :create
+        can :index, Event 
+        can :new, Event   
         can :export, Event
-        can :show, Event            # included in :read
+        can :show, Event 
         can :edit, Event, :subdivisions => {:id => user.subdivision.id}
-        can :read, Subdivision 
         can :destroy, Event, :subdivisions => {:id => user.subdivision.id}
-        # can :history, Event       # for HistoryIndex
+        can :history, Event
+        can :index, Subdivision 
+        can :read, Subdivision 
+        can :history, Subdivision 
       end
     end
     # Define abilities for the passed in user here. For example:
