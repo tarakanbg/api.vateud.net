@@ -26,7 +26,7 @@ class ChartFetcher
   end
 
   def raw_list
-    Nokogiri::HTML(open("http://charts.aero/airport/#{@icao}"))
+    Nokogiri::HTML(open("https://charts.aero/airport/#{@icao}", :ssl_verify_mode => OpenSSL::SSL::VERIFY_NONE))
   rescue RuntimeError
     "NADA"
   end
@@ -46,7 +46,7 @@ class ChartFetcher
     while @plates.count > 0
       url = @plates.shift
       # url_cached = @plates.shift if @plates.first.include?("charts.aero")
-      @plates.first.include?("charts.aero") ? url_cached = @plates.shift : url_cached = "http://charts.aero"
+      @plates.first.include?("charts.aero") ? url_cached = @plates.shift : url_cached = "https://charts.aero"
       name = @plate_names.shift
       # name_cached = @plate_names.shift if @plate_names.first.include?("CACHED")
       @plate_names.first.include?("CACHED") ? name_cached = @plate_names.shift : name_cached = "No cached version"
