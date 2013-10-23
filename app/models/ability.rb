@@ -4,12 +4,14 @@ class Ability
   def initialize(user)
     can :access, :rails_admin   # grant access to rails_admin
     can :dashboard  
+    cannot :approve_staff_member, :all    
     if user && user.admin?
       can :manage, AdminUser     
       can :manage, Event     
       can :manage, ApiKey
       can :manage, ChartOverride
       can :manage, StaffMember
+      can :approve_staff_member, StaffMember
 
       can :read, Subdivision     
       can :edit, Subdivision     
@@ -36,6 +38,7 @@ class Ability
         can :index, Subdivision 
         can :read, Subdivision 
         can :history, Subdivision 
+        cannot :approve_staff_member, StaffMember    
       end
       if user.is? :staff
         can :read, Event         
@@ -52,6 +55,7 @@ class Ability
         can :edit, StaffMember, :vacc_code => user.subdivision.code
         can :destroy, StaffMember, :vacc_code => user.subdivision.code
         can :new, StaffMember, :vacc_code => user.subdivision.code
+        cannot :approve_staff_member, StaffMember
         # can :read, Member
       end
     end

@@ -8,6 +8,9 @@
     %h3= @event.subtitle
     = image_tag @event.banner_url unless @event.banner_url.blank?
     %h4
+      = "Starts: #{@event.starts}; " 
+      = "Ends: #{@event.ends}; " 
+    %h4
       Airports:
       = @event.airports
     %h4

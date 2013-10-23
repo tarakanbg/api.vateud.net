@@ -1,0 +1,23 @@
+%row 
+  .span12
+    %h2= "#{@vacc.name} details"
+
+
+%row
+  .span12
+    %h3= "Code: #{@vacc.code}"
+    %h4
+      Website:
+      = link_to @vacc.website, @vacc.website
+
+    %h4= "Official: #{@vacc.official}"  
+    
+    %h4 Introduction message: 
+    %p= raw(@vacc.introtext)      
+
+%row
+  %ul.nav.nav-pills
+    %li.active= link_to "JSON", "/subdivisions/#{@vacc.code}.json"
+    %li.active= link_to "XML", "/subdivisions/#{@vacc.code}.xml"
+    %li.active= link_to "CSV", "/subdivisions/#{@vacc.code}.csv"
+

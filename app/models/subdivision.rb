@@ -10,6 +10,9 @@ class Subdivision < ActiveRecord::Base
 
   validates :code, :name, :website, :introtext, :presence => true
 
+  scope :active, where(:hidden => false)
+  scope :official, where(:official => true)
+
   # def self.import_old_subdivisions
   #   old = OldSubdivision.all
   #   old.each do |o|

@@ -1,17 +1,52 @@
 class SubdivisionsController < ApplicationController
 
-  caches_action :index, expires_in: 3.hours
+  caches_action :index, expires_in: 2.hours
+  caches_action :show, expires_in: 2.hours
   
   def index
     @pagetitle = "vACC Codes"
-    @search = Subdivision.reorder("code ASC").search(params[:q])
+    @vaccs = Subdivision.active.select("code, name, introtext, website, official").reorder("code ASC")
+    @search = Subdivision.active.reorder("code ASC").search(params[:q])
     @search.sorts = 'code asc' if @search.sorts.empty?
     @subdivisions = @search.result(:distinct => true)
 
     respond_to do |format|
       format.html 
+      format.json { render json: @vaccs }
+      format.xml { render xml: @vaccs.as_json.to_xml(skip_types: true) }
+      format.csv { send_data csv_data(@vaccs) }
     end
   end
 
- 
+  def show
+    @code = params[:id].upcase
+    @vacc = Subdivision.where(["code = ?", @code]).select("code, name, introtext, website, official").first
+    @pagetitle = @vacc.name + " details"
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: @vacc }
+      format.xml { render xml: @vacc.as_json.to_xml(skip_types: true) }
+      format.csv { send_data csv_single(@vacc) }
+    end
+  end
+
+private
+
+  def csv_data(vaccs)    
+    CSV.generate do |csv|
+      csv << ["code", "name", "website", "introtext", "official"]
+      vaccs.each do |vacc|
+        csv << [vacc.code, vacc.name, vacc.website, vacc.introtext, vacc.official]
+      end
+    end
+  end  
+
+  def csv_single(vacc)    
+    CSV.generate do |csv|
+      csv << ["code", "name", "website", "introtext", "official"]
+      csv << [vacc.code, vacc.name, vacc.website, vacc.introtext, vacc.official]
+    end
+  end
+
 end

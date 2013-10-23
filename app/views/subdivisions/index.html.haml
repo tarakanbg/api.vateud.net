@@ -4,9 +4,25 @@
   %tr
     %th= sort_link @search, :code, "Code"
     %th= sort_link @search, :name, "Name"
+    %th Website
+    %th Official
+    %th= "vACC details"
+    %th= "vACC members"
 
   - @subdivisions.each do |subdivision|
     %tr
-      %td= link_to subdivision.code, "/members/#{subdivision.code}"
-      %td= link_to subdivision.name, "/members/#{subdivision.code}"
-    
+      %td= subdivision.code
+      %td= subdivision.name
+      %td= link_to subdivision.website, subdivision.website
+      %td
+        - if subdivision.official?
+          %span.badge.badge-success ✓
+        - else 
+          %span.badge.badge-important ✘
+      %td= link_to "vACC details", "/subdivisions/#{subdivision.code}"
+      %td= link_to "Members list", "/members/#{subdivision.code}"
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/subdivisions.json"
+  %li.active= link_to "XML", "/subdivisions.xml"
+  %li.active= link_to "CSV", "/subdivisions.csv"    

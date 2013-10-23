@@ -1,7 +1,39 @@
 # RailsAdmin config file. Generated on October 16, 2013 11:59
 # See github.com/sferik/rails_admin for more informations
 
+require Rails.root.join('lib', 'rails_admin_approve_staff_member.rb')
+
+module RailsAdmin
+  module Config
+    module Actions
+      class ApproveStaffMember < RailsAdmin::Config::Actions::Base
+        RailsAdmin::Config::Actions.register(self)
+      end
+    end
+  end
+end
+
 RailsAdmin.config do |config|
+
+  config.actions do
+    # root actions
+    dashboard                     # mandatory
+    # collection actions
+    index                         # mandatory
+    new
+    export
+    history_index
+    bulk_delete
+    # member actions
+    show
+    edit
+    delete
+    history_show
+    show_in_app
+   
+    # Set the custom action here
+    approve_staff_member
+  end
 
 
   ################  Global configuration  ################
@@ -431,3 +463,4 @@ RailsAdmin.config do |config|
   # end
 
 end
+

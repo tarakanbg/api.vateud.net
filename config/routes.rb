@@ -12,7 +12,7 @@ Vaccs::Application.routes.draw do
   resources :countries, :only => [:index, :show]
   resources :ratings, :only => [:index, :show]
   resources :emails, :only => [:show]
-  resources :subdivisions, :only => [:index]
+  resources :subdivisions, :only => [:index, :show]
   get 'events/vacc/:id' => 'events#vacc'
   resources :events
   # get 'online/:id' => 'online#index'

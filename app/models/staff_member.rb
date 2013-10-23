@@ -1,5 +1,5 @@
 class StaffMember < ActiveRecord::Base
-  attr_accessible :callsign, :cid, :email, :position, :priority, :vacc_code, :vateud_confirmed
+  attr_accessible :callsign, :cid, :email, :position, :priority, :vacc_code #, :vateud_confirmed
 
   attr_accessor :name
 
@@ -13,6 +13,8 @@ class StaffMember < ActiveRecord::Base
 
   validates :callsign, :position, :vacc_code, :priority, :presence => true
 
+  after_save :mark_unconfirmed  
+
   def name
     if self.member
         self.member.firstname + " " + self.member.lastname
@@ -21,13 +23,25 @@ class StaffMember < ActiveRecord::Base
     end
   end
 
-  def self.import_old_staff
-    old = Staff.all
-    old.each do |o|
-      StaffMember.create(cid: o.cid, callsign: o.callsign, vacc_code: o.vacc_code, email: o.Email,
-                         position: o.position, priority: o.list_order)
-    end
+  def mark_unconfirmed
+    unless self.vateud_confirmed_changed?
+      self.vateud_confirmed = false
+      self.save
+    end 
   end
+
+  def approve_staff_member
+    self.vateud_confirmed = true
+    self.save
+  end
+
+  # def self.import_old_staff
+  #   old = Staff.all
+  #   old.each do |o|
+  #     StaffMember.create(cid: o.cid, callsign: o.callsign, vacc_code: o.vacc_code, email: o.Email,
+  #                        position: o.position, priority: o.list_order)
+  #   end
+  # end
 
   rails_admin do 
     navigation_label 'vACC Staff Zone'
@@ -61,10 +75,7 @@ class StaffMember < ActiveRecord::Base
       field :position
       field :cid
       field :email
-      field :priority
-      field :vateud_confirmed do
-        read_only true
-      end
+      field :priority      
       field :member
 
     end

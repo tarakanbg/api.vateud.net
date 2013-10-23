@@ -4,9 +4,17 @@
   %tr
     %th= sort_link @search, :code, "Code"
     %th= sort_link @search, :name, "Name"
+    %th Part of EUD?
+    %th vACC
 
   - @countries.each do |country|
     %tr
       %td= link_to country.code, "/countries/#{country.code}"
       %td= link_to country.name, "/countries/#{country.code}"
+      %td 
+        - if country.eud?
+          %span.badge.badge-success ✓
+        - else 
+          %span.badge.badge-important ✘
+      %td= link_to country.subdivision.name, "/subdivisions/#{country.subdivision.code}" if country.subdivision
         
