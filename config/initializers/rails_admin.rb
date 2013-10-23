@@ -35,7 +35,7 @@ RailsAdmin.config do |config|
     approve_staff_member do
       # Make it visible only for article model. You can remove this if you don't need.
       visible do
-        bindings[:abstract_model].model.to_s == "Article"
+        bindings[:abstract_model].model.to_s == "StaffMember"
       end
     end
   end
