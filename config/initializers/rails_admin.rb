@@ -36,6 +36,7 @@ RailsAdmin.config do |config|
       # Make it visible only for article model. You can remove this if you don't need.
       visible do
         bindings[:abstract_model].model.to_s == "StaffMember"
+        bindings[:object].vateud_confirmed == false
       end
     end
   end
