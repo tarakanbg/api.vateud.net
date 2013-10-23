@@ -32,7 +32,12 @@ RailsAdmin.config do |config|
     show_in_app
    
     # Set the custom action here
-    approve_staff_member
+    approve_staff_member do
+      # Make it visible only for article model. You can remove this if you don't need.
+      visible do
+        bindings[:abstract_model].model.to_s == "Article"
+      end
+    end
   end
 
 
