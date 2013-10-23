@@ -589,3 +589,64 @@ The following restrictions apply when manipulating event records via the web bac
 
 * a user can only edit an event if the event's vACC matches the user vacc
 * a user can only delete an event if the event's vACC matches the user vacc
+
+### M. vACC profiles
+
+These endpoints allow fetching the general vACC data, either globally (all EUD subdivisions)
+or indivisually per vACC. Through the API vACC data can be distributed and visualized on any
+3rd party website, including the new EUD website.
+
+The following attrbiutes are exposed for each vACC:
+
+* `code` - unique identifying subdivision code, as defined in VATSIM database
+* `name` - the vACC name
+* `website` - the vACC website URL
+* `introtext` - introductory description of the vACC
+* `official` - boolean flag, marks the vACC as official or unofficial
+
+#### Editing vACC records
+
+With the introduction of this portion of the API, vACC records transition from EUD-managed
+to __self-managed__. Each vACC has the ability to edit their own records without being dependant
+on EUD staff.
+
+vACC staff members with API accounts and sufficient levels of permission
+can edit their vACC profiles via the [backend web interface of the API](http://api.vateud.net/admin).
+
+The web interface for editing vACC records is self explanatory and similar to the pictured below:
+
+![Edit vACC](http://i.imgur.com/0KIbRqm.png)
+
+__Notes:__
+
+* vACC staff members can only edit the record for the vACC they belong to
+* All changes are logged, tracked and reversible to prevent abuse or accidental data loss
+* Deleting or creating subdivision is, of course, not possible via the interface
+* One or more countries can be assigned (associated) with a particular vACC
+* The introtext supports HTML and the interface comes with a WYSIWYG editor for that field
+
+#### Reading vACC records
+
+##### Fetching all vACC records
+
+This is a public endpoint of the type: `http://api.vateud.net/subdivisions` + `format type extension`
+
+__Examples:__
+
+    http://api.vateud.net/subdivisions.json   #=> returns all vACCs data in JSON format
+    http://api.vateud.net/subdivisions.xml    #=> returns all vACCs data in XML format
+    http://api.vateud.net/subdivisions.csv    #=> returns all vACCs data in CSV format
+    http://api.vateud.net/subdivisions        #=> returns all vACCs data as HTML (part of the API web interface)
+
+##### Fetching individual vACC data
+
+These are public endpoints of the type: `http://api.vateud.net/subdivisions/` + `vacc code` + `format type extension`
+
+The full list of vACC codes can be found at [http://api.vateud.net/subdivisions](http://api.vateud.net/subdivisions)
+
+__Examples:__
+
+    http://api.vateud.net/subdivisions/BLUX.json  => returns vACC BeLux details in JSON format
+    http://api.vateud.net/subdivisions/ITA.xml    => returns vACC Italy details in XML format
+    http://api.vateud.net/subdivisions/SLOV.csv   => returns vACC Slovenia details in CSV format
+    http://api.vateud.net/subdivisions/BHZ        => returns vACC B&H details as HTML (part of the API web interface)
