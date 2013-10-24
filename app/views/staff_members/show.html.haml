@@ -1,0 +1,22 @@
+%row 
+  .span12
+    %h2= "#{@staff_member.callsign} details:"
+
+%row
+  .span12
+    %h3
+      = link_to "#{@staff_member.subdivision.name} (#{@staff_member.vacc_code})", "/staff_members/vacc/#{@staff_member.vacc_code.upcase}"
+      = "#{@staff_member.position}"
+    %h4
+      = "Vatsim ID: #{@staff_member.cid}; Name: "
+      = link_to "#{@staff_member.name}", "/members/id/#{@staff_member.cid}"
+    %h5
+      Email: 
+      = mail_to @staff_member.email, @staff_member.email  
+
+%row
+  %ul.nav.nav-pills
+    %li.active= link_to "JSON", "/staff_members/#{@staff_member.id}.json"
+    %li.active= link_to "XML", "/staff_members/#{@staff_member.id}.xml"
+    %li.active= link_to "CSV", "/staff_members/#{@staff_member.id}.csv"
+

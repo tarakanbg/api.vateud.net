@@ -541,11 +541,11 @@ don't need to send any JSON data at this time
 
 __Example:__
 
-    curl -X DELETE http://localhost:3000/events/3 -H 'Authorization: Token token="your-vacc-access-token"'
+    curl -X DELETE http://api.vateud.net/events/3 -H 'Authorization: Token token="your-vacc-access-token"'
 
 __Notes:__
 
-* In the example above, the record changed has an ID of 3
+* In the example above, the record deleted has an ID of 3
 * The Authentication token is sent along as a HEADER!
 * The record will not be deleted (error message returned) without an authentication token
 * The record will not be deleted (error message returned) if the authentication token's vACC doesn't match
@@ -567,7 +567,7 @@ The currently available roles are:
 
 * `admin` - unrestricted access
 * `events` - access to events management
-* `staff` - access to vACC details and staff lists management (pending future update)
+* `staff` - access to vACC details and staff lists management
 
 Admins are notified by email when a new user signs up, and after checking their credentials, they'll assign him
 roles, usually within the day.
@@ -650,3 +650,208 @@ __Examples:__
     http://api.vateud.net/subdivisions/ITA.xml    => returns vACC Italy details in XML format
     http://api.vateud.net/subdivisions/SLOV.csv   => returns vACC Slovenia details in CSV format
     http://api.vateud.net/subdivisions/BHZ        => returns vACC B&H details as HTML (part of the API web interface)
+
+
+### N. Self managed vACC Staff Members listings
+
+The VATEUD vACC Staff Members API is designed to enable vACC staff to self-manage and maintain their vACC
+staff records, via web interface or programmatically, following the principle of "publish once
+(or edit once), display anywhere". It has built-in mechanisms of tracking and confirming staff changes by
+EUD staff to avoid abuse or accidental data loss.
+
+The vACC Staff members API provides the following abilities:
+
+1. Create, edit, delete staff members
+  - a) Via web interface
+  - b) Programmatically, via authenticated REST-ful API calls
+2. Retrieve and scope staff members
+  - in 3 different formats: JSON, XML, CSV
+  - scoped either globally (all vACC staff members) or per vACC (each vACCs staff listing)
+  - ability to retrieve the details of an individual vACC staff position
+
+Any 3rd party service can use the staff members API to list vACC staff. This is how, for example, the new VATEUD
+website will be getting its staff data, and it can be easily implemented on individual vACC sites as well.
+
+The choice between using web backend for staff management or using the RESTful API gives both technical and
+non-technical users/vaccs the opportunity to utilize the system without being inconvenienced.
+
+#### Reading (retrieving) staff members data
+
+For retrieving the __unscoped VATEUD staff members data__ (for all vaccs), use the following endpoint:
+`http://api.vateud.net/staff_members` + `format type extension`
+
+**Examples:**
+
+    http://api.vateud.net/staff_members.json    #=> returns all EUD staff members in JSON format
+    http://api.vateud.net/staff_members.xml     #=> returns all EUD staff members in XML format
+    http://api.vateud.net/staff_members.csv     #=> returns all EUD staff members in CSV format
+    http://api.vateud.net/staff_members         #=> returns all EUD staff members as HTML listing (part of the API web frontend)
+
+
+For retrieving the __staff members data scoped by vACC__ (staff listings for a particular vacc only), use the following endpoint:
+`http://api.vateud.net/staff_members/vacc/` + `vacc_code` + `format type extension`
+
+The list of vACC codes is available at [http://api.vateud.net/subdivisions](http://api.vateud.net/subdivisions)
+
+**Examples:**
+
+    http://api.vateud.net/staff_members/vacc/BHZ.json   #=> returns all Bosnia & Herzegovina staff members in JSON format
+    http://api.vateud.net/staff_members/vacc/AUST.xml   #=> returns all Austria staff members in XML format
+    http://api.vateud.net/staff_members/vacc/GER.csv    #=> returns all Germany staff members in CSV format
+    http://api.vateud.net/staff_members/vacc/BHZ        #=> returns all Bosnia & Herzegovina staff members as HTML (part of the API web frontend)
+
+For retrieving the __details of an individual staff position__, use the following endpoint:
+`http://api.vateud.net/staff_members/` + `staff member id` + `format type extension`
+
+**Examples:**
+
+    http://api.vateud.net/staff_members/212.json  #=> returns the details for staff member with id 212 in JSON format
+    http://api.vateud.net/staff_members/191.xml   #=> returns the details for staff member with id 191 in XML format
+    http://api.vateud.net/staff_members/185.csv   #=> returns the details for staff member with id 185 in CSV format
+    http://api.vateud.net/staff_members/159       #=> returns the details for staff member with id 159 as HTML (part of the API web frontend)
+
+#### Creating, editing and deleting staff members programmatically
+
+In order to use the RESTful API CRUD (create, edit and delete endpoints) you'll need an API access token for your vACC.
+These 3 endpoints only accept authenticated calls. Read above on how to request an API token.
+
+##### Staff member attributes
+
+Each staff member record can accept the following attributes:
+
+* `callsign` - the staff position callsign, i.e. "ACCSLACK5"
+* `position` - the position description, i.e. "Leisure Manager"
+* `cid` - the Vatsim ID of the person occupying the position. Can be blank for vacant positions
+* `email` - the staff position email. Can be blank for vacant positions
+* `priority` - mandatory integer (number) attribute, designates the relative order of the posiotion in regards to other positions within the same vACC. I.e. position with priority 1 will be listed abover position with priority 2.
+* `vacc_code` - the vACC code of the staff member. Determined programmatically by the access token, not editable via remote calls
+* `id` - unique numeric record identifier, returned by the application on create and update calls, not editable
+
+##### RESTful principle explained (again)
+
+The VATEUD API follows the [RESTful](http://en.wikipedia.org/wiki/Representational_state_transfer) convention,
+meaning you send remote calls to a certain endpoint (optionally
+including an id), plus you also send in JSON data for the record that you want published/changed and you also
+authenticate yourself on behalf of a vACC with an API token. The __type of HTTP request__ that you're sending in
+determines the type of action that you want in the following way:
+
+* __GET__ requests are for __reading__ records
+* __POST__ requests are for __creating__ records
+* __PUT__ requests are for __updating__ records
+* __DELETE__ requests are for __destroying__ records
+
+
+##### Creating a staff member record
+
+In order to create an staff member, you send an HTTP __POST request__ to `http://api.vateud.net/staff_members` with the JSON details
+of the new position and with your API token (sent as a HEADER along with the request)
+
+__Example:__
+
+    curl -X POST -H "Content-Type: application/json" -d '{"callsign":"ACCBIH8","position":"New Test Position",
+        "cid":"12345678","email":"test@mail.net","priority":"8"}' http://api.vateud.net/staff_members 
+         -H 'Authorization: Token token="your-vacc-access-token"'
+
+__Notes:__
+
+* The example is a command line CURL call in a UNIX-based OS. The exact syntax will vary depending on the http client
+  implementation and the language you're using. Refer to your http client's documentation for full reference.
+* The order of attributes in the JSON string is irrelevant, just remember to wrap both the attribute name and the attribute value in quotes, use
+  colon between the name (label) and the value, and separate the pairs with commas
+* In the example I have added a header specifying the MIME type of the data that I'm sending: in our case application/json.
+  Strictly speaking this is not necessary. The application expects json and will recognize and accept it even without Content-Type
+  header. Nevertheless it's a general good practice to declare the content type when sending data across, so better do it for consistency.
+* Note: the Authentication token is sent along as a HEADER!
+* If the call has been successful and the record is created, the endpoint will return the new record as JSON, including
+  all attributes PLUS the newly created record ID. You probably want to catch and store the ID if you want to be able to
+  programmatically edit or delete this record in the future.
+* The new staff member position will be tagged and assigned to the vACC that corresponds to the authentication token used
+* No record will be created without an authentication token
+
+##### Editing (updating) a staff member record
+
+In order to edit (update) a staff member, you send an HTTP __PUT request__ to `http://api.vateud.net/staff_members/staff_member_id` with the JSON details
+that you want changed and with your API token (sent as a HEADER along with the request). Note you need to pass the
+staff member ID to the URL
+
+__Example:__
+
+    curl -X PUT -H "Content-Type: application/json" -d '{"cid":"12345788","email":"test2@mail.net"}'
+       http://api.vateud.net/staff_members/474 -H 'Authorization: Token token="your_vacc_access_token"'
+
+__Notes:__
+
+* You only need to pass the attributes that you want changed, not all attributes. The order is irrelevant.
+* In the example above, the record changed has an ID of 474
+* The Authentication token is sent along as a HEADER!
+* If the call has been successful and the record is updated, the endpoint will return the full record as JSON, including
+  all attributes plus the id.
+* The record will not be updated (error message returned) without an authentication token
+* The record will not be updated (error message returned) if the authentication token's vACC doesn't match
+  the staff member record vACC
+
+##### Deleting a staff member record
+
+In order to delete a staff member record, you send an HTTP __DELETE request__ to `http://api.vateud.net/staff_members/staff_member_id` with
+your API token (sent as a HEADER along with the request). Note you need to pass the event ID to the URL, but you
+don't need to send any JSON data at this time
+
+__Example:__
+
+    curl -X DELETE http://api.vateud.net/staff_members/471 -H 'Authorization: Token token="your_vacc_access_token"'
+
+__Notes:__
+
+* In the example above, the record deleted has an ID of 471
+* The Authentication token is sent along as a HEADER!
+* The record will not be deleted (error message returned) without an authentication token
+* The record will not be deleted (error message returned) if the authentication token's vACC doesn't match
+  the staff member record vACC
+
+#### Creating, editing and deleting staff members via the web backend interface
+
+The backend administrative interface for the VATEUD API is accessible via [http://api.vateud.net/admin](http://api.vateud.net/admin).
+There's also a link called "Staff Zone" in the menu pointing that way.
+
+The backend requires registration, which is open to all users.
+
+The backend functionality available to individual users is dependant on the user's roles. Initially all users
+start with no roles and they have access to no functionality. When logged in they see a blank dashboard.
+So don't panick, when you initially register, log in and see nothing useful :) A user needs to be assigned
+one or multiple roles by an admin in order to get backend functionality and menus accessible.
+
+The currently available roles are:
+
+* `admin` - unrestricted access
+* `events` - access to events management
+* `staff` - access to vACC details and staff lists management
+
+Admins are notified by email when a new user signs up, and after checking their credentials, they'll assign him
+roles, usually within the day.
+
+___We will only enable accounts created by vACC staff members.___
+
+Users with a "Staff" role will see an interface similar to the one below:
+
+![Staff Backend Index](http://i.imgur.com/xixkgph.png)
+
+Search and export functionality is available for convenience.
+
+The Add and Edit forms look like this and are self explanatory:
+
+![New Staff Member Form](http://i.imgur.com/xUJzMGn.png)
+
+The following restrictions apply when manipulating event records via the web backend:
+
+* A user can only edit an staff member if the staff member's vACC matches the user vacc
+* A user can only delete an staff member if the staff member's vACC matches the user vacc
+* All changes are logged, tracked and reversible to prevent abuse or accidental data loss
+* A `vateud_confirmed` flag is attached to each record. The flag is set to "false" by default
+  and also reset from "true" to "false" whenever an existing staff member is edited, either
+  via the web interface or programmatically. Only EUD
+  staff with admin level of access to the API can "confirm" staff member records, thus setting the flag to "true".
+  This is to avoid errors and potential abuse, and to make sure EUD staff has an easy way to
+  monitor vACC staff changes as they happen. This flag is for internal reference of EUD staff only and has
+  no impact of the record's availability.
+
+

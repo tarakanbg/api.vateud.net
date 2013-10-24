@@ -8,3 +8,10 @@ footer {text-align:center; font-size: 10px; color: gray;}
 th.atis, td.atis, td.route {max-width: 360px;}
 th.link-aero, td.link-aero {min-width: 150px;}
 .label-info a {color:white;}
+
+.nav-pills.alt > .active > a,
+.nav-pills.alt > .active > a:hover,
+.nav-pills.alt > .active > a:focus {
+  color: white;
+  background-color: gray;
+}

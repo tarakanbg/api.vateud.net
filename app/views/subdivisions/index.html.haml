@@ -6,8 +6,10 @@
     %th= sort_link @search, :name, "Name"
     %th Website
     %th Official
-    %th= "vACC details"
-    %th= "vACC members"
+    %th= "Details"
+    %th= "Staff"
+    %th= "Members"
+    %th= "Events"
 
   - @subdivisions.each do |subdivision|
     %tr
@@ -19,8 +21,10 @@
           %span.badge.badge-success ✓
         - else 
           %span.badge.badge-important ✘
-      %td= link_to "vACC details", "/subdivisions/#{subdivision.code}"
-      %td= link_to "Members list", "/members/#{subdivision.code}"
+      %td= link_to "Details", "/subdivisions/#{subdivision.code}"
+      %td= link_to "Staff", "/staff_members/vacc/#{subdivision.code}"
+      %td= link_to "Members", "/members/#{subdivision.code}"
+      %td= link_to "Events", "/events/vacc/#{subdivision.code}"
 
 %ul.nav.nav-pills
   %li.active= link_to "JSON", "/subdivisions.json"

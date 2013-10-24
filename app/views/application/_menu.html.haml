@@ -3,6 +3,7 @@
   %li{:class => ("active" if controller_name == "online" && action_name == "help")}= link_to "Documentation", "/"
   %li{:class => ("active" if controller_name == "members")}= link_to "Members List", "/members"
   %li{:class => ("active" if controller_name == "subdivisions")}= link_to "VACCs", "/subdivisions"
+  %li{:class => ("active" if controller_name == "staff_members")}= link_to "Staff Members", "/staff_members"
   %li{:class => ("active" if controller_name == "countries")}= link_to "Countries", "/countries"
   %li{:class => ("active" if controller_name == "ratings")}= link_to "Ratings", "/ratings"
   %li{:class => ("active" if controller_name == "online"  && action_name != "help")}= link_to "Who's Online", "/online"

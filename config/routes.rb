@@ -15,6 +15,8 @@ Vaccs::Application.routes.draw do
   resources :subdivisions, :only => [:index, :show]
   get 'events/vacc/:id' => 'events#vacc'
   resources :events
+  get 'staff_members/vacc/:id' => 'staff_members#vacc'
+  resources :staff_members
   # get 'online/:id' => 'online#index'
   get 'online' => 'online#index'
   get 'online/search' => 'online#search'

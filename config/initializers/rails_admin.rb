@@ -15,31 +15,6 @@ end
 
 RailsAdmin.config do |config|
 
-  config.actions do
-    # root actions
-    dashboard                     # mandatory
-    # collection actions
-    index                         # mandatory
-    new
-    export
-    history_index
-    bulk_delete
-    # member actions
-    show
-    edit
-    delete
-    history_show
-    show_in_app
-   
-    # Set the custom action here
-    approve_staff_member do
-      # Make it visible only for article model. You can remove this if you don't need.
-      visible do
-        bindings[:abstract_model].model.to_s == "StaffMember"
-        # bindings[:object].vateud_confirmed == false
-      end
-    end
-  end
 
 
   ################  Global configuration  ################
@@ -75,6 +50,32 @@ RailsAdmin.config do |config|
   # config.label_methods << :description # Default is [:name, :title]
 
 
+  config.actions do
+    # root actions
+    dashboard                     # mandatory
+    # collection actions
+    index                         # mandatory
+    new
+    export
+    history_index
+    bulk_delete
+    # member actions
+    show
+    edit
+    delete
+    history_show
+    show_in_app
+   
+    # Set the custom action here
+    approve_staff_member do
+      # Make it visible only for article model. You can remove this if you don't need.
+      visible do
+        bindings[:abstract_model].model.to_s == "StaffMember"
+        # bindings[:view].current_admin_user.admin?
+        # bindings[:object].vateud_confirmed == false
+      end      
+    end
+  end
   ################  Model configuration  ################
 
   # Each model configuration can alternatively:

@@ -16,6 +16,12 @@
     %p= raw(@vacc.introtext)      
 
 %row
+  %ul.nav.nav-pills.alt
+    %li.active= link_to "vACC Staff", "/staff_members/vacc/#{@vacc.code}"
+    %li.active= link_to "vACC Members", "/members/#{@vacc.code}"
+    %li.active= link_to "vACC Events", "/events/vacc/#{@vacc.code}"
+
+%row
   %ul.nav.nav-pills
     %li.active= link_to "JSON", "/subdivisions/#{@vacc.code}.json"
     %li.active= link_to "XML", "/subdivisions/#{@vacc.code}.xml"

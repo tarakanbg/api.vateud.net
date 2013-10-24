@@ -1,0 +1,32 @@
+%table.table.table-striped.table-hover.table-bordered.table-condensed
+  %tr
+    %th= sort_link @search, :vacc_code, "vACC Name"
+    %th= sort_link @search, :callsign, "Callsign"
+    %th= sort_link @search, :cid, "Vatsim ID"
+    %th Name
+    %th= sort_link @search, :position, "Position"
+    %th= sort_link @search, :email, "Email"
+    
+    
+  - for staff in @staff_html
+    %tr
+      %td
+        - if staff.subdivision
+          = link_to staff.subdivision.name, "/staff_members/vacc/#{staff.vacc_code.upcase}"
+        - else  
+          = ""
+      %td= link_to staff.callsign, "/staff_members/#{staff.id}"
+      %td
+        - unless staff.cid.blank? || staff.cid == 0
+          = link_to staff.cid, "/members/id/#{staff.cid}"
+        - else
+          = ""
+      %td
+        - unless staff.cid.blank? || staff.cid == 0
+          = link_to staff.name, "/members/id/#{staff.cid}"
+        - else
+          = staff.name
+      %td= link_to staff.position, "/staff_members/#{staff.id}"
+      %td= mail_to staff.email, staff.email
+      
+= will_paginate @staff_html

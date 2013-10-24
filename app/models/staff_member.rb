@@ -13,7 +13,7 @@ class StaffMember < ActiveRecord::Base
 
   validates :callsign, :position, :vacc_code, :priority, :presence => true
 
-  after_save :mark_unconfirmed  
+  after_update :mark_unconfirmed  
 
   def name
     if self.member
@@ -25,8 +25,8 @@ class StaffMember < ActiveRecord::Base
 
   def mark_unconfirmed
     unless self.vateud_confirmed_changed?
-      self.vateud_confirmed = false
-      self.save
+      self.vateud_confirmed = false   
+      self.save   
     end 
   end
 
@@ -42,6 +42,30 @@ class StaffMember < ActiveRecord::Base
   #                        position: o.position, priority: o.list_order)
   #   end
   # end
+
+  def self.to_csv(options = {})
+    columns = ["vacc_code", "callsign", "position", "cid", "email", "priority"]
+    CSV.generate(options) do |csv|
+      csv << columns
+      all.each do |staff_member|
+        csv << staff_member.attributes.values_at(*columns)
+      end
+    end
+  end
+
+  def to_csv_single(options = {})
+    columns = ["vacc_code", "callsign", "position", "cid", "email", "priority"]
+    CSV.generate(options) do |csv|
+      csv << columns
+      csv << self.attributes.values_at(*columns)
+    end
+    rescue ActiveModel::MissingAttributeError
+      columns = ["vacc_code", "callsign", "position", "cid", "email", "priority"]
+      CSV.generate(options) do |csv|
+        csv << columns
+        csv << self.attributes.values_at(*columns)
+      end
+  end
 
   rails_admin do 
     navigation_label 'vACC Staff Zone'

@@ -1,0 +1,13 @@
+%row 
+  .span5
+    %h2 VATEUD vACC Staff Members
+  .span7
+    
+=render "staff_list"
+
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/staff_members.json"
+  %li.active= link_to "XML", "/staff_members.xml"
+  %li.active= link_to "CSV", "/staff_members.csv"
+
