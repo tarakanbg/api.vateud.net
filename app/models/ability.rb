@@ -11,13 +11,15 @@ class Ability
       can :manage, ApiKey
       can :manage, ChartOverride
       can :manage, StaffMember
-      can :manage, Member
       can :approve_staff_member, StaffMember
 
       can :read, Subdivision     
       can :edit, Subdivision     
       can :history, Subdivision     
       
+      can :read, Member
+      can :history, Member
+      can :edit, Member
       can :read, Country
       can :edit, Country
       can :history, Country
