@@ -11,7 +11,7 @@ class MembersController < ApplicationController
 
   def index
     @pagetitle = "Members list"
-    @members = Member.select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date").reorder("reg_date DESC")
+    @members = Member.select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active").reorder("reg_date DESC")
     @search = Member.search(params[:q])
     @search.sorts = 'reg_date desc' if @search.sorts.empty?
     @members_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
@@ -29,7 +29,7 @@ class MembersController < ApplicationController
     @code = params[:id].upcase
     @vacc = Subdivision.find_by_code(@code).name
     @pagetitle = @vacc + " members"
-    @members = Member.where(["subdivision = ?", @code]).select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date").reorder("reg_date DESC")
+    @members = Member.where(["subdivision = ?", @code]).select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active").reorder("reg_date DESC")
     
     @search = Member.where(["subdivision = ?", @code]).search(params[:q])
     @search.sorts = 'reg_date desc' if @search.sorts.empty?
@@ -69,12 +69,12 @@ class MembersController < ApplicationController
           @key = ApiKey.new(:vacc_code => "none")
         end
       end
-      @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, email, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, susp_ends")
+      @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, email, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, susp_ends, active")
       if @member.subdivision.downcase != @key.vacc_code.downcase
-        @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date")
+        @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active")
       end
     else
-      @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date")
+      @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active")
     end
     @pagetitle = "User details for #{@member.cid}"
 

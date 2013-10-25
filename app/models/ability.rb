@@ -11,6 +11,7 @@ class Ability
       can :manage, ApiKey
       can :manage, ChartOverride
       can :manage, StaffMember
+      can :manage, Member
       can :approve_staff_member, StaffMember
 
       can :read, Subdivision     
@@ -21,7 +22,6 @@ class Ability
       can :edit, Country
       can :history, Country
       # can :manage, Staff
-      can :read, Member
       can :read, Vacc
       can :read, WelcomeEmail
       can :read, ApiCall
@@ -56,6 +56,9 @@ class Ability
         can :destroy, StaffMember, :vacc_code => user.subdivision.code
         can :new, StaffMember, :vacc_code => user.subdivision.code
         cannot :approve_staff_member, StaffMember
+        can :read, Member, :subdivision => user.subdivision.code
+        can :edit, Member, :subdivision => user.subdivision.code
+        can :history, Member, :subdivision => user.subdivision.code
         # can :read, Member
       end
     end

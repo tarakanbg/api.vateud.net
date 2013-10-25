@@ -1,7 +1,7 @@
 #encoding: utf-8
 class Member < ActiveRecord::Base
   attr_accessible :cid, :firstname, :lastname, :email, :rating, :pilot_rating, :humanized_atc_rating, :humanized_pilot_rating,
-    :region, :country, :state, :division, :subdivision, :age_band, :experience, :reg_date, :susp_ends
+    :region, :country, :state, :division, :subdivision, :age_band, :experience, :reg_date, :susp_ends, :active
 
   has_one :welcome_email
 
@@ -15,7 +15,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.to_csv(options = {})
-    columns = ["cid", "firstname", "lastname", "rating", "humanized_atc_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date"]
+    columns = ["cid", "firstname", "lastname", "rating", "humanized_atc_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date", "active"]
     CSV.generate(options) do |csv|
       csv << columns
       all.each do |member|
@@ -25,13 +25,13 @@ class Member < ActiveRecord::Base
   end
 
   def to_csv_single(options = {})
-    columns = ["cid", "firstname", "lastname", "email", "rating", "humanized_atc_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date", "susp_ends"] if self.email
+    columns = ["cid", "firstname", "lastname", "email", "rating", "humanized_atc_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date", "susp_ends", "active"] if self.email
     CSV.generate(options) do |csv|
       csv << columns
       csv << self.attributes.values_at(*columns)
     end
     rescue ActiveModel::MissingAttributeError
-      columns = ["cid", "firstname", "lastname", "rating", "humanized_atc_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date"]
+      columns = ["cid", "firstname", "lastname", "rating", "humanized_atc_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date", "active"]
       CSV.generate(options) do |csv|
         csv << columns
         csv << self.attributes.values_at(*columns)
@@ -39,7 +39,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.to_csv_with_emails(options = {})
-    columns = ["cid", "firstname", "lastname", "email", "rating", "humanized_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date", "susp_ends"]
+    columns = ["cid", "firstname", "lastname", "email", "rating", "humanized_rating", "pilot_rating", "humanized_pilot_rating", "country", "subdivision", "reg_date", "susp_ends", "active"]
     CSV.generate(options) do |csv|
       csv << columns
       all.each do |member|
@@ -117,6 +117,26 @@ class Member < ActiveRecord::Base
 
   rails_admin do 
     navigation_label 'Reference'
+
+    list do
+      field :cid do
+        pretty_value do          
+          id = bindings[:object].id
+          cid = bindings[:object].cid
+          bindings[:view].link_to "#{cid}", bindings[:view].rails_admin.show_path('member', id)
+        end
+      end
+
+      field :firstname
+      field :lastname
+      field :subdivision
+      field :humanized_atc_rating
+      field :active
+    end
+
+    edit do
+      field :active
+    end
   end
 
   

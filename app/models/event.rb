@@ -2,12 +2,29 @@ class Event < ActiveRecord::Base
   require 'icalendar'
   require 'date'
 
-  attr_accessible :airports, :banner_url, :description, :ends, :starts, :subtitle, :title, :subdivision_ids, :vaccs
+  attr_accessible :airports, :banner_url, :description, :ends, :starts, :subtitle, :title, :subdivision_ids, :vaccs, :weekly
   has_paper_trail
   has_and_belongs_to_many :subdivisions
   validates :title, :description, :starts, :ends, :subtitle, :airports, :presence => true
 
   after_create :assign_subdivisions
+  after_create :process_weekly
+
+  def process_weekly
+    if self.weekly?
+      starts = self.starts + 1.week
+      ends = self.ends + 1.week
+      counter = 1
+      while counter < 52
+        Event.create(airports: self.airports, banner_url: self.banner_url, description: self.description,
+          title: self.title, subtitle: self.subtitle, vaccs: self.vaccs, starts: starts, ends: ends, 
+          subdivision_ids: subdivision_ids)
+        starts = starts + 1.week
+        ends = ends + 1.week
+        counter += 1
+      end
+    end
+  end
 
   rails_admin do 
     navigation_label 'vACC Staff Zone'
@@ -33,8 +50,18 @@ class Event < ActiveRecord::Base
     edit do
       field :title
       field :subtitle
-      field :starts
-      field :ends
+      field :starts do
+        label "Starts (zulu)"
+      end
+      field :ends do
+        label "Ends (zulu)"
+      end
+      field :weekly  do
+        label "Weekly?"
+        visible do
+          bindings[:object].title.blank?
+        end
+      end
       field :banner_url
       field :airports
       field :subdivisions

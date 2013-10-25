@@ -31,6 +31,8 @@ The subset of data available includes:
 * `Subdivision (vACC)`
 * `Email:` by using the authenticated vACC specific endpoint (see below)
 * `Suspension end date` (if any): by using the authenticated vACC specific endpoint (see below)
+* `Active` - a boolean flag editable by EUD admins and vACC staff on the API web backend. Can be used by
+   vACCs to selectively flag certain member for exclusion from their rosters in case of inactivity
 
 _Note:_ The first/last names are preemptively capitalized "on the fly" for you; many aren't in the VATSIM
 database. Also I'm humanizing the ATC and pilot ratings so you don't have to :) The original integer values
@@ -469,6 +471,9 @@ Each event record can accept the following attributes:
 * `ends` - ending date and time for the event (zulu) in the following format: "2013-10-27T20:00:00Z". The T letter denotes the beginning of the time string, separating the date and time.
 * `vaccs` - the vACCs (one or many) that are organizing the event. Determined programmatically by the access token, not editable via remote calls
 * `id` - unique numeric identifier, returned by the application on create and update calls, not editable
+* `weekly` - a boolean flag, can have "true" or "false" values. Only used when creating events, won't have any effect when editing an existing event.
+  Causes the application to create 52 weekly instances of the event (1 year ahead). The day of the week and starting and ending
+  times for each instance match the initial event values.
 
 ##### RESTful principle explained
 
@@ -490,9 +495,17 @@ of the new event and with your API token (sent as a HEADER along with the reques
 
 __Example:__
 
+    # Creating a one-time event
+
     curl -X POST -H "Content-Type: application/json" -d '{"airports":"LBSF,LQSA","banner_url":"http://domain.net/image.jpg",
       "description":"example description, can contain HTML","ends":"2013-10-27T22:00:00Z","starts":"2013-10-27T20:00:00Z",
       "subtitle":"event subtitle","title":"Our Grand Event"}' http://api.vateud.net/events -H 'Authorization: Token token="your-vacc-authorization-token"'
+
+    # Creating a recurring weekly event (by adding a "weekly":"true" attribute)
+
+    curl -X POST -H "Content-Type: application/json" -d '{"airports":"LBSF,LQSA","banner_url":"http://domain.net/image.jpg",
+      "description":"example description, can contain HTML","ends":"2013-10-27T22:00:00Z","starts":"2013-10-27T20:00:00Z",
+      "subtitle":"weekly event subtitle","title":"Our Weekly Event","weekly":"true"}' http://api.vateud.net/events -H 'Authorization: Token token="your-vacc-authorization-token"'
 
 __Notes:__
 
@@ -501,15 +514,15 @@ __Notes:__
 * The order of attributes in the JSON string is irrelevant. In the above example they're ordered alphabetically,
   but you can do as you please, just remember to wrap both the attribute name and the attribute value in quotes, use
   colon between the name (label) and the value, and separate the pairs with commas
-* In the example I have added a header specifying the MIME type of the data that I'm sending: in our case application/json.
-  Strictly speaking this is not necessary. The application expects json and will recognize and accept it even without Content-Type
-  header. Nevertheless it's a general good practice to declare the content type when sending data across, so better do it for consistency.
+* It's necessary to specify a header declaring the MIME type of the data that I'm sending: in our case application/json.
 * Note: the Authentication token is sent along as a HEADER!
 * If the call has been successful and the record is created, the endpoint will return the new record as JSON, including
   all attributes PLUS the newly created record ID. You probably want to catch and store the ID if you want to be able to
   programmatically edit or delete this record in the future.
 * The new event will be tagged and assigned to the vACC that corresponds to the authentication token used
 * No record will be created without an authentication token
+* Sending in the "weekly":"true" attribute will create 52 instances of the event (1 year ahead), with times and days of
+  the week matching the ones in the original call.
 
 ##### Editing (updating) an event record
 
@@ -589,6 +602,8 @@ The following restrictions apply when manipulating event records via the web bac
 
 * a user can only edit an event if the event's vACC matches the user vacc
 * a user can only delete an event if the event's vACC matches the user vacc
+* the weekly checkmark field only has an effect when creating new events: it will trigger the creation of
+  52 weekly instances of the event (1 year ahead). Triggering it won't have any effect when editing existing events.
 
 ### M. vACC profiles
 
@@ -853,5 +868,3 @@ The following restrictions apply when manipulating event records via the web bac
   This is to avoid errors and potential abuse, and to make sure EUD staff has an easy way to
   monitor vACC staff changes as they happen. This flag is for internal reference of EUD staff only and has
   no impact of the record's availability.
-
-
