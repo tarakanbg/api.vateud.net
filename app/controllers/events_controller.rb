@@ -11,9 +11,9 @@ class EventsController < ApplicationController
     @search = Event.search(params[:q])
     @search.sorts = 'starts desc' if @search.sorts.empty?
     @events_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
-    @json = @events.to_json(:except => [:created_at, :updated_at], :include => { :subdivisions => {
+    @json = @events.to_json(:except => [:created_at, :updated_at, :weekly], :include => { :subdivisions => {
                                                :only => [:code, :name] } })
-    @xml = @events.to_xml(:except => [:created_at, :updated_at], :include => { :subdivisions => {
+    @xml = @events.to_xml(:except => [:created_at, :updated_at, :weekly], :include => { :subdivisions => {
                                                :only => [:code, :name] } }, skip_types: true)
 
     respond_to do |format|
@@ -30,9 +30,9 @@ class EventsController < ApplicationController
     @pagetitle = "Event Details"
     @event = Event.find(params[:id])
 
-    @json = @event.to_json(:except => [:created_at, :updated_at], :include => { :subdivisions => {
+    @json = @event.to_json(:except => [:created_at, :updated_at, :weekly], :include => { :subdivisions => {
                                                :only => [:code, :name] } })
-    @xml = @event.to_xml(:except => [:created_at, :updated_at], :include => { :subdivisions => {
+    @xml = @event.to_xml(:except => [:created_at, :updated_at, :weekly], :include => { :subdivisions => {
                                                :only => [:code, :name] } }, skip_types: true)
 
     respond_to do |format|
@@ -52,9 +52,9 @@ class EventsController < ApplicationController
     @search = @events.search(params[:q])
     @search.sorts = 'starts desc' if @search.sorts.empty?
     @events_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
-    @json = @events.to_json(:except => [:created_at, :updated_at], :include => { :subdivisions => {
+    @json = @events.to_json(:except => [:created_at, :updated_at, :weekly], :include => { :subdivisions => {
                                                :only => [:code, :name] } })
-    @xml = @events.to_xml(:except => [:created_at, :updated_at], :include => { :subdivisions => {
+    @xml = @events.to_xml(:except => [:created_at, :updated_at, :weekly], :include => { :subdivisions => {
                                                :only => [:code, :name] } }, skip_types: true)
 
     respond_to do |format|
