@@ -1,5 +1,5 @@
 class NotamsController < ApplicationController
-  caches_action :show, expires_in: 24.hours
+  caches_action :show, expires_in: 12.hours
 
   def index
     @pagetitle = "NOTAMs"

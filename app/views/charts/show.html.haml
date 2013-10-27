@@ -5,6 +5,10 @@
   %br
   %span.label.label-important Flight simulation use only! Not to be used for real world navigation!
 
+%ul.nav.nav-pills.alt
+  %li.active= link_to "#{@code.upcase} Airport details", "/airports/#{@code.upcase}"
+  %li.active= link_to "#{@code.upcase} Notams", "/notams/#{@code.upcase}"
+
 %table.charts.table.table-striped.table-hover.table-bordered.table-condensed
   %tr
     %th Name

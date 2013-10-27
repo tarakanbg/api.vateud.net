@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131025101043) do
+ActiveRecord::Schema.define(:version => 20131027122519) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -51,6 +51,67 @@ ActiveRecord::Schema.define(:version => 20131025101043) do
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
+
+  create_table "airdata_airoptions", :force => true do |t|
+    t.string   "key"
+    t.string   "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "airdata_airports", :force => true do |t|
+    t.string   "icao"
+    t.string   "name"
+    t.float    "lat"
+    t.float    "lon"
+    t.integer  "elevation"
+    t.integer  "ta"
+    t.integer  "msa"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "airdata_runways", :force => true do |t|
+    t.integer  "airport_id"
+    t.string   "number"
+    t.integer  "course"
+    t.integer  "length"
+    t.boolean  "ils"
+    t.float    "ils_freq"
+    t.integer  "ils_fac"
+    t.float    "lat"
+    t.float    "lon"
+    t.integer  "elevation"
+    t.float    "glidepath"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "airdata_waypoints", :force => true do |t|
+    t.string   "ident"
+    t.string   "name"
+    t.float    "freq"
+    t.float    "lat"
+    t.float    "lon"
+    t.integer  "range"
+    t.integer  "elevation"
+    t.string   "country_code"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  create_table "airports", :force => true do |t|
+    t.string   "icao"
+    t.integer  "country_id"
+    t.boolean  "major",            :default => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.string   "scenery_fs9_link"
+    t.string   "scenery_fsx_link"
+    t.string   "scenery_xp_link"
+    t.string   "iata"
+    t.text     "description"
+  end
 
   create_table "api_calls", :force => true do |t|
     t.string   "endpoint"

@@ -1,0 +1,104 @@
+%h2= @pagetitle
+
+%h4.center Metar
+.center
+  %pre= @airport.icao.metar
+
+%h4.center General details
+%table.table.table-striped.table-bordered.table-hover.table-condensed.airport
+  %tr
+    %td.legend.strong ICAO:
+    %td= @airport.icao
+  %tr
+    %td.strong IATA:
+    %td= @airport.iata
+  %tr
+    %td.strong Name (city):
+    %td= @airport.data.name.titlecase
+  %tr
+    %td.strong Major:
+    %td
+      - if @airport.major?
+        %span.badge.badge-success ✓
+      - else 
+        %span.badge.badge-important ✘
+  %tr
+    %td.strong Country:
+    %td= link_to @airport.country.name, "/airports/country/#{@airport.country.code}"
+  %tr
+    %td.strong vACC:
+    %td= link_to @airport.country.subdivision.name, "/subdivisions/#{@airport.country.subdivision.code}"  
+  %tr
+    %td.strong.center{:colspan => 2} Description:
+  %tr  
+    %td{:colspan => 2}= raw(@airport.description)
+  %tr 
+    %td.strong.center{:colspan => 2} Scenery links: 
+  %tr
+    %td.strong FS9 scenery:
+    %td= link_to("Download", @airport.scenery_fs9_link) unless @airport.scenery_fs9_link.blank?
+  %tr
+    %td.strong FSX/P3D scenery:
+    %td= link_to("Download", @airport.scenery_fsx_link) unless @airport.scenery_fsx_link.blank?
+  %tr
+    %td.strong XP scenery:
+    %td= link_to("Download", @airport.scenery_xp_link) unless @airport.scenery_xp_link.blank?
+  %tr
+    %td.strong Elevation:
+    %td= "#{@airport.data.ta} ft."
+  %tr
+    %td.strong Transition altitude:
+    %td= "#{@airport.data.ta} ft."
+  %tr   
+    %td.strong MSA:
+    %td= "#{@airport.data.msa} ft."
+  %tr   
+    %td.strong Latitude:
+    %td= @airport.data.lat
+  %tr   
+    %td.strong Longitude:
+    %td= @airport.data.lon
+  %tr
+    %td.center{:colspan => 2}= link_to "#{@airport.icao} Charts", "/charts/#{@airport.icao}"
+  %tr  
+    %td.center{:colspan => 2}= link_to "#{@airport.icao} Notams", "/notams/#{@airport.icao}"
+  %tr  
+    %td.center{:colspan => 2}= link_to "#{@airport.icao} Online stations", "/online/atc/#{@airport.icao}"
+    
+
+%h4.center Runways
+%table.table.table-striped.table-bordered.table-hover.table-condensed.airport-runway
+  %tr
+    %th Number
+    %th Course
+    %th Length
+    %th Elevation
+    %th Lat
+    %th Lon
+    %th ILS
+    %th ILS freq
+    %th ILS FAC
+    %th GP
+  - for rwy in @airport.data.runways
+    %tr
+      %td= rwy.number  
+      %td= raw(rwy.course.to_s + "&deg;".html_safe)
+      %td= rwy.length.to_s + "ft / " + (rwy.length * 0.3048).round.to_s + " m"
+      %td= rwy.elevation.to_s + "ft "
+      %td= rwy.lat
+      %td= rwy.lon
+      %td
+        - if rwy.ils?
+          %span.badge.badge-success ✓
+        - else 
+          %span.badge.badge-important ✘
+      %td= rwy.ils? ? rwy.ils_freq : "-"
+      %td= raw(rwy.ils? ? rwy.ils_fac.to_s + "&deg;".html_safe : "-")
+      %td= raw(rwy.glidepath.to_s + "&deg;".html_safe)      
+
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/airports/#{@airport.icao}.json"
+  %li.active= link_to "XML", "/airports/#{@airport.icao}.xml"
+  %li.active= link_to "CSV", "/airports/#{@airport.icao}.csv"
+      

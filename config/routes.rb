@@ -10,6 +10,8 @@ Vaccs::Application.routes.draw do
   resources :members, :only => [:index, :show]
   # resources :charts, :only => [:index, :show]
   resources :countries, :only => [:index, :show]
+  get 'airports/country/:id' => 'airports#country'
+  resources :airports, :only => [:index, :show]
   resources :ratings, :only => [:index, :show]
   resources :emails, :only => [:show]
   resources :subdivisions, :only => [:index, :show]

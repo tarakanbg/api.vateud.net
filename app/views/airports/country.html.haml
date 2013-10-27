@@ -1,0 +1,35 @@
+%h2= @pagetitle
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th ICAO
+    %th IATA   
+    %th Name (city)
+    %th Major
+    %th Elevation
+    %th TA
+    %th Charts
+    %th Notams
+    %th Who's online
+
+  - @airports.each do |airport|
+    %tr
+      %td= link_to airport.icao.upcase, "/airports/#{airport.icao.upcase}"
+      %td= airport.iata
+      %td= airport.data.name.titlecase
+      %td
+        - if airport.major?
+          %span.badge.badge-success ✓
+        - else 
+          %span.badge.badge-important ✘
+      %td= "#{airport.data.elevation} ft."
+      %td= airport.data.ta
+      %td= link_to "#{airport.icao} Charts", "/charts/#{airport.icao}"
+      %td= link_to "#{airport.icao} Notams", "/notams/#{airport.icao}"
+      %td= link_to "#{airport.icao} Stations", "/online/atc/#{airport.icao}"
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/airports/country/#{@country.code}.json"
+  %li.active= link_to "XML", "/airports/country/#{@country.code}.xml"
+  %li.active= link_to "CSV", "/airports/country/#{@country.code}.csv"
+      

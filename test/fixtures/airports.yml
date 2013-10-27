@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  icao: MyString
+  country_id: 1
+  major: false
+
+two:
+  icao: MyString
+  country_id: 1
+  major: false

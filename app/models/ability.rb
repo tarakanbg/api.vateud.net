@@ -11,6 +11,7 @@ class Ability
       can :manage, ApiKey
       can :manage, ChartOverride
       can :manage, StaffMember
+      can :manage, Airport      
       can :approve_staff_member, StaffMember
 
       can :read, Subdivision     
@@ -37,20 +38,27 @@ class Ability
         can :edit, Event, :subdivisions => {:id => user.subdivision.id}
         can :destroy, Event, :subdivisions => {:id => user.subdivision.id}
         can :history, Event
-        can :index, Subdivision 
-        can :read, Subdivision 
-        can :history, Subdivision 
-        cannot :approve_staff_member, StaffMember    
+        can :index, Subdivision, :hidden => false
+        can :read, Subdivision, :hidden => false 
+        can :history, Subdivision, :hidden => false 
+        cannot :approve_staff_member, StaffMember  
+        can :read, Country, :eud => true  
+        can :read, Airport
+        can :history, Airport
+        can :export, Airport
+        can :edit, Airport, :country => user.subdivision.countries
+        can :destroy, Airport, :country => user.subdivision.countries
+        can :new, Airport
       end
       if user.is? :staff
         can :read, Event         
         can :history, Event
-        can :index, Subdivision 
-        can :read, Subdivision 
-        can :history, Subdivision 
-        can :export, Subdivision 
+        can :index, Subdivision, :hidden => false 
+        can :read, Subdivision, :hidden => false 
+        can :history, Subdivision, :hidden => false 
+        can :export, Subdivision, :hidden => false 
         can :edit, Subdivision, :id => user.subdivision.id
-        can :read, Country
+        can :read, Country, :eud => true 
         can :read, StaffMember
         can :history, StaffMember
         can :export, StaffMember
@@ -61,6 +69,7 @@ class Ability
         can :read, Member, :subdivision => user.subdivision.code
         can :edit, Member, :subdivision => user.subdivision.code
         can :history, Member, :subdivision => user.subdivision.code
+
         # can :read, Member
       end
     end

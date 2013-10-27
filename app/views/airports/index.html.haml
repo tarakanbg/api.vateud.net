@@ -1,0 +1,22 @@
+%h2 All VATEUD Airports per country
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th Country Code
+    %th Country   
+    %th Airports
+
+  - @countries.each do |country|
+    %tr
+      %td= link_to country.code, "/airports/country/#{country.code}"
+      %td= link_to country.name, "/airports/country/#{country.code}"
+      %td
+        - for airport in country.airports
+          = link_to airport.icao, "/airports/#{airport.icao}"
+          = ", " unless airport == country.airports.last
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/airports.json"
+  %li.active= link_to "XML", "/airports.xml"
+  %li.active= link_to "CSV", "/airports.csv"
+      

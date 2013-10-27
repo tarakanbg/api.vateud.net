@@ -79,3 +79,7 @@ gem "simple_form", "~> 2.1.0"
 gem "icalendar", "~> 1.4.3"
 gem "rich", "~> 1.4.6"
 gem "ice_cube", "~> 0.11.0"
+gem "airdata", "~> 0.3.2"
+gem "activerecord-import", "~> 0.3.1"
+
+gem "vatsim_metar", "~> 0.2.3"

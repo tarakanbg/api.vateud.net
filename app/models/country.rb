@@ -1,8 +1,11 @@
 class Country < ActiveRecord::Base
   attr_accessible :code, :name, :subdivision_id, :eud
   belongs_to :subdivision, :inverse_of => :countries
+  has_many :airports
 
   validates :code, :name, :presence => true
+
+  # default_scope order('name DESC')
 
   rails_admin do 
     navigation_label 'API management'
