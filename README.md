@@ -868,3 +868,121 @@ The following restrictions apply when manipulating event records via the web bac
   This is to avoid errors and potential abuse, and to make sure EUD staff has an easy way to
   monitor vACC staff changes as they happen. This flag is for internal reference of EUD staff only and has
   no impact of the record's availability.
+
+### O. Airport profiles
+
+The airports API allows vACC to showcase some or all airports in their respective countries,
+and make the information available to any 3rd party web service that wants to use it, including
+event websites, individual vACC websites and the VATEUD website.
+
+Creating airport records is only possible to the API backend for now. vACC staff members with
+API backend access can create, edit and destroy airport profiles.
+
+Only part of the airport data is filled in and maintained by vACCs, and even a smaller subset of
+this data is mandatory. The majority of the data listed and available for each airport is obtained
+and updated programmatically via the [airdata library](http://rubygems.org/gems/airdata).
+If you're interested in the technical details, read the [documentation](https://github.com/tarakanbg/airdata#airdata).
+
+The following attributes are included for each airport:
+
+___vACC provided:___
+
+* `icao` - mandatory, unique. The airport's ICAO identifier. 
+* `iata` - mandatory. The airport's IATA code
+* `country` - mandatory. The airport's country, chosen from a list of EUD countries
+* `major` - a boolean field. Designates an airport as being a "major" one
+* `scenery_fs9_link` - link to FS9 scenery
+* `scenery_fsx_link` - link to FSX/P3D scenery
+* `scenery_xp_link` - link to X-Plane scenery
+* `description` - freetext description of the airport. Supports rich text format and the field comes
+   with a WYSIWYG editor on the backend
+
+___Automatically obtianed:___
+
+* `name` - the airport's (or city) name
+* `elevation` - the airport's elevation in feet
+* `ta` - the airport's transition altitude
+* `msa` - the airport's minimum safe altitude
+* `lat` - the airport's latitude
+* `lon` - the airport's longitutde
+
+___Airport runways (automatically obtained)___
+
+* `number` - the runway number (designator)
+* `course` - the runway course
+* `length` - the runway length in feet
+* `elevation` - the runway threshold elevation
+* `lat` - the latitude of the runway threshold
+* `lon` - the longitude of the runway threshold
+* `ils` - boolean; true if the runway is equipped with ILS
+* `ils_fac` - the ILS final aproach course
+* `ils_freq` - the ILS frequency
+* `glidepath` - the ILS glidepath angle. Defaults to 3 degrees for runways without ILS
+
+#### Data structure and format differences
+
+As you can see, it's a big set of data, and it's nested/structured in the API responses,
+so that all the primary vacc provided attributes are directly listed in the airport set,
+all the automatically obtained general details are grouped in a "data" subset, and all
+runways informtion is grouped in a "runways" subset which is nested below "data". The
+country data is isolated in a separate "country" subset, giving the country code and
+country name attributes.
+
+Hence an exaple JSON repsonse will look like this:
+
+    {"description":"<p><strong>Sarajevo International Airport</strong> description</p>\r\n",
+    "iata":"SJJ","icao":"LQSA","major":true,"scenery_fs9_link":"http://vaccbih.info/downloads",
+    "scenery_fsx_link":"http://vaccbih.info/downloads","scenery_xp_link":"http://vaccbih.info/downloads",
+    "country":{"code":"BA","name":"Bosnia-Herzegovina"},"data":{"elevation":1708,"icao":"LQSA",
+    "lat":43.824472,"lon":18.331767,"msa":8500,"name":"SARAJEVO","ta":9500,"runways":[{"course":115,
+    "elevation":1643,"glidepath":3.2,"ils":true,"ils_fac":115,"ils_freq":110.7,"lat":43.829542000000004,
+    "length":8530,"lon":18.318231,"number":"12"},{"course":295,"elevation":1690,"glidepath":3.0,"ils":false,
+    "ils_fac":0,"ils_freq":0.0,"lat":43.821272,"length":8530,"lon":18.340303,"number":"30"}]}}
+
+XML responses are structured in the same way. CSV responses are "flattened" to include all the general
+details. Due to the inability of the CSV format to store a subset of arbitrary size, runways information
+is not included in the CSV responses.
+
+#### Fetching all EUD airports
+
+These are endpoints of the type: `http://api.vateud.net/airports` + `format type extension`
+
+__Examples:__
+
+    http://api.vateud.net/airports.json   #=> returns all EUD airports in JSON format
+    http://api.vateud.net/airports.xml    #=> returns all EUD airports in XML format
+    http://api.vateud.net/airports.csv    #=> returns all EUD airports in CSV format
+    http://api.vateud.net/airports        #=> returns all EUD airports as HTML (part of the API web interface)
+
+#### Scoping the airports per country
+
+These are endpoints of the type: `http://api.vateud.net/airports/country/` + `country code` + `format type extension`    
+
+The full list of EUD country codes can be seen at [http://api.vateud.net/airports](http://api.vateud.net/airports)
+
+__Examples:__
+
+    http://api.vateud.net/airports/country/BA.json  #=> returns all Bosnia & Herzegovina airports in JSON format
+    http://api.vateud.net/airports/country/BA.xml   #=> returns all Bosnia & Herzegovina airports in XML format
+    http://api.vateud.net/airports/country/BA.csv   #=> returns all Bosnia & Herzegovina airports in CSV format
+    http://api.vateud.net/airports/country/BA       #=> returns all Bosnia & Herzegovina airports as HTML (part of the API web interface)
+
+#### Getting individual airport details
+
+These are endpoints of the type: `http://api.vateud.net/airports/` + `ICAO code` + `format type extension`    
+
+__Examples:__
+
+    http://api.vateud.net/airports/LQSA.json   => returns the details for Sarajevo airport in JSON format
+    http://api.vateud.net/airports/LQMO.xml    => returns the details for Mostar airport in XML format
+    http://api.vateud.net/airports/LQTZ.csv    => returns the details for Tuzla airport in CSV format
+    http://api.vateud.net/airports/LQSA        => returns the details for Sarajevo airport as HTML (part of the API web interface)
+
+#### Creating ad editing airport records
+
+This is done via the API backend by vACC staff with API accounts. The interface is self explanatory and looks
+like this:
+
+![Editing airports](http://i.imgur.com/Sl7Hx0V.png)
+
+Staff members can only edit the records of the airports the belong to their respective vACC's countries.
