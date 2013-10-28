@@ -3,8 +3,6 @@ class Country < ActiveRecord::Base
   attr_accessor :frequencies
   belongs_to :subdivision, :inverse_of => :countries
   has_many :airports
-  has_many :frequency_bridges
-  has_many :frequency_countries, through: :frequency_bridges
 
   validates :code, :name, :presence => true
 

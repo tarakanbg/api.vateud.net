@@ -1,0 +1,22 @@
+%h2 VATEUD approved frequencies per vACC
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th vACC Code
+    %th vACC Name
+    %th vACC Countries
+
+  - @vaccs.each do |vacc|
+    %tr
+      %td= link_to vacc.code, "/frequencies/#{vacc.code}"
+      %td= link_to vacc.name, "/frequencies/#{vacc.code}"
+      %td
+        - for country in vacc.countries
+          = link_to country.name, "/frequencies/#{vacc.code}"
+          = ", " unless country == vacc.countries.last
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/frequencies.json"
+  %li.active= link_to "XML", "/frequencies.xml"
+  %li.active= link_to "CSV", "/frequencies.csv"
+      

@@ -1,0 +1,19 @@
+%h2= @pagetitle
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th Callsign
+    %th Position Name
+    %th Frequency
+
+  - @freqs.each do |freq|
+    %tr
+      %td= freq.callsign
+      %td= freq.name
+      %td= freq.freq
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/frequencies/#{@vacc.code}.json"
+  %li.active= link_to "XML", "/frequencies/#{@vacc.code}.xml"
+  %li.active= link_to "CSV", "/frequencies/#{@vacc.code}.csv"
+      

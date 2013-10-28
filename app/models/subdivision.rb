@@ -1,5 +1,6 @@
 class Subdivision < ActiveRecord::Base
-  attr_accessible :code, :introtext, :name, :website, :hidden, :official, :country_ids
+  attr_accessible :code, :introtext, :name, :website, :hidden, :official, :country_ids, :frequency_countries
+  attr_accessor :frequencies
   has_paper_trail
   default_scope order('name ASC')
   has_many :staff, :foreign_key => 'vacc_code', :primary_key => "code"
@@ -20,18 +21,23 @@ class Subdivision < ActiveRecord::Base
   #   end
   # end
 
+  def frequencies
+    ids = self.frequency_countries.split(",").map { |s| s.to_i }
+    Frequency.where("country IN (?)", ids)
+  end
+
   rails_admin do 
     navigation_label 'vACC Staff Zone'
 
     list do
-      field :code  do        
+      field :code do        
         pretty_value do          
           id = bindings[:object].id
           code = bindings[:object].code
           bindings[:view].link_to "#{code}", bindings[:view].rails_admin.show_path('subdivision', id)
         end
       end
-      field :name   do        
+      field :name do        
         pretty_value do          
           id = bindings[:object].id
           name = bindings[:object].name
@@ -69,6 +75,7 @@ class Subdivision < ActiveRecord::Base
           }
         end
       end    
+      field :frequency_countries
     end
   end
 end

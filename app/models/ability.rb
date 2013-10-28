@@ -12,7 +12,6 @@ class Ability
       can :manage, ChartOverride
       can :manage, StaffMember
       can :manage, Airport      
-      can :manage, FrequencyBridge      
       can :approve_staff_member, StaffMember
 
       can :read, Subdivision     

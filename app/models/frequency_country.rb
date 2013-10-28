@@ -12,6 +12,7 @@ class FrequencyCountry < ActiveRecord::Base
   default_scope order('country DESC')
 
   has_many :frequencies, :foreign_key => 'country', :primary_key => "id"
+  
 
   # has_one :vacc, :foreign_key => 'vacc', :primary_key => 'code'
 
