@@ -986,3 +986,29 @@ like this:
 ![Editing airports](http://i.imgur.com/Sl7Hx0V.png)
 
 Staff members can only edit the records of the airports the belong to their respective vACC's countries.
+
+### P. Approved ATC frequencies
+
+#### Fetching all VATEUD approved ATC frequencies
+
+These are endpoints of the type: `http://api.vateud.net/frequencies` + `format type extension`
+
+__Examples:__
+
+    http://api.vateud.net/frequencies.json   #=> returns all EUD ATC freqs in JSON format
+    http://api.vateud.net/frequencies.xml    #=> returns all EUD ATC freqs in XML format
+    http://api.vateud.net/frequencies.csv    #=> returns all EUD ATC freqs in CSV format
+    http://api.vateud.net/frequencies        #=> returns all EUD ATC freqs as HTML (part of the API web interface)
+
+#### Scoping ATC frequencies per vACC
+
+These are endpoints of the type: `http://api.vateud.net/frequencies/` + `vACC code` + `format type extension`    
+
+The full list of vACC codes can be seen at [http://api.vateud.net/frequencies](http://api.vateud.net/frequencies)
+
+__Examples:__
+
+    http://api.vateud.net/frequencies/BHZ.json    => returns all Bosnia freqs in JSON format
+    http://api.vateud.net/frequencies/MALT.xml    => returns all Malta freq in XML format
+    http://api.vateud.net/frequencies/NETH.csv    => returns all Netherlands freqs in CSV format
+    http://api.vateud.net/frequencies/AUST        => returns all Austrian freqs as HTML (part of the API web interface)
