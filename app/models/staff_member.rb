@@ -2,10 +2,11 @@ class StaffMember < ActiveRecord::Base
   attr_accessible :callsign, :cid, :email, :position, :priority, :vacc_code #, :vateud_confirmed
 
   attr_accessor :name
+  attr_accessor :member
 
   default_scope order('priority ASC')
 
-  has_one :member, :foreign_key => 'cid', :primary_key => 'cid'
+  # belongs_to :member, :foreign_key => 'cid', :primary_key => 'cid'
 
   belongs_to :subdivision, :primary_key => 'code', :foreign_key => 'vacc_code'
 
@@ -23,11 +24,17 @@ class StaffMember < ActiveRecord::Base
     end
   end
 
+  def member
+    Member.find_by_cid(self.cid)
+  end
+
   def mark_unconfirmed
-    unless self.vateud_confirmed_changed?
-      self.vateud_confirmed = false   
-      self.save   
-    end 
+    if self.vateud_confirmed?
+      unless self.vateud_confirmed_changed?
+        self.vateud_confirmed = false   
+        self.save   
+      end 
+    end
   end
 
   def approve_staff_member
@@ -90,7 +97,15 @@ class StaffMember < ActiveRecord::Base
       field :vateud_confirmed do
         read_only true
       end
-      field :member
+      field :member do
+        pretty_value do          
+          id = bindings[:object].id
+          if bindings[:object].member
+            member = bindings[:object].member
+            bindings[:view].link_to "#{member.firstname} #{member.lastname}", bindings[:view].rails_admin.show_path('member', member.id)
+          end
+        end
+      end
     end
 
     edit do     
@@ -99,8 +114,8 @@ class StaffMember < ActiveRecord::Base
       field :position
       field :cid
       field :email
-      field :priority      
-      field :member
+      field :priority    
+      
 
     end
   end

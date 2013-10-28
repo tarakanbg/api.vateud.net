@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  country_id: 1
+  frequency_country_id: 1
+  notes: MyString
+
+two:
+  country_id: 1
+  frequency_country_id: 1
+  notes: MyString

@@ -1,9 +1,16 @@
 class Country < ActiveRecord::Base
   attr_accessible :code, :name, :subdivision_id, :eud
+  attr_accessor :frequencies
   belongs_to :subdivision, :inverse_of => :countries
   has_many :airports
+  has_many :frequency_bridges
+  has_many :frequency_countries, through: :frequency_bridges
 
   validates :code, :name, :presence => true
+
+  def frequencies
+    self.frequency_countries.first.frequencies
+  end
 
   # default_scope order('name DESC')
 
