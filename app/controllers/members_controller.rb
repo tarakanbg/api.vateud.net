@@ -8,6 +8,7 @@ class MembersController < ApplicationController
   caches_page :show, :if => Proc.new { |c| c.request.format.csv? }, expires_in: 4.hours
   caches_page :show, :if => Proc.new { |c| c.request.format.json? }, expires_in: 4.hours
   caches_page :show, :if => Proc.new { |c| c.request.format.xml? }, expires_in: 4.hours
+  caches_action :single, expires_in: 2.hours
 
   def index
     @pagetitle = "Members list"

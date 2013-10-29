@@ -1,8 +1,8 @@
 class EventsController < ApplicationController
   before_filter :restrict_access, :only => [:create, :update, :destroy] 
 
-  caches_action :index, expires_in: 5.minutes
-  caches_action :show, expires_in: 5.minutes  
+  caches_action :index, expires_in: 10.minutes
+  caches_action :show, expires_in: 10.minutes  
 
   def index
     @pagetitle = "Events Calendar"

@@ -1012,3 +1012,27 @@ __Examples:__
     http://api.vateud.net/frequencies/MALT.xml    => returns all Malta freq in XML format
     http://api.vateud.net/frequencies/NETH.csv    => returns all Netherlands freqs in CSV format
     http://api.vateud.net/frequencies/AUST        => returns all Austrian freqs as HTML (part of the API web interface)
+
+### Appendix A. Caching times
+
+#### Backend
+
+No caching on the backend! Data is pulled from the DB on each request.
+
+#### Frontend
+
+* All EUD members: html responses: no caching; json, xml and csv responses: 3 hours
+* vACC members: html responses: no caching; json, xml and csv responses: 4 hours
+* Members by country: html responses: no caching; json, xml and csv responses: 4 hours
+* Members by rating: html responses: no caching; json, xml and csv responses: 4 hours
+* Single member details: all formats: 2 hours
+* Member validation endpoint: no caching
+* vACC profiles: all formats: 2 hours
+* Staff member listings: all formats: 5 minutes
+* Who's online data: all formats: 5 minutes
+* Notams: all formats: 12 hours
+* Chars: all formats: 4 hours
+* ATC frequencies: all formats: 2 hours
+* Events calendar: all formats: 10 minutes
+* Airport profiles: all formats: 10 minutes
+
