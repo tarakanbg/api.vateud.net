@@ -1,15 +1,15 @@
 class EventsController < ApplicationController
   before_filter :restrict_access, :only => [:create, :update, :destroy] 
 
-  caches_action :index, expires_in: 10.minutes
+  # caches_action :index, expires_in: 10.minutes
   caches_action :show, expires_in: 10.minutes  
 
   def index
     @pagetitle = "Events Calendar"
     # @events = Event.select("title, subtitle, airports, banner_url, description, starts, ends").reorder("starts DESC")
     @events = Event.reorder("starts DESC")
-    @search = Event.search(params[:q])
-    @search.sorts = 'starts desc' if @search.sorts.empty?
+    @search = Event.future.search(params[:q])
+    @search.sorts = 'starts asc' if @search.sorts.empty?
     @events_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
     @json = @events.to_json(:except => [:created_at, :updated_at, :weekly], :include => { :subdivisions => {
                                                :only => [:code, :name] } })

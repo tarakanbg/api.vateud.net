@@ -1,9 +1,9 @@
 class StaffMembersController < ApplicationController
   before_filter :restrict_access, :only => [:create, :update, :destroy] 
 
-  caches_action :index, expires_in: 5.minutes
-  caches_action :show, expires_in: 5.minutes  
-  caches_action :vacc, expires_in: 5.minutes  
+  # caches_action :index, expires_in: 5.minutes
+  # caches_action :show, expires_in: 5.minutes  
+  # caches_action :vacc, expires_in: 5.minutes  
 
   def index
     @pagetitle = "vACC Staff Members"

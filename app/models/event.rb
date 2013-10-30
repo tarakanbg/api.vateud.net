@@ -2,26 +2,57 @@ class Event < ActiveRecord::Base
   require 'icalendar'
   require 'date'
 
-  attr_accessible :airports, :banner_url, :description, :ends, :starts, :subtitle, :title, :subdivision_ids, :vaccs, :weekly
+  attr_accessible :airports, :banner_url, :description, :ends, :starts, :subtitle, :title, :subdivision_ids, :vaccs, :weekly, :weekly_hash
   has_paper_trail
   has_and_belongs_to_many :subdivisions
   validates :title, :description, :starts, :ends, :subtitle, :airports, :presence => true
 
   after_create :assign_subdivisions
   after_create :process_weekly
+  after_update :update_weekly
+  before_create :create_weekly_hash
+
+  scope :future, where("ends >= ?", Time.now)
+
+  def create_weekly_hash
+    if self.weekly?
+      self.weekly_hash = Digest::MD5.hexdigest(self.title)
+    end
+  end
 
   def process_weekly
     if self.weekly?
       starts = self.starts + 1.week
       ends = self.ends + 1.week
       counter = 1
-      while counter < 52
+      while counter < 26
         Event.create(airports: self.airports, banner_url: self.banner_url, description: self.description,
           title: self.title, subtitle: self.subtitle, vaccs: self.vaccs, starts: starts, ends: ends, 
-          subdivision_ids: subdivision_ids)
+          subdivision_ids: subdivision_ids, weekly_hash: self.weekly_hash)
         starts = starts + 1.week
         ends = ends + 1.week
         counter += 1
+      end
+      self.weekly = false
+      self.save
+    end
+  end
+
+  def update_weekly
+    if self.weekly?
+      master = self
+      instances = Event.where('weekly_hash = ? AND id != ?', master.weekly_hash, master.id)
+      if instances.count > 0
+        for instance in instances
+          # instance.attributes = master.attributes
+          instance.airports = master.airports
+          instance.description = master.description
+          instance.banner_url = master.banner_url
+          instance.subtitle = master.subtitle
+          instance.title = master.title
+          instance.weekly = false
+          instance.save
+        end
       end
     end
   end
@@ -58,9 +89,9 @@ class Event < ActiveRecord::Base
       end
       field :weekly  do
         label "Weekly?"
-        visible do
-          bindings[:object].title.blank?
-        end
+        # visible do
+        #   bindings[:object].title.blank?
+        # end
       end
       field :banner_url
       field :airports
