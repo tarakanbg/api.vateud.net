@@ -471,9 +471,11 @@ Each event record can accept the following attributes:
 * `ends` - ending date and time for the event (zulu) in the following format: "2013-10-27T20:00:00Z". The T letter denotes the beginning of the time string, separating the date and time.
 * `vaccs` - the vACCs (one or many) that are organizing the event. Determined programmatically by the access token, not editable via remote calls
 * `id` - unique numeric identifier, returned by the application on create and update calls, not editable
-* `weekly` - a boolean flag, can have "true" or "false" values. Only used when creating events, won't have any effect when editing an existing event.
-  Causes the application to create 52 weekly instances of the event (1 year ahead). The day of the week and starting and ending
-  times for each instance match the initial event values.
+* `weekly` - a boolean flag, can have "true" or "false" values. If used when creaitng events,
+  causes the application to create 26 weekly instances of the event (6 months ahead). The day of the week and starting and ending
+  times for each instance match the initial event values. If used when editing an existing instance of a weekly
+  event causes the changes made to be propagated to all other instances of that weekly event. If the flag is not set
+  when editing an instance of a weekly event, only that instance will be affected by the changes.
 
 ##### RESTful principle explained
 
@@ -521,7 +523,7 @@ __Notes:__
   programmatically edit or delete this record in the future.
 * The new event will be tagged and assigned to the vACC that corresponds to the authentication token used
 * No record will be created without an authentication token
-* Sending in the "weekly":"true" attribute will create 52 instances of the event (1 year ahead), with times and days of
+* Sending in the "weekly":"true" attribute will create 26 instances of the event (6 months ahead), with times and days of
   the week matching the ones in the original call.
 
 ##### Editing (updating) an event record
