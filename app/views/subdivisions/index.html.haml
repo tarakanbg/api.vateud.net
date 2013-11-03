@@ -9,6 +9,7 @@
     %th= "Details"
     %th= "Staff"
     %th= "Members"
+    %th Frequencies
     %th= "Events"
 
   - @subdivisions.each do |subdivision|
@@ -24,6 +25,7 @@
       %td= link_to "Details", "/subdivisions/#{subdivision.code}"
       %td= link_to "Staff", "/staff_members/vacc/#{subdivision.code}"
       %td= link_to "Members", "/members/#{subdivision.code}"
+      %td= link_to "Frequencies", "/frequencies/#{subdivision.code}"
       %td= link_to "Events", "/events/vacc/#{subdivision.code}"
 
 %ul.nav.nav-pills
