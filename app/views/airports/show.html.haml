@@ -45,7 +45,7 @@
     %td= link_to("Download", @airport.scenery_xp_link) unless @airport.scenery_xp_link.blank?
   %tr
     %td.strong Elevation:
-    %td= "#{@airport.data.ta} ft."
+    %td= "#{@airport.data.elevation} ft."
   %tr
     %td.strong Transition altitude:
     %td= "#{@airport.data.ta} ft."
