@@ -8,6 +8,7 @@ class Subdivision < ActiveRecord::Base
   has_many :countries, :inverse_of => :subdivision
   has_and_belongs_to_many :events
   has_many :staff_members, :primary_key => 'code', :foreign_key => 'vacc_code'
+  has_one :custom_chart_source
 
   validates :code, :name, :website, :introtext, :presence => true
 

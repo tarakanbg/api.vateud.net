@@ -288,6 +288,34 @@ We have implemented the logic and interface for easily overriding such discrepan
 please [submit a task](http://tasks.vateud.net/) to VATEUD7, specifying the airport ICAO and the correct
 chart title. 
 
+#### Custom airport charts
+
+Some vACCs prefer to override the real world charts with their own renditions for various reasons:
+VATSIM-specific procedures, scenery compatibility, advanced customization, etc.
+
+The API can handle those overrides in the following manner:
+
+* vACCs supply a custom charts index as a CSV file in the legacy VATEUD charts format, as seen
+  for example [here](http://www.vacc-sag.org/charts_vateud_local_index.txt)
+* CSV format description: the field separator is "|". The only relevant data used by the API to parse
+  the file is: ICAO code at position `0`, chart name at position `3` and chart url at position `10`. The
+  rest is irrelevant and can be left blank when creating the CSV file.
+* vACC staff members with API backend access create a "Custom Charts Source" entry on the backend (vACC Staff Zone)
+  defining the URL for the custom CSV listing (pictured below)
+* That's it from user perspective, the rest is handled authomatically by the API application
+
+![CustomChartSource](http://i.imgur.com/umgKt64.png)
+
+##### Application logic
+
+* The API pulls the vACC Custom Chart Source listings once per day, parses and injects them in a local DB of custom
+  charts
+* Whenever an API user sends a request for charts, the API first looks into the custom charts DB to find any matches
+  based on the requested icao code. If matches are found, it sends out the custom listings, if matches are not
+  found it proceeds to query and pull the RW charts for that airport from charts.aero
+* There are no differences in the request and response syntaxes between custom and RW charts: the same calls
+  and the same response logic and formats apply, i.e. you get json, xml, csv or html responses in both cases
+
 ### I. Member Validation
 
 This endpoint is of the type: `http://api.vateud.net/members/validate/`. It receives a member cid

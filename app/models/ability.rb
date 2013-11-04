@@ -12,6 +12,7 @@ class Ability
       can :manage, ChartOverride
       can :manage, StaffMember
       can :manage, Airport      
+      can :manage, CustomChartSource      
       can :approve_staff_member, StaffMember
 
       can :read, Subdivision     
@@ -28,6 +29,7 @@ class Ability
       can :read, Vacc
       can :read, WelcomeEmail
       can :read, ApiCall
+      can :read, CustomChart
     end
     if user
       if user.is? :events
@@ -65,6 +67,7 @@ class Ability
         can :edit, StaffMember, :vacc_code => user.subdivision.code
         can :destroy, StaffMember, :vacc_code => user.subdivision.code
         can :new, StaffMember, :vacc_code => user.subdivision.code
+        can :manage, CustomChartSource, :subdivision_id => user.subdivision.id
         cannot :approve_staff_member, StaffMember
         can :read, Member, :subdivision => user.subdivision.code
         can :edit, Member, :subdivision => user.subdivision.code

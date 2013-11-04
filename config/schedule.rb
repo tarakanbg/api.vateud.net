@@ -30,6 +30,10 @@ every 6.hours do
   rake "api:cleanup"
 end
 
+every 1.day, :at => '3:12 am' do
+  rake "api:custom_charts"
+end
+
 # every 1.day, :at => '4:30 am' do
 #   runner "MyModel.task_to_run_at_four_thirty_in_the_morning"
 # end

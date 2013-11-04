@@ -15,7 +15,9 @@ class ChartFetcher
   def initialize(icao, args = nil)
     # process_arguments(args) if args.class == Hash
     @icao = icao
+    custom = CustomChart.where(:icao => icao.upcase)
     @raw = raw_list
+    return custom_charts(custom) if custom.count > 0
     return @charts = "No charts available" if @raw == "NADA"
     @plates = plates_list  
     @plate_names = plate_names
@@ -23,6 +25,13 @@ class ChartFetcher
     @overrides = ChartOverride.where(:icao => @icao.upcase)
     grouped_plates
     list_charts
+  end
+
+  def custom_charts(custom)
+    @charts = []
+    for chart in custom
+      @charts << Chart.new(icao = chart.icao, name = chart.name, url_aip = chart.url, url_charts_aero = "https://charts.aero")
+    end
   end
 
   def raw_list

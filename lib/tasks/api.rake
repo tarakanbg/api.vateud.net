@@ -20,4 +20,8 @@ namespace :api do
     end
   end
 
+  task :custom_charts => :environment do 
+    CustomChartSource.import_charts
+  end
+
 end
