@@ -30,7 +30,7 @@ class ChartFetcher
   def custom_charts(custom)
     @charts = []
     for chart in custom
-      @charts << Chart.new(icao = chart.icao, name = chart.name, url_aip = chart.url, url_charts_aero = "https://charts.aero")
+      @charts << Chart.new(icao = chart.icao, name = chart.name, url_aip = chart.url, url_charts_aero = nil)
     end
   end
 

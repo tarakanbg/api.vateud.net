@@ -13,12 +13,14 @@
   %tr
     %th Name
     %th Link (AIP)
-    %th.link-aero= raw("Link (#{link_to "charts.aero", "http://charts.aero"})")
+    - if @charts.first.url_charts_aero
+      %th.link-aero= raw("Link (#{link_to "charts.aero", "http://charts.aero"})")
   - for chart in @charts
     %tr
       %td= chart.name
       %td= link_to "Download", chart.url_aip
-      %td.link-aero= link_to "Cached (charts.aero)", chart.url_charts_aero
+      - if chart.url_charts_aero
+        %td.link-aero= link_to("Cached (charts.aero)", chart.url_charts_aero)
 
 %ul.nav.nav-pills
   %li.active= link_to "JSON", "/charts/#{@code}.json"
