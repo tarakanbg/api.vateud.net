@@ -27,7 +27,9 @@ class CustomChartSource < ActiveRecord::Base
   end
 
   def self.request_csv(source)
-    csv = Curl::Easy.http_get(source.url).body_str.gsub!(',', ';').gsub!('|', ',').force_encoding('UTF-8').encode!('UTF-8', 'UTF-8', :invalid => :replace)
+    csv = Curl::Easy.http_get(source.url).body_str
+    csv.gsub!(',', ';') if csv.include? ","
+    csv.gsub!('|', ',').force_encoding('UTF-8').encode!('UTF-8', 'UTF-8', :invalid => :replace)
   end
 
   def self.create_local_data_file(source)
