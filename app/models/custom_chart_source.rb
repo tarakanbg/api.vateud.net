@@ -22,7 +22,7 @@ class CustomChartSource < ActiveRecord::Base
 
   def self.process_source
     CSV.foreach(LOCAL_CUSTOM_CHARTS, encoding: "iso-8859-1:utf-8") do |row|       
-      CustomChart.create(icao: row[0], name: row[3], url: row[10])
+      CustomChart.create(icao: row[0].upcase, name: row[3], url: row[10])
     end
   end
 
