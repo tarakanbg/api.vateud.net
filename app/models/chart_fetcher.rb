@@ -51,15 +51,26 @@ class ChartFetcher
   end
 
   def grouped_plates
+    cleanup_plates
     # return "NADA" if @raw == "NADA"
     while @plates.count > 0
       url = @plates.shift
       # url_cached = @plates.shift if @plates.first.include?("charts.aero")
-      @plates.first.include?("charts.aero") ? url_cached = @plates.shift : url_cached = "https://charts.aero"
+      # @plates.first.include?("charts.aero") ? url_cached = @plates.shift : url_cached = "https://charts.aero"
       name = @plate_names.shift
       # name_cached = @plate_names.shift if @plate_names.first.include?("CACHED")
-      @plate_names.first.include?("CACHED") ? name_cached = @plate_names.shift : name_cached = "No cached version"
-      @charts << Chart.new(icao = @icao, name = name, url_aip = url, url_charts_aero = url_cached)
+      # @plate_names.first.include?("CACHED") ? name_cached = @plate_names.shift : name_cached = "No cached version"
+      # @charts << Chart.new(icao = @icao, name = name, url_aip = url, url_charts_aero = url_cached)
+      @charts << Chart.new(icao = @icao, name = name, url_aip = url, url_charts_aero = "https://charts.aero/airport/#{@icao}")
+    end
+  end
+
+  def cleanup_plates
+    @plates.each do |plate|
+      @plates.delete(plate) if plate.include?("cache.charts.aero")
+    end
+    @plate_names.each do |name|
+      @plate_names.delete(name) if name.include?("CACHED")
     end
   end
 
