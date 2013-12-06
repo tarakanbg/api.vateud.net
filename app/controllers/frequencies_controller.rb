@@ -31,16 +31,23 @@ class FrequenciesController < ApplicationController
   
   def show
     @code = params[:id].upcase
-    @vacc =Subdivision.find_by_code(@code)
+    @vacc = Subdivision.find_by_code(@code)
     @pagetitle = "Approved ATC frequencies for: #{@vacc.name}"
     @freqs = @vacc.frequencies
     
 
     respond_to do |format|
-      format.html 
-      format.json { render json: scope_json(@freqs) }
-      format.xml { render xml: scope_xml(@freqs) }
-      format.csv { send_data @freqs.to_csv_vacc(@freqs) }
+      if @vacc
+        format.html 
+        format.json { render json: scope_json(@freqs) }
+        format.xml { render xml: scope_xml(@freqs) }
+        format.csv { send_data @freqs.to_csv_vacc(@freqs) }
+      else
+        format.html { render :text => "Non-existant subdivision" }
+        format.json { render :text => "Non-existant subdivision" }
+        format.xml { render :text => "Non-existant subdivision" }
+        format.csv { render :text => "Non-existant subdivision" }
+      end
     end
   end
 

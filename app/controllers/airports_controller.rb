@@ -32,14 +32,20 @@ class AirportsController < ApplicationController
   def show
     @code = params[:id].upcase
     @airport =Airport.find_by_icao(@code)
-    @pagetitle = "Airport details for: #{@airport.icao} (#{@airport.country.name})"
+    @pagetitle = "Airport details for: #{@airport.icao} (#{@airport.country.name})" if @airport
     
-
     respond_to do |format|
-      format.html 
-      format.json { render json: scope_json(@airport) }
-      format.xml { render xml: scope_xml(@airport) }
-      format.csv { send_data @airport.to_csv_single }
+      if @airport
+        format.html 
+        format.json { render json: scope_json(@airport) }
+        format.xml { render xml: scope_xml(@airport) }
+        format.csv { send_data @airport.to_csv_single }
+      else
+        format.html { render :text => "Airport not in database" }
+        format.json { render :text => "Airport not in database" }
+        format.xml { render :text => "Airport not in database" }
+        format.csv { render :text => "Airport not in database" }
+      end
     end
   end
 

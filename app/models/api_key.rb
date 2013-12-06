@@ -6,6 +6,13 @@ class ApiKey < ActiveRecord::Base
 
   rails_admin do 
     navigation_label 'API management'
+
+    edit do
+      field :access_token do
+        read_only true
+      end
+      field :vacc_code
+    end
   end
   
 private
