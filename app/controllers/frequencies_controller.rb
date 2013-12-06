@@ -32,9 +32,11 @@ class FrequenciesController < ApplicationController
   def show
     @code = params[:id].upcase
     @vacc = Subdivision.find_by_code(@code)
-    @pagetitle = "Approved ATC frequencies for: #{@vacc.name}"
-    @freqs = @vacc.frequencies
-    
+
+    if @vacc
+      @pagetitle = "Approved ATC frequencies for: #{@vacc.name}"
+      @freqs = @vacc.frequencies
+    end
 
     respond_to do |format|
       if @vacc
