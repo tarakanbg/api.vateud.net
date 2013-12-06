@@ -12,7 +12,11 @@ class NotamsController < ApplicationController
 
   def show
     @code = params[:id]
-    @notams = @code.notams(:objects => true)
+    begin
+      @notams = @code.notams(:objects => true)
+    rescue NoMethodError
+      render :text => "No notams found for this airport" and return
+    end
     @pagetitle = "NOTAMs for #{@code.upcase}"
 
     respond_to do |format|
