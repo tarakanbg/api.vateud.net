@@ -77,15 +77,48 @@ class MembersController < ApplicationController
     else
       @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active")
     end
-    @pagetitle = "User details for #{@member.cid}"
+    unless @member
+      @member = member_from_cert(@cid)      
+    end
+    @pagetitle = "User details for #{@member.cid}" if @member
+    @json = @member.to_json(:except => [:created_at, :updated_at, :age_band, :experience, :id, :state])
+    @xml = @member.to_xml(:except => [:created_at, :updated_at, :age_band, :experience, :id, :state], skip_types: true)
 
     respond_to do |format|
-      format.html
-      format.json { render json: @member }
-      format.xml { render xml: @member.to_xml(skip_types: true) }
-      format.csv { send_data @member.to_csv_single }
+      if @member
+        format.html
+        format.json { render json: @json }
+        format.xml { render xml: @xml}
+        format.csv { send_data @member.to_csv_single }
+      else
+        format.html { render :text => "Member not found" }
+        format.json { render :text => "Member not found" }
+        format.xml { render :text => "Member not found" }
+        format.csv { render :text => "Member not found" }
+      end
     end
   end
 
-  
+private
+
+  def member_from_cert(cid)
+    xml_source = Nokogiri.XML(open("https://cert.vatsim.net/vatsimnet/idstatus.php?cid=#{cid}").read)
+    if xml_source
+      user = xml_source.css("user").children
+      name_last = user.at('name_last').children.first.to_s
+      rating = user.at('rating').children.first.to_s
+      name_first = user.at('name_first').children.first.to_s
+      regdate = user.at('regdate').children.first.to_s
+      pilotrating = user.at('pilotrating').children.first.to_s
+      country = user.at('country').children.first.to_s
+      region = user.at('region').children.first.to_s
+      division = user.at('division').children.first.to_s
+      member = Member.new(cid: cid, firstname: name_first, lastname: name_last, humanized_atc_rating: rating,
+        humanized_pilot_rating: pilotrating, reg_date: regdate, country: country, region: region, division: division)
+    end
+    member
+  end
+
+
+
 end

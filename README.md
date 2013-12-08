@@ -361,6 +361,8 @@ submitted vacc token matches the affeccted member vacc.
 If no access token is sent or the access token is invalid or the access token does not match the queried
 member vacc, then the standart set of public details will be returned, not including the email, etc.
 
+If the supplied vatsim CID does not match any internal VATEUD records, the API will fallback to obtaining
+the public cert record for the requested CID and display the available data from there.
 
 _Examples:_
 
