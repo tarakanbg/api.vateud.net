@@ -306,6 +306,18 @@ The API can handle those overrides in the following manner:
 
 ![CustomChartSource](http://i.imgur.com/umgKt64.png)
 
+#### Individual Custom charts
+
+Instead of blanket replacement of the entire charts pack for a given airport with a custom one, there's
+also the possibility to adding individual custom charts, which will be appended to the authomatically
+derrived charts for the airport. Let's say a vACC only maintains 1-2 custom charts for an airport and
+the rest of the charts are RW defaults: it's possible to only include those 1-2 custom ones via the 
+backend interface.
+
+The relevant backend menu entry is vACC Staff Zone > Individual custom charts and it looks like this:
+
+![IndividualCustomChart](http://i.imgur.com/dyUJAlt.png)
+
 ##### Application logic
 
 * The API pulls the vACC Custom Chart Source listings once per day, parses and injects them in a local DB of custom
