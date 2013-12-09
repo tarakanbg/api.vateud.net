@@ -14,8 +14,8 @@ class ChartFetcher
 
   def initialize(icao, args = nil)
     # process_arguments(args) if args.class == Hash
-    @icao = icao
-    custom = CustomChart.where(:icao => icao.upcase)
+    @icao = icao.upcase
+    custom = CustomChart.where(:icao => @icao)
     @raw = raw_list
     return custom_charts(custom) if custom.count > 0
     return @charts = "No charts available" if @raw == "NADA"
@@ -41,28 +41,21 @@ class ChartFetcher
   end
 
   def plates_list
-    # return "NADA" if @raw == "NADA"
     @raw.css('div.airport table td.col2 a').map { |link| link['href'] }
   end
 
   def plate_names
-    # return "NADA" if @raw == "NADA"
     @raw.css('div.airport table td.col2 a').map { |link| link.text }
   end
 
   def grouped_plates
     cleanup_plates
-    # return "NADA" if @raw == "NADA"
     while @plates.count > 0
       url = @plates.shift
-      # url_cached = @plates.shift if @plates.first.include?("charts.aero")
-      # @plates.first.include?("charts.aero") ? url_cached = @plates.shift : url_cached = "https://charts.aero"
       name = @plate_names.shift
-      # name_cached = @plate_names.shift if @plate_names.first.include?("CACHED")
-      # @plate_names.first.include?("CACHED") ? name_cached = @plate_names.shift : name_cached = "No cached version"
-      # @charts << Chart.new(icao = @icao, name = name, url_aip = url, url_charts_aero = url_cached)
       @charts << Chart.new(icao = @icao, name = name, url_aip = url, url_charts_aero = "https://charts.aero/airport/#{@icao}")
     end
+    include_individual_custom_charts
   end
 
   def cleanup_plates
@@ -93,15 +86,13 @@ class ChartFetcher
     end
   end
 
+  def include_individual_custom_charts
+    custom = IndividualCustomChart.where(:icao => @icao)
+    if custom.count > 0
+      for chart in custom
+        @charts << Chart.new(icao = chart.icao, name = "#{chart.name.titlecase} (Custom)", url_aip = chart.url, url_charts_aero = "https://charts.aero/airport/#{chart.icao}")
+      end
+    end
+  end
 
-
-
-
-  # def self.csv_column_headers
-  #   ["role", "callsign"]
-  # end
-
-  # def csv_column_values
-  #   [self.role, self.callsign]
-  # end
 end

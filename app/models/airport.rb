@@ -6,6 +6,8 @@ class Airport < ActiveRecord::Base
 
   validates :icao, :country_id, :iata, :presence => true
   validates :icao, :uniqueness => true
+  validates_length_of :icao, :maximum => 4, :minimum => 4
+  validates_length_of :iata, :maximum => 3, :minimum => 3
 
   belongs_to :country
 

@@ -13,6 +13,7 @@ class Ability
       can :manage, StaffMember
       can :manage, Airport      
       can :manage, CustomChartSource      
+      can :manage, IndividualCustomChart      
       can :approve_staff_member, StaffMember
 
       can :read, Subdivision     
@@ -72,7 +73,7 @@ class Ability
         can :read, Member, :subdivision => user.subdivision.code
         can :edit, Member, :subdivision => user.subdivision.code
         can :history, Member, :subdivision => user.subdivision.code
-
+        can :manage, IndividualCustomChart
         # can :read, Member
       end
     end
