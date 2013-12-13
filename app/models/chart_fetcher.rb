@@ -69,7 +69,7 @@ class ChartFetcher
 
   def list_charts
     name_overrides
-    @charts
+    @charts.sort_by!{ |c| c.name }
   end
 
   def name_overrides
@@ -90,7 +90,7 @@ class ChartFetcher
     custom = IndividualCustomChart.where(:icao => @icao)
     if custom.count > 0
       for chart in custom
-        @charts << Chart.new(icao = chart.icao, name = "#{chart.name.titlecase} (Custom)", url_aip = chart.url, url_charts_aero = "https://charts.aero/airport/#{chart.icao}")
+        @charts << Chart.new(icao = chart.icao, name = "#{chart.name} (CUSTOM)", url_aip = chart.url, url_charts_aero = "https://charts.aero/airport/#{chart.icao}")
       end
     end
   end
