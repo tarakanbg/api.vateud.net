@@ -119,6 +119,4 @@ private
     member
   end
 
-
-
 end

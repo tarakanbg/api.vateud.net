@@ -1,26 +1,19 @@
-Copyright 2013 Svilen Vassilev (rubystudio.net)
+Copyright 2013, Svilen Vassilev (svilen@rubystudio.net)
 
-The author hereby grants a perpetual, revocable, limited,
-non-exclusive, non-transferable, worldwide, royalty-free license
+The author hereby grants a perpetual, irrevocable, limited,
+non-exclusive, transferable, worldwide, non-commercial, royalty-free license 
 to VATSIM European Division (VATEUD) to use a copy of this software,
 its source code and associated documentation files (the "Software"),
-subject to the following conditions:
+subject to the following rights and limitations:
 
-Permissions:
+Rights:
 - the software is provided free of charge or any monetary compensation
 - the software and its source code can be continuously used and freely
   modified and altered by the licensee or designated 3rd parties
   under the limitations listed below
 
 Limitations:
-- the Software is to be used for VATEUD internal needs only, and shall
-  not be re-licensed or transferred to any 3rd party without an
-  explicit written permission from the author
 - commercial usage is prohibited
-- the author's privileges, as defined in VATEUD Web Services and 
-  Development policy, paragraph 5.1.5, must be respected
-- courtesy links, crediting the author in the web views of the
-  software must be retained
 
 The above copyright notice and this permission notice shall be
 included in all copies or substantial portions of the Software.

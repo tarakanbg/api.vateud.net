@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.14'
+gem 'rails', '3.2.16'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -37,18 +37,18 @@ gem "jquery-rails", "2.3.0"
 # To use debugger
 # gem 'debugger'
 
-gem "mysql2", "~> 0.3.11"
+gem "mysql2", "~> 0.3.14"
 gem "activerecord-mysql-adapter"
 
 # gem "activeadmin", "~> 0.6.0"
 # gem "meta_search",    '>= 1.1.0.pre'
-gem "devise", "~> 3.1.1"
+gem "devise", "~> 3.2.2"
 gem "rails_admin", "~> 0.4.9"
 gem "paper_trail", "~> 2.7.2"
 gem "cancan", "~> 1.6.10"
 
 gem "yaml_db", "~> 0.2.3"
-gem "haml", "~> 4.0.3"
+gem "haml", "~> 4.0.4"
 gem 'bootstrap-sass', '~> 2.3.2.0'
 
 gem "vatsim_online"
@@ -73,7 +73,7 @@ gem "ransack", "~> 0.7.2"
 
 # gem "nokogiri", "~> 1.6.0"
 
-gem "user_agent_parser", "~> 2.1.0"
+gem "user_agent_parser", "~> 2.1.1"
 gem "simple_form", "~> 2.1.0"
 
 gem "icalendar", "~> 1.4.3"

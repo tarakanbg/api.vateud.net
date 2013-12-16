@@ -88,12 +88,10 @@ class Member < ActiveRecord::Base
 
   def self.request_csv
     csv = Curl::Easy.http_post("https://cert.vatsim.net/vatsimnet/admin/divdbfullwpilot.php",
-      Curl::PostField.content('authid', '400201'),
-      Curl::PostField.content('authpassword', '86agj3s7'),
-      Curl::PostField.content('div', 'EUD'))
+      Curl::PostField.content('authid', Option.where(:key => "maps_id").first.value),
+      Curl::PostField.content('authpassword', Option.where(:key => "maps_password").first.value),
+      Curl::PostField.content('div', Option.where(:key => "maps_division").first.value))
     csv.body_str.gsub!('"', '').force_encoding('UTF-8').encode!('UTF-8', 'UTF-8', :invalid => :replace)
-    # csv.body_str.encode!('UTF-16', 'UTF-8', :invalid => :replace, :replace => '?').encode!('UTF-8', 'UTF-16').gsub!('"', '')
-    # csv.body_str.gsub!('"', '').force_encoding('iso-8859-15').encode!('UTF-8', :invalid => :replace)
   end
 
   def self.parse_csv

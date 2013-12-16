@@ -1,13 +1,19 @@
 namespace :api do
+
+  # Below is an example task for creating vACC (subdivision) recoirds from a .json file in the 
+  # application root directory. Modifu and use those task as needed to create the countries and
+  # subdivision records (country JSON file also included in the app root)
+
   desc "Migrating over old data"
-  task :migrate => :environment do 
 
-    records = JSON.parse(File.read('vaccs.json'))
-    records.each do |record|
-      Vacc.create!(record)
-    end
 
-  end
+  # task :migrate => :environment do 
+  #   records = JSON.parse(File.read('vaccs.json'))
+  #   records.each do |record|
+  #     Vacc.create!(record)
+  #   end
+
+  # end
 
   task :update => :environment do 
     Member.parse_csv

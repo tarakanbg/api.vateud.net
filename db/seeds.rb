@@ -5,3 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Option.create(key: 'maps_id', value: "change-me")
+Option.create(key: 'maps_password', value: "change-me")
+Option.create(key: 'maps_division', value: "change-me")

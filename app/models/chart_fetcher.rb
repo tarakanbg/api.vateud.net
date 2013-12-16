@@ -13,7 +13,6 @@ class ChartFetcher
   @attributes.each {|attribute| attr_accessor attribute.to_sym }
 
   def initialize(icao, args = nil)
-    # process_arguments(args) if args.class == Hash
     @icao = icao.upcase
     custom = CustomChart.where(:icao => @icao)
     @raw = raw_list
@@ -22,7 +21,7 @@ class ChartFetcher
     @plates = plates_list  
     @plate_names = plate_names
     @charts = [] 
-    @overrides = ChartOverride.where(:icao => @icao.upcase)
+    @overrides = ChartOverride.where(:icao => @icao)
     grouped_plates
     list_charts
   end

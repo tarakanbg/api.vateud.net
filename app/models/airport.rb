@@ -51,13 +51,6 @@ class Airport < ActiveRecord::Base
     end    
   end
 
-  # def metar
-  #   self.icao.metar
-  # end
-
-  # def elevation_meters
-  #   (GeoUnits.feet_to :meters, self.data.elevation).round
-  # end
 
   rails_admin do 
     navigation_label 'vACC Staff Zone'
@@ -84,13 +77,10 @@ class Airport < ActiveRecord::Base
       field :icao
       field :iata
       field :country do
-        associated_collection_cache_all true  # REQUIRED if you want to SORT the list as below
+        associated_collection_cache_all true  
         associated_collection_scope do
-          # bindings[:object] & bindings[:controller] are available, but not in scope's block!
           subdivision = bindings[:object]
           Proc.new { |scope|
-            # scoping all Players currently, let's limit them to the team's league
-            # Be sure to limit if there are a lot of Players and order them by position
             scope = scope.unscoped.where(eud: true).reorder('name ASC')
             # scope = scope.limit(30)
           }

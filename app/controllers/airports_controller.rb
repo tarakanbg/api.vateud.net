@@ -8,6 +8,7 @@ class AirportsController < ApplicationController
     @pagetitle = "VATEUD airports"
     @countries = Country.where(:eud => true).reorder("code ASC")    
     @airports = Airport.order("icao DESC") 
+    
     respond_to do |format|
       format.html 
       format.json { render json: scope_json(@airports) }
@@ -18,14 +19,20 @@ class AirportsController < ApplicationController
 
   def country
     @code = params[:id].upcase
-    @country = Country.find_by_code(@code)
-    @pagetitle = "Airports for country: #{@country.name}"
-    @airports = @country.airports.order("icao DESC") 
+    if @country = Country.find_by_code(@code)
+      @pagetitle = "Airports for country: #{@country.name}" 
+      @airports = @country.airports.order("icao DESC")
+    end
+
     respond_to do |format|
-      format.html 
-      format.json { render json: scope_json(@airports) }
-      format.xml { render xml: scope_xml(@airports) }
-      format.csv { send_data @airports.to_csv }
+      if @country
+        format.html 
+        format.json { render json: scope_json(@airports) }
+        format.xml { render xml: scope_xml(@airports) }
+        format.csv { send_data @airports.to_csv }
+      else
+        format.any { render :text => "Country not in database" }
+      end
     end
   end
   
@@ -41,10 +48,7 @@ class AirportsController < ApplicationController
         format.xml { render xml: scope_xml(@airport) }
         format.csv { send_data @airport.to_csv_single }
       else
-        format.html { render :text => "Airport not in database" }
-        format.json { render :text => "Airport not in database" }
-        format.xml { render :text => "Airport not in database" }
-        format.csv { render :text => "Airport not in database" }
+        format.any { render :text => "Airport not in database" }
       end
     end
   end

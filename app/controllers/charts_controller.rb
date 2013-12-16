@@ -16,11 +16,8 @@ class ChartsController < ApplicationController
     @pagetitle = "Charts for #{@code.upcase}"
 
     respond_to do |format|
-      if @charts == "No charts available"
-        format.html { render :text => "No charts available for this airport" }
-        format.json { render :text => "No charts available for this airport" }
-        format.xml { render :text => "No charts available for this airport" }
-        format.csv { render :text => "No charts available for this airport" }
+      if @charts.count == 0 
+        format.any { render :text => "No charts available for this airport" }
       else
         format.html 
         format.json { render json: @charts }
