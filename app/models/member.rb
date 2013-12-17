@@ -137,5 +137,4 @@ class Member < ActiveRecord::Base
     end
   end
 
- 
 end

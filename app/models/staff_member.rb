@@ -6,8 +6,6 @@ class StaffMember < ActiveRecord::Base
 
   default_scope order('priority ASC')
 
-  # belongs_to :member, :foreign_key => 'cid', :primary_key => 'cid'
-
   belongs_to :subdivision, :primary_key => 'code', :foreign_key => 'vacc_code'
 
   has_paper_trail
@@ -115,8 +113,7 @@ class StaffMember < ActiveRecord::Base
       field :cid
       field :email
       field :priority    
-      
-
     end
+    
   end
 end

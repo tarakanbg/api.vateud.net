@@ -1,7 +1,5 @@
 class Station
 
-  # self.abstract_class = true
-
   include ActiveModel::Validations
   include ActiveModel::Serialization
   include ActiveModel::Naming
@@ -14,7 +12,6 @@ class Station
       latitude_humanized longitude_humanized online_since gcmap_width gcmap_height
       atis_message}
   @attributes.each {|attribute| attr_accessor attribute.to_sym }
-  # @attributes.each {|attribute| attr_accessible attribute.to_sym }
 
   def initialize(station, args = nil)
     @role = station.role unless station.role.nil?

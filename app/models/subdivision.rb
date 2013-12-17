@@ -64,13 +64,10 @@ class Subdivision < ActiveRecord::Base
       field :hidden
       field :official
       field :countries do
-        associated_collection_cache_all true  # REQUIRED if you want to SORT the list as below
+        associated_collection_cache_all true  
         associated_collection_scope do
-          # bindings[:object] & bindings[:controller] are available, but not in scope's block!
           subdivision = bindings[:object]
           Proc.new { |scope|
-            # scoping all Players currently, let's limit them to the team's league
-            # Be sure to limit if there are a lot of Players and order them by position
             scope = scope.unscoped.where(eud: true).reorder('name ASC')
             # scope = scope.limit(30)
           }

@@ -18,10 +18,6 @@ class Frequency < ActiveRecord::Base
 
   scope :european, where("country NOT IN (?)", excluded_ids)
 
-  # has_one :vacc, :foreign_key => 'vacc', :primary_key => 'code'
-
-  # has_many :staff, :foreign_key => 'vacc_code', :primary_key => "code"
-
   def self.to_csv(options = {})
     columns = ["callsign", "name", "freq"]
     CSV.generate(options) do |csv|
