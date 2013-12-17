@@ -77,7 +77,7 @@ GEM
       tilt
     hike (1.2.3)
     i18n (0.6.9)
-    icalendar (1.4.5)
+    icalendar (1.5.0)
     ice_cube (0.11.1)
     journey (1.0.4)
     jquery-rails (2.3.0)
@@ -111,7 +111,7 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
-    pg (0.15.1)
+    pg (0.17.0)
     polyamorous (0.5.0)
       activerecord (~> 3.0)
     polyglot (0.3.3)
@@ -164,7 +164,7 @@ GEM
       polyamorous (~> 0.5.0)
     rdoc (3.12.2)
       json (~> 1.4)
-    redcarpet (2.3.0)
+    redcarpet (3.0.0)
     remotipart (1.2.1)
     rich (1.4.6)
       jquery-rails
@@ -232,7 +232,7 @@ DEPENDENCIES
   curb (~> 0.8.4)
   devise (~> 3.2.2)
   haml (~> 4.0.4)
-  icalendar (~> 1.4.3)
+  icalendar (~> 1.5.0)
   ice_cube (~> 0.11.0)
   jquery-rails (= 2.3.0)
   json (~> 1.8.0)
@@ -240,11 +240,11 @@ DEPENDENCIES
   newrelic_rpm
   notams
   paper_trail (~> 2.7.2)
-  pg (~> 0.15.1)
+  pg (~> 0.17.0)
   rails (= 3.2.16)
   rails_admin (~> 0.4.9)
   ransack (~> 0.7.2)
-  redcarpet (~> 2.3.0)
+  redcarpet (~> 3.0.0)
   rich (~> 1.4.6)
   sass-rails (~> 3.2.3)
   simple_form (~> 2.1.0)

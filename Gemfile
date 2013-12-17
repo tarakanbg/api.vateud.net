@@ -54,12 +54,12 @@ gem 'bootstrap-sass', '~> 2.3.2.0'
 gem "vatsim_online"
 gem "curb", "~> 0.8.4"
 
-gem "pg", "~> 0.15.1"
+gem "pg", "~> 0.17.0"
 
 gem "json", "~> 1.8.0"
 
 gem "country_select", "~> 1.2.0"
-gem "redcarpet", "~> 2.3.0"
+gem "redcarpet", "~> 3.0.0"
 
 gem 'newrelic_rpm'
 
@@ -76,7 +76,7 @@ gem "ransack", "~> 0.7.2"
 gem "user_agent_parser", "~> 2.1.1"
 gem "simple_form", "~> 2.1.0"
 
-gem "icalendar", "~> 1.4.3"
+gem "icalendar", "~> 1.5.0"
 gem "rich", "~> 1.4.6"
 gem "ice_cube", "~> 0.11.0"
 gem "airdata", "~> 0.3.2"
