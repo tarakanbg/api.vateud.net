@@ -20,14 +20,19 @@ class SubdivisionsController < ApplicationController
 
   def show
     @code = params[:id].upcase
-    @vacc = Subdivision.where(["code = ?", @code]).select("code, name, introtext, website, official").first
-    @pagetitle = @vacc.name + " details"
+    if @vacc = Subdivision.where(["code = ?", @code]).select("code, name, introtext, website, official").first
+      @pagetitle = @vacc.name + " details"
+    end
 
     respond_to do |format|
-      format.html 
-      format.json { render json: @vacc }
-      format.xml { render xml: @vacc.as_json.to_xml(skip_types: true) }
-      format.csv { send_data csv_single(@vacc) }
+      if @vacc
+        format.html 
+        format.json { render json: @vacc }
+        format.xml { render xml: @vacc.as_json.to_xml(skip_types: true) }
+        format.csv { send_data csv_single(@vacc) }
+      else
+        format.any { render :text => "Subdivision not in database" }
+      end
     end
   end
 

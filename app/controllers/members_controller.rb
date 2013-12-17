@@ -1,18 +1,13 @@
 class MembersController < ApplicationController
   
-  # caches_action :index, expires_in: 3.hours
-  # caches_action :show, expires_in: 4.hours
-  caches_page :index, :if => Proc.new { |c| c.request.format.json? }, expires_in: 3.hours
-  caches_page :index, :if => Proc.new { |c| c.request.format.xml? }, expires_in: 3.hours
-  caches_page :index, :if => Proc.new { |c| c.request.format.csv? }, expires_in: 3.hours
-  caches_page :show, :if => Proc.new { |c| c.request.format.csv? }, expires_in: 4.hours
-  caches_page :show, :if => Proc.new { |c| c.request.format.json? }, expires_in: 4.hours
-  caches_page :show, :if => Proc.new { |c| c.request.format.xml? }, expires_in: 4.hours
+  caches_action :index, :cache_path => Proc.new { |c| c.params }, expires_in: 3.hours
+  caches_action :show, :cache_path => Proc.new { |c| c.params }, expires_in: 4.hours
   caches_action :single, expires_in: 2.hours
 
   def index
     @pagetitle = "Members list"
-    @members = Member.select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active").reorder("reg_date DESC")
+    @members = Member.select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating,
+      humanized_pilot_rating, country, subdivision, reg_date, active").reorder("reg_date DESC")
     @search = Member.search(params[:q])
     @search.sorts = 'reg_date desc' if @search.sorts.empty?
     @members_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
@@ -28,19 +23,24 @@ class MembersController < ApplicationController
   
   def show
     @code = params[:id].upcase
-    @vacc = Subdivision.find_by_code(@code).name
-    @pagetitle = @vacc + " members"
-    @members = Member.where(["subdivision = ?", @code]).select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active").reorder("reg_date DESC")
-    
-    @search = Member.where(["subdivision = ?", @code]).search(params[:q])
-    @search.sorts = 'reg_date desc' if @search.sorts.empty?
-    @members_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
+    if @vacc = Subdivision.find_by_code(@code)
+      @pagetitle = @vacc.name + " members"
+      @members = Member.where(["subdivision = ?", @code]).select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active").reorder("reg_date DESC")
+      
+      @search = Member.where(["subdivision = ?", @code]).search(params[:q])
+      @search.sorts = 'reg_date desc' if @search.sorts.empty?
+      @members_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
+    end
 
     respond_to do |format|
-      format.html
-      format.json { render json: @members }
-      format.xml { render xml: @members.to_xml(skip_types: true) }
-      format.csv { send_data @members.to_csv }
+      if @vacc
+        format.html
+        format.json { render json: @members }
+        format.xml { render xml: @members.to_xml(skip_types: true) }
+        format.csv { send_data @members.to_csv }
+      else
+        format.any { render :text => "Subdivision not in database" }
+      end
     end
   end
 
@@ -77,24 +77,20 @@ class MembersController < ApplicationController
     else
       @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active")
     end
-    unless @member
-      @member = member_from_cert(@cid)      
-    end
+
+    @member = member_from_cert(@cid) unless @member
     @pagetitle = "User details for #{@member.cid}" if @member
     @json = @member.to_json(:except => [:created_at, :updated_at, :age_band, :experience, :id, :state])
     @xml = @member.to_xml(:except => [:created_at, :updated_at, :age_band, :experience, :id, :state], skip_types: true)
 
     respond_to do |format|
-      if @member
+      unless @member.reg_date.blank?
         format.html
         format.json { render json: @json }
         format.xml { render xml: @xml}
         format.csv { send_data @member.to_csv_single }
       else
-        format.html { render :text => "Member not found" }
-        format.json { render :text => "Member not found" }
-        format.xml { render :text => "Member not found" }
-        format.csv { render :text => "Member not found" }
+        format.any { render :text => "Member not found" }
       end
     end
   end

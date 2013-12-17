@@ -1,13 +1,7 @@
 class RatingsController < ApplicationController
 
-  caches_page :index, :if => Proc.new { |c| c.request.format.json? }, expires_in: 3.hours
-  caches_page :index, :if => Proc.new { |c| c.request.format.xml? }, expires_in: 3.hours
-  caches_page :index, :if => Proc.new { |c| c.request.format.csv? }, expires_in: 3.hours
-  caches_page :show, :if => Proc.new { |c| c.request.format.csv? }, expires_in: 4.hours
-  caches_page :show, :if => Proc.new { |c| c.request.format.json? }, expires_in: 4.hours
-  caches_page :show, :if => Proc.new { |c| c.request.format.xml? }, expires_in: 4.hours
-  # caches_action :index, expires_in: 3.hours
-  # caches_action :show, expires_in: 4.hours
+  caches_action :index, :cache_path => Proc.new { |c| c.params }, expires_in: 3.hours
+  caches_action :show, :cache_path => Proc.new { |c| c.params }, expires_in: 4.hours
 
   def index
     @pagetitle = "Rating codes"
@@ -27,10 +21,14 @@ class RatingsController < ApplicationController
     @members_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
 
     respond_to do |format|
-      format.html 
-      format.json { render json: @members }
-      format.xml { render xml: @members.to_xml(skip_types: true) }
-      format.csv { send_data @members.to_csv }    
+      unless @members.count == 0
+        format.html 
+        format.json { render json: @members }
+        format.xml { render xml: @members.to_xml(skip_types: true) }
+        format.csv { send_data @members.to_csv }    
+      else
+        format.any { render :text => "No members found" }
+      end
     end
   end
 

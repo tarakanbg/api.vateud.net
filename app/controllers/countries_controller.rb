@@ -3,13 +3,6 @@ class CountriesController < ApplicationController
   caches_action :index, :cache_path => Proc.new { |c| c.params }, expires_in: 3.hours
   caches_action :show, :cache_path => Proc.new { |c| c.params }, expires_in: 4.hours
 
-  # caches_page :index, :if => Proc.new { |c| c.request.format.json? }, expires_in: 3.hours
-  # caches_page :index, :if => Proc.new { |c| c.request.format.xml? }, expires_in: 3.hours
-  # caches_page :index, :if => Proc.new { |c| c.request.format.csv? }, expires_in: 3.hours
-  # caches_page :show, :if => Proc.new { |c| c.request.format.csv? }, expires_in: 4.hours
-  # caches_page :show, :if => Proc.new { |c| c.request.format.json? }, expires_in: 4.hours
-  # caches_page :show, :if => Proc.new { |c| c.request.format.xml? }, expires_in: 4.hours
-  
   def index
     @pagetitle = "Country codes"
     @search = Country.reorder("code ASC").search(params[:q])
@@ -23,9 +16,8 @@ class CountriesController < ApplicationController
   
   def show
     @code = params[:id].upcase
-    if @country_record = Country.find_by_code(@code)
-      @country = @country_record.name
-      @pagetitle = "Members from " + @country
+    if @country = Country.find_by_code(@code)
+      @pagetitle = "Members from " + @country.name
       @members = Member.where(["country = ?", params[:id].upcase]).select("cid, firstname, lastname,
         rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country,
         subdivision, reg_date").reorder("reg_date DESC")

@@ -20,10 +20,14 @@ class NotamsController < ApplicationController
     @pagetitle = "NOTAMs for #{@code.upcase}"
 
     respond_to do |format|
-      format.html 
-      format.json { render json: @notams }
-      format.xml { render xml: @notams.as_json.to_xml(skip_types: true) }
-      format.csv { send_data csv_data(@notams) }
+      unless @notams.count == 0
+        format.html 
+        format.json { render json: @notams }
+        format.xml { render xml: @notams.as_json.to_xml(skip_types: true) }
+        format.csv { send_data csv_data(@notams) }
+      else
+        format.any { render :text => "No notams found for this airport" }
+      end
     end
   end
 
