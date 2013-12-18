@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  controller: MyString
+  position: MyString
+  starts: 2013-12-18 11:54:55
+  ends: 2013-12-18 11:54:55
+  admin_user_id: 1
+  eu_id: 1
+
+two:
+  controller: MyString
+  position: MyString
+  starts: 2013-12-18 11:54:55
+  ends: 2013-12-18 11:54:55
+  admin_user_id: 1
+  eu_id: 1

@@ -10,6 +10,7 @@ class AdminUser < ActiveRecord::Base
                   :position, :roles, :admin, :roles_mask
   # attr_accessible :title, :body
   belongs_to :subdivision
+  has_many :atc_bookings, :dependent => :destroy
 
   has_paper_trail
 

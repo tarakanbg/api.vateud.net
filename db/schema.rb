@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131216155552) do
+ActiveRecord::Schema.define(:version => 20131218095455) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -130,6 +130,17 @@ ActiveRecord::Schema.define(:version => 20131216155552) do
     t.string   "vacc_code"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+  end
+
+  create_table "atc_bookings", :force => true do |t|
+    t.string   "controller"
+    t.string   "position"
+    t.datetime "starts"
+    t.datetime "ends"
+    t.integer  "admin_user_id"
+    t.integer  "eu_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "chart_overrides", :force => true do |t|

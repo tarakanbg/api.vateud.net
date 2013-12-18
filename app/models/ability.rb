@@ -15,6 +15,7 @@ class Ability
       can :manage, Airport      
       can :manage, CustomChartSource      
       can :manage, IndividualCustomChart      
+      can :manage, AtcBooking      
       can :approve_staff_member, StaffMember
 
       can :read, Subdivision     
