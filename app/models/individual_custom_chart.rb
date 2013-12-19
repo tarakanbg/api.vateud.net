@@ -10,6 +10,6 @@ class IndividualCustomChart < ActiveRecord::Base
   end
 
   rails_admin do 
-    navigation_label 'vACC Staff Zone'
+    navigation_label 'Charts'
   end
 end

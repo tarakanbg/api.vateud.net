@@ -240,6 +240,7 @@ DEPENDENCIES
   newrelic_rpm
   notams
   paper_trail (~> 2.7.2)
+  paperclip (~> 3.5.2)
   pg (~> 0.17.0)
   rails (= 3.2.16)
   rails_admin (~> 0.4.9)

@@ -83,3 +83,4 @@ gem "airdata", "~> 0.3.2"
 gem "activerecord-import", "~> 0.3.1"
 
 gem "vatsim_metar", "~> 0.2.3"
+gem "paperclip", "~> 3.5.2"

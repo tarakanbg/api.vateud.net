@@ -8,7 +8,7 @@ class CustomChartSource < ActiveRecord::Base
   LOCAL_CUSTOM_CHARTS = "#{Dir.tmpdir}/local_charts_csv.csv"
 
   rails_admin do 
-    navigation_label 'vACC Staff Zone'
+    navigation_label 'Charts'
   end
 
   def self.import_charts

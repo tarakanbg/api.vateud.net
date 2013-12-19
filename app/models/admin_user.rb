@@ -11,6 +11,7 @@ class AdminUser < ActiveRecord::Base
   # attr_accessible :title, :body
   belongs_to :subdivision
   has_many :atc_bookings, :dependent => :destroy
+  has_many :mass_bookings, :dependent => :destroy
 
   has_paper_trail
 

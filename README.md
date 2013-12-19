@@ -1057,6 +1057,39 @@ __Examples:__
     http://api.vateud.net/frequencies/NETH.csv    => returns all Netherlands freqs in CSV format
     http://api.vateud.net/frequencies/AUST        => returns all Austrian freqs as HTML (part of the API web interface)
 
+### Q. ATC Bookings and mass bookings
+
+#### Individual ATC bookings
+
+Registered backend members now have the ability to create, edit and delete ATC bookings that
+are __synchronized with the VATBOOK service__ (vroute, etc). Look for the "ATC Bookings" entry in the
+"Events and bookings" menu.
+
+Users can also update or delete existing bookings, but only if they were initially created by themselves.
+
+#### Mass bookings
+
+When needed, backend users can also create mass bookings (multiple bookings at once) by uploading a CSV
+file with the desired bookings details. Look for the "Mass Bookings" entry in the "Events and bookings" menu.
+
+The following rules apply:
+
+* The CSV file should be UTF encoded (Unicode). Legacy latin, etc encodings will work as well granted
+  that non-latin characters are avoided
+* The CSV file should have 4 entries per line, separated with commas `,`. Those entries in their respective
+  order are: `Controller name and surname`, `ATC position`, `Starting date and time of the ATC session`,
+  `Ending date and time of the ATC session`. All times are zulu (UTC).
+* The mass created bookings can later be individually edited or deleted if needed, but only by the user who
+  originally created the mass booking
+* Both date/time entries in the CSV file should have the following syntax: `YYYY-MM-DD HH:MM:SS`
+
+__Example CSV file syntax:__
+
+    Svilen Vassilev,LQTZ_APP,2013-12-19 13:00:00,2013-12-19 15:00:00
+    Mirza Ibrahimovic,LQBK_APP,2013-12-19 14:00:00,2013-12-19 16:00:00
+    Nikola Tutoric,LQMO_APP,2013-12-19 15:00:00,2013-12-19 17:00:00
+    Adam Stanojevic,LQSA_APP,2013-12-19 18:00:00,2013-12-19 21:00:00
+
 ### Appendix A. Caching times
 
 #### Backend

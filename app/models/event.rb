@@ -58,7 +58,7 @@ class Event < ActiveRecord::Base
   end
 
   rails_admin do 
-    navigation_label 'vACC Staff Zone'
+    navigation_label 'Events and bookings'
 
     list do
       field :id do
