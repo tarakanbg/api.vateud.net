@@ -17,8 +17,10 @@ class OnlineController < ApplicationController
 
   def help
     @pagetitle = "Documentation"
-    m = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+    m = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(:with_toc_data => true))
+    mtoc = Redcarpet::Markdown.new(Redcarpet::Render::HTML_TOC)
     @content = m.render(File.open(Rails.root + "README.md", 'r').read)
+    @toc = mtoc.render(File.open(Rails.root + "README.md", 'r').read)
   end
 
   def atc

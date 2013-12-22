@@ -1,7 +1,4 @@
-# VATEUD API Documentation
-#### _by **Svilen Vassilev**, VATEUD7_
-
-## Features
+# Features
 
 * The API supports __json__, __xml__ and __csv__ for its data. Use whatever you prefer.
 * It requires no authentication, no API keys, just send a plain GET request and you're served.
@@ -17,7 +14,7 @@
 
 The subset of data available includes:
 
-### For the members data:
+## For the members data:
 
 
 * `Vatsim ID`
@@ -38,7 +35,7 @@ _Note:_ The first/last names are preemptively capitalized "on the fly" for you; 
 database. Also I'm humanizing the ATC and pilot ratings so you don't have to :) The original integer values
 for both ratings are kept in the data for compatibility, should you need them.
 
-### For the online stations data:
+## For the online stations data:
 
 * `cid` (VATSIM ID)
 * `callsign`
@@ -83,13 +80,13 @@ will return an html response: part of the web interface of the API.
 All URL's use the __api.vateud.net__ subdomain, the older vaccs.vateud.net one is kept indefinitely
 for compatibility and CNAME-d to the main one.
 
-### A. Pulling all records
+# A. Members data: Pulling all records
 
     http://api.vateud.net/members.json   #=> returns all EUD members in JSON format  
     http://api.vateud.net/members.xml    #=> returns all EUD members in XML format  
     http://api.vateud.net/members.csv    #=> returns all EUD members in CSV format  
 
-### B. Scoping through vACC
+# B. Members data: Scoping through vACC
 
     http://api.vateud.net/members/BULG.json   #=> returns all members of the Bulgarian vACC in JSON format  
     http://api.vateud.net/members/BHZ.xml     #=> returns all members of the Bosnia-Herzegovina vACC in XML format  
@@ -104,7 +101,7 @@ The vACC codes inside the URL are NOT case sensitive, so you can as well use:
     http://api.vateud.net/members/yug.xml     #=> returns all members of the Serbian vACC in XML format  
     http://api.vateud.net/members/fra.csv     #=> returns all members of the France vACC in CSV format  
 
-### C. Scoping through country
+# C. Members data: Scoping through country
 
 The vast majority of users do not belong to a subdivision (vACC). Each user though belongs to a country
 (it's mandatory to select one during initial registration on VATSIM). I thought it might be a useful metrics
@@ -120,7 +117,7 @@ extension:
 
 You can see all available country codes at [api.vateud.net/countries](http://api.vateud.net/countries)
 
-### D. Scoping through rating
+# D. Members data: Scoping through rating
 
 You can also scope the members through rating.
 
@@ -132,9 +129,9 @@ The base URL you need to poll for this is: _api.vateud.net/ratings/_ and add the
 
 You can see all available rating codes at [api.vateud.net/ratings](http://api.vateud.net/ratings/)
 
-### E. Authenticated endpoint for vACC email listings
+# E. Members data: Authenticated endpoint for vACC email listings
 
-__Features:__
+## Features:
 
 * vACCs are able to obtain member listings including their members' emails by using an authenticated endpoint utilizing unique access tokens
 * Accessing this endpoint without an access token will result in a 401 error
@@ -143,7 +140,7 @@ __Features:__
 [tasks.vateud.net](http://tasks.vateud.net/)
 * VATEUD reserves the right to revoke an access token and/or replace it if leaks or abuse is detected.
 
-__How it works:__
+## How it works:
 
 The endpoint for this is of the type __"api.vateud.net/emails/" + vACC code + desired format extension__. 
 The access token should be passed  __as a header__ together with the GET request in the following syntax:
@@ -152,7 +149,7 @@ I considered including the access token as part of the URL requests, but given t
 users to share links left, right and center, decided against it, sorry.
 You can use curl or any alternative that you fancy.
 
-__Examples:__
+## Examples:
 
     curl api.vateud.net/emails/bhz.json  -H 'Authorization: Token token="bhz-vacc-access-token"'  
           #=>  returns the members listing for Bosnia-Herzegovina vACC in json format 
@@ -190,7 +187,7 @@ bitmask representations of pilot rating combinations, based on the currently ava
       
     ....etc....  
 
-### F. Online stations data
+# F. Online stations data
 
 __This portion of the API is powered by the [vatsim_online](https://rubygems.org/gems/vatsim_online) library.
 If you're curious to see in detail how it works and the full array of options it provides, head over
@@ -223,7 +220,7 @@ Examples:
 __Note:__ The online stations responses are all being cached with expiration time set to 5 minutes.
 The online stations data is not limited to EUD, you can use it for any airport(s)/FIR(s) in the world.
 
-### G. Current RW NOTAMs
+# G. Current RW NOTAMs
 
 __This portion of the API is powered by the [notams](http://rubygems.org/gems/notams) library.
 If you're curious to see in detail how it works and the full array of options it provides, head over
@@ -254,7 +251,7 @@ Examples:
     http://api.vateud.net/notams/loww.csv               #=> returns all NOTAMs for Vienna Airport in CSV
     http://api.vateud.net/notams/lbsf                   #=> returns all NOTAMs for Sofia as HTML listing
 
-### H. Airport Charts
+# H. Airport Charts
 
 These are public endpoints of the type: "http://api.vateud.net/charts/" + airport ICAO code + format
 type extension
@@ -281,14 +278,14 @@ Examples:
 The chart listings are automatically synchronized with RW sources and are __always current__. Note, we only
 provide links to the publications, not physical files. __Not to be used for real world navigation!__
 
-#### Overriding chart titles
+## Overriding chart titles
 
 Ocassionally, chart names, as provided from our data sources, might not match the physical chart name. 
 We have implemented the logic and interface for easily overriding such discrepancies. If you notice a title issue,
 please [submit a task](http://tasks.vateud.net/) to VATEUD7, specifying the airport ICAO and the correct
 chart title. 
 
-#### Custom airport charts
+## Custom airport charts
 
 Some vACCs prefer to override the real world charts with their own renditions for various reasons:
 VATSIM-specific procedures, scenery compatibility, advanced customization, etc.
@@ -306,7 +303,17 @@ The API can handle those overrides in the following manner:
 
 ![CustomChartSource](http://i.imgur.com/umgKt64.png)
 
-#### Individual Custom charts
+### Application logic
+
+* The API pulls the vACC Custom Chart Source listings once per day, parses and injects them in a local DB of custom
+  charts
+* Whenever an API user sends a request for charts, the API first looks into the custom charts DB to find any matches
+  based on the requested icao code. If matches are found, it sends out the custom listings, if matches are not
+  found it proceeds to query and pull the RW charts for that airport from charts.aero
+* There are no differences in the request and response syntaxes between custom and RW charts: the same calls
+  and the same response logic and formats apply, i.e. you get json, xml, csv or html responses in both cases
+
+## Individual Custom charts
 
 Instead of blanket replacement of the entire charts pack for a given airport with a custom one, there's
 also the possibility to adding individual custom charts, which will be appended to the authomatically
@@ -318,17 +325,7 @@ The relevant backend menu entry is vACC Staff Zone > Individual custom charts an
 
 ![IndividualCustomChart](http://i.imgur.com/dyUJAlt.png)
 
-##### Application logic
-
-* The API pulls the vACC Custom Chart Source listings once per day, parses and injects them in a local DB of custom
-  charts
-* Whenever an API user sends a request for charts, the API first looks into the custom charts DB to find any matches
-  based on the requested icao code. If matches are found, it sends out the custom listings, if matches are not
-  found it proceeds to query and pull the RW charts for that airport from charts.aero
-* There are no differences in the request and response syntaxes between custom and RW charts: the same calls
-  and the same response logic and formats apply, i.e. you get json, xml, csv or html responses in both cases
-
-### I. Member Validation
+# I. Member Validation
 
 This endpoint is of the type: `http://api.vateud.net/members/validate/`. It receives a member cid
 and email (sent along a GET request as headers) and matches them against
@@ -353,7 +350,7 @@ Examples:
       end    
     end
 
-### J. Single member details
+# J. Single member details
 
 This endpoint is of the type: `http://api.vateud.net/members/id/` + `vatsim cid` + format type extension.
 
@@ -364,7 +361,7 @@ The data and logic is exactly the same as with other "members" endpoints with th
 this one only returns the details of a single member, identified by their vatsim CID.
 
 This endpoint allows __optionally__ sending a vACC access token as a __header__ in the following syntax:
-_'Authorization: Token token="your-vacc-access-token"'_.
+`'Authorization: Token token="your-vacc-access-token"'`.
 
 If a valid access token is received, the member details returned will be augmented with 2 extra attribites:
 member email address and suspension expiration date (if any). This extra data will only be included if the
@@ -393,15 +390,15 @@ _Examples:_
     curl api.vateud.net/members/id/890112.csv -H 'Authorization: Token token="invalid-access-token"'
                         #=> returns standart set of member's details (not including email) in csv format
 
-### K. Online stations data by callsign
+# K. Online stations data by callsign
 
 __This portion of the API is powered by the [vatsim_online](https://rubygems.org/gems/vatsim_online) library.
 If you're curious to see in detail how it works and the full array of options it provides, head over
 [to the documentation](https://github.com/tarakanbg/vatsim_online#vatsim-online).__
 
 
-These are public endpoints of the type: "http://api.vateud.net/online/callsign/" + callsign filter + format
-type extension
+These are public endpoints of the type: `"http://api.vateud.net/online/callsign/"` + `callsign filter` + `format
+type extension`
 
 The callsigns can designate both pilot and ATC stations.
 
@@ -424,10 +421,7 @@ Examples:
 __Note:__ The online stations responses are all being cached with expiration time set to 5 minutes.
 The online stations data is not limited to EUD, you can use it for any stations on the network.
 
-That's pretty much it! Enjoy, feedback welcome :)
-
-
-### L. Events management (calendar)
+# L. Events management (calendar)
 
 The VATEUD events management and calendar API is designed to solve the issue of having multiple standalone
 (isolated) calendar solutions for each vACC and for VATEUD separately and to overcome the limitations of the
@@ -457,7 +451,7 @@ These abilities ensure the following use cases are satisfied:
 * The choice between using web backend for events management or using the RESTful API gives both technical and
   non-technical users/vaccs the opportunity to utilize the system without being inconvenienced
 
-#### Reading (retrieving) event data
+## Reading (retrieving) event data
 
 For retrieving the __unscoped VATEUD events data__ (for all vaccs), use the following endpoint:
 `http://api.vateud.net/events + format type extension`
@@ -495,12 +489,12 @@ For retrieving the __details of an individual event__, use the following endpoin
     http://api.vateud.net/events/3.ics   #=> returns the details with event with id 3 in ICS format
     http://api.vateud.net/events/1       #=> returns the details with event with id 1 as HTML (part of the API web frontend)
 
-#### Creating, editing and deleting events programmatically
+## Creating, editing and deleting events programmatically
 
 In order to use the RESTful API CRUD (create, edit and delete endpoints) you'll need an API access token for your vACC.
 These 3 endpoints only accept authenticated calls. Read above on how to request an API token.
 
-##### Event record attributes
+### Event record attributes
 
 Each event record can accept the following attributes:
 
@@ -519,7 +513,7 @@ Each event record can accept the following attributes:
   event causes the changes made to be propagated to all other instances of that weekly event. If the flag is not set
   when editing an instance of a weekly event, only that instance will be affected by the changes.
 
-##### RESTful principle explained
+### RESTful principle explained
 
 The VATEUD API follows the [RESTful](http://en.wikipedia.org/wiki/Representational_state_transfer) convention, meaning you send remote calls to a certain endpoint (optionally
 including an id), plus you also send in JSON data for the record that you want published/changed and you also
@@ -532,7 +526,7 @@ determines the type of action that you want in the following way:
 * __DELETE__ requests are for __destroying__ records
 
 
-##### Creating an event record
+### Creating an event record
 
 In order to create an event, you send an HTTP __POST request__ to `http://api.vateud.net/events` with the JSON details
 of the new event and with your API token (sent as a HEADER along with the request)
@@ -568,7 +562,7 @@ __Notes:__
 * Sending in the "weekly":"true" attribute will create 26 instances of the event (6 months ahead), with times and days of
   the week matching the ones in the original call.
 
-##### Editing (updating) an event record
+### Editing (updating) an event record
 
 In order to edit (update) an event, you send an HTTP __PUT request__ to `http://api.vateud.net/events/event_id` with the JSON details
 that you want changed and with your API token (sent as a HEADER along with the request). Note you need to pass the
@@ -590,7 +584,7 @@ __Notes:__
 * The record will not be updated (error message returned) if the authentication token's vACC doesn't match
   the event record vACC
 
-##### Deleting an event record
+### Deleting an event record
 
 In order to delete an event, you send an HTTP __DELETE request__ to `http://api.vateud.net/events/event_id` with
 your API token (sent as a HEADER along with the request). Note you need to pass the event ID to the URL, but you
@@ -608,7 +602,7 @@ __Notes:__
 * The record will not be deleted (error message returned) if the authentication token's vACC doesn't match
   the event record vACC
 
-#### Creating, editing and deleting events via the web backend interface
+## Creating, editing and deleting events via the web backend interface
 
 The backend administrative interface for the VATEUD API is accessible via [http://api.vateud.net/admin](http://api.vateud.net/admin).
 There's also a link called "Staff Zone" in the menu pointing that way.
@@ -649,7 +643,7 @@ The following restrictions apply when manipulating event records via the web bac
 * the weekly checkmark field only has an effect when creating new events: it will trigger the creation of
   52 weekly instances of the event (1 year ahead). Triggering it won't have any effect when editing existing events.
 
-### M. vACC profiles
+# M. vACC profiles
 
 These endpoints allow fetching the general vACC data, either globally (all EUD subdivisions)
 or indivisually per vACC. Through the API vACC data can be distributed and visualized on any
@@ -663,7 +657,7 @@ The following attrbiutes are exposed for each vACC:
 * `introtext` - introductory description of the vACC
 * `official` - boolean flag, marks the vACC as official or unofficial
 
-#### Editing vACC records
+## Editing vACC records
 
 With the introduction of this portion of the API, vACC records transition from EUD-managed
 to __self-managed__. Each vACC has the ability to edit their own records without being dependant
@@ -684,9 +678,9 @@ __Notes:__
 * One or more countries can be assigned (associated) with a particular vACC
 * The introtext supports HTML and the interface comes with a WYSIWYG editor for that field
 
-#### Reading vACC records
+## Reading vACC records
 
-##### Fetching all vACC records
+### Fetching all vACC records
 
 This is a public endpoint of the type: `http://api.vateud.net/subdivisions` + `format type extension`
 
@@ -697,7 +691,7 @@ __Examples:__
     http://api.vateud.net/subdivisions.csv    #=> returns all vACCs data in CSV format
     http://api.vateud.net/subdivisions        #=> returns all vACCs data as HTML (part of the API web interface)
 
-##### Fetching individual vACC data
+### Fetching individual vACC data
 
 These are public endpoints of the type: `http://api.vateud.net/subdivisions/` + `vacc code` + `format type extension`
 
@@ -711,7 +705,7 @@ __Examples:__
     http://api.vateud.net/subdivisions/BHZ        => returns vACC B&H details as HTML (part of the API web interface)
 
 
-### N. Self managed vACC Staff Members listings
+# N. Self managed vACC Staff Members listings
 
 The VATEUD vACC Staff Members API is designed to enable vACC staff to self-manage and maintain their vACC
 staff records, via web interface or programmatically, following the principle of "publish once
@@ -734,7 +728,7 @@ website will be getting its staff data, and it can be easily implemented on indi
 The choice between using web backend for staff management or using the RESTful API gives both technical and
 non-technical users/vaccs the opportunity to utilize the system without being inconvenienced.
 
-#### Reading (retrieving) staff members data
+## Reading (retrieving) staff members data
 
 For retrieving the __unscoped VATEUD staff members data__ (for all vaccs), use the following endpoint:
 `http://api.vateud.net/staff_members` + `format type extension`
@@ -769,12 +763,12 @@ For retrieving the __details of an individual staff position__, use the followin
     http://api.vateud.net/staff_members/185.csv   #=> returns the details for staff member with id 185 in CSV format
     http://api.vateud.net/staff_members/159       #=> returns the details for staff member with id 159 as HTML (part of the API web frontend)
 
-#### Creating, editing and deleting staff members programmatically
+## Creating, editing and deleting staff members programmatically
 
 In order to use the RESTful API CRUD (create, edit and delete endpoints) you'll need an API access token for your vACC.
 These 3 endpoints only accept authenticated calls. Read above on how to request an API token.
 
-##### Staff member attributes
+### Staff member attributes
 
 Each staff member record can accept the following attributes:
 
@@ -786,7 +780,7 @@ Each staff member record can accept the following attributes:
 * `vacc_code` - the vACC code of the staff member. Determined programmatically by the access token, not editable via remote calls
 * `id` - unique numeric record identifier, returned by the application on create and update calls, not editable
 
-##### RESTful principle explained (again)
+### RESTful principle explained (again)
 
 The VATEUD API follows the [RESTful](http://en.wikipedia.org/wiki/Representational_state_transfer) convention,
 meaning you send remote calls to a certain endpoint (optionally
@@ -800,7 +794,7 @@ determines the type of action that you want in the following way:
 * __DELETE__ requests are for __destroying__ records
 
 
-##### Creating a staff member record
+### Creating a staff member record
 
 In order to create an staff member, you send an HTTP __POST request__ to `http://api.vateud.net/staff_members` with the JSON details
 of the new position and with your API token (sent as a HEADER along with the request)
@@ -827,7 +821,7 @@ __Notes:__
 * The new staff member position will be tagged and assigned to the vACC that corresponds to the authentication token used
 * No record will be created without an authentication token
 
-##### Editing (updating) a staff member record
+### Editing (updating) a staff member record
 
 In order to edit (update) a staff member, you send an HTTP __PUT request__ to `http://api.vateud.net/staff_members/staff_member_id` with the JSON details
 that you want changed and with your API token (sent as a HEADER along with the request). Note you need to pass the
@@ -849,7 +843,7 @@ __Notes:__
 * The record will not be updated (error message returned) if the authentication token's vACC doesn't match
   the staff member record vACC
 
-##### Deleting a staff member record
+### Deleting a staff member record
 
 In order to delete a staff member record, you send an HTTP __DELETE request__ to `http://api.vateud.net/staff_members/staff_member_id` with
 your API token (sent as a HEADER along with the request). Note you need to pass the event ID to the URL, but you
@@ -867,7 +861,7 @@ __Notes:__
 * The record will not be deleted (error message returned) if the authentication token's vACC doesn't match
   the staff member record vACC
 
-#### Creating, editing and deleting staff members via the web backend interface
+## Creating, editing and deleting staff members via the web backend interface
 
 The backend administrative interface for the VATEUD API is accessible via [http://api.vateud.net/admin](http://api.vateud.net/admin).
 There's also a link called "Staff Zone" in the menu pointing that way.
@@ -913,7 +907,7 @@ The following restrictions apply when manipulating event records via the web bac
   monitor vACC staff changes as they happen. This flag is for internal reference of EUD staff only and has
   no impact of the record's availability.
 
-### O. Airport profiles
+# O. Airport profiles
 
 The airports API allows vACC to showcase some or all airports in their respective countries,
 and make the information available to any 3rd party web service that wants to use it, including
@@ -963,7 +957,7 @@ ___Airport runways (automatically obtained)___
 * `ils_freq` - the ILS frequency
 * `glidepath` - the ILS glidepath angle. Defaults to 3 degrees for runways without ILS
 
-#### Data structure and format differences
+## Data structure and format differences
 
 As you can see, it's a big set of data, and it's nested/structured in the API responses,
 so that all the primary vacc provided attributes are directly listed in the airport set,
@@ -987,7 +981,7 @@ XML responses are structured in the same way. CSV responses are "flattened" to i
 details. Due to the inability of the CSV format to store a subset of arbitrary size, runways information
 is not included in the CSV responses.
 
-#### Fetching all EUD airports
+## Fetching all EUD airports
 
 These are endpoints of the type: `http://api.vateud.net/airports` + `format type extension`
 
@@ -998,7 +992,7 @@ __Examples:__
     http://api.vateud.net/airports.csv    #=> returns all EUD airports in CSV format
     http://api.vateud.net/airports        #=> returns all EUD airports as HTML (part of the API web interface)
 
-#### Scoping the airports per country
+## Scoping the airports per country
 
 These are endpoints of the type: `http://api.vateud.net/airports/country/` + `country code` + `format type extension`    
 
@@ -1011,7 +1005,7 @@ __Examples:__
     http://api.vateud.net/airports/country/BA.csv   #=> returns all Bosnia & Herzegovina airports in CSV format
     http://api.vateud.net/airports/country/BA       #=> returns all Bosnia & Herzegovina airports as HTML (part of the API web interface)
 
-#### Getting individual airport details
+## Getting individual airport details
 
 These are endpoints of the type: `http://api.vateud.net/airports/` + `ICAO code` + `format type extension`    
 
@@ -1022,7 +1016,7 @@ __Examples:__
     http://api.vateud.net/airports/LQTZ.csv    => returns the details for Tuzla airport in CSV format
     http://api.vateud.net/airports/LQSA        => returns the details for Sarajevo airport as HTML (part of the API web interface)
 
-#### Creating ad editing airport records
+## Creating and editing airport records
 
 This is done via the API backend by vACC staff with API accounts. The interface is self explanatory and looks
 like this:
@@ -1031,9 +1025,9 @@ like this:
 
 Staff members can only edit the records of the airports the belong to their respective vACC's countries.
 
-### P. Approved ATC frequencies
+# P. Approved ATC frequencies
 
-#### Fetching all VATEUD approved ATC frequencies
+## Fetching all VATEUD approved ATC frequencies
 
 These are endpoints of the type: `http://api.vateud.net/frequencies` + `format type extension`
 
@@ -1044,7 +1038,7 @@ __Examples:__
     http://api.vateud.net/frequencies.csv    #=> returns all EUD ATC freqs in CSV format
     http://api.vateud.net/frequencies        #=> returns all EUD ATC freqs as HTML (part of the API web interface)
 
-#### Scoping ATC frequencies per vACC
+## Scoping ATC frequencies per vACC
 
 These are endpoints of the type: `http://api.vateud.net/frequencies/` + `vACC code` + `format type extension`    
 
@@ -1057,9 +1051,9 @@ __Examples:__
     http://api.vateud.net/frequencies/NETH.csv    => returns all Netherlands freqs in CSV format
     http://api.vateud.net/frequencies/AUST        => returns all Austrian freqs as HTML (part of the API web interface)
 
-### Q. ATC Bookings and mass bookings
+# Q. ATC Bookings and mass bookings
 
-#### Individual ATC bookings
+## Individual ATC bookings
 
 Registered backend members now have the ability to create, edit and delete ATC bookings that
 are __synchronized with the VATBOOK service__ (vroute, etc). Look for the "ATC Bookings" entry in the
@@ -1067,7 +1061,7 @@ are __synchronized with the VATBOOK service__ (vroute, etc). Look for the "ATC B
 
 Users can also update or delete existing bookings, but only if they were initially created by themselves.
 
-#### Mass bookings
+## Mass bookings
 
 When needed, backend users can also create mass bookings (multiple bookings at once) by uploading a CSV
 file with the desired bookings details. Look for the "Mass Bookings" entry in the "Events and bookings" menu.
@@ -1090,13 +1084,13 @@ __Example CSV file syntax:__
     Nikola Tutoric,LQMO_APP,2013-12-19 15:00:00,2013-12-19 17:00:00
     Adam Stanojevic,LQSA_APP,2013-12-19 18:00:00,2013-12-19 21:00:00
 
-### Appendix A. Caching times
+# Appendix A. Caching times
 
-#### Backend
+## Backend
 
 No caching on the backend! Data is pulled from the DB on each request.
 
-#### Frontend
+## Frontend
 
 * All EUD members: html responses: no caching; json, xml and csv responses: 3 hours
 * vACC members: html responses: no caching; json, xml and csv responses: 4 hours
@@ -1108,7 +1102,7 @@ No caching on the backend! Data is pulled from the DB on each request.
 * Staff member listings: all formats: 5 minutes
 * Who's online data: all formats: 5 minutes
 * Notams: all formats: 12 hours
-* Chars: all formats: 4 hours
+* Chars: all formats: 2 hours
 * ATC frequencies: all formats: 2 hours
 * Events calendar: all formats: 10 minutes
 * Airport profiles: all formats: 10 minutes
