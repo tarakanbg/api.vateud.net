@@ -1,5 +1,5 @@
 class ChartsController < ApplicationController
-  caches_action :show, expires_in: 2.hours
+  caches_action :show, expires_in: 1.hours
 
   def index
     @pagetitle = "Charts"

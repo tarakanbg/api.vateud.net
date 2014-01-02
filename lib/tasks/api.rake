@@ -19,6 +19,7 @@ namespace :api do
     Member.parse_csv
   end
 
+# clears page caching; not needed for action caching
   task :cleanup => :environment do 
     cache_dir = ActionController::Base.page_cache_directory
     unless cache_dir == Rails.root+"/public"

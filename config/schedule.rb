@@ -23,10 +23,16 @@ every 10.hours do
   rake "api:update"
 end
 
-every 6.hours do
-  rake "api:cleanup"
-end
+# clears page caching; not needed for action caching
+
+# every 6.hours do
+#   rake "api:cleanup"
+# end
 
 every 1.day, :at => '3:12 am' do
   rake "api:custom_charts"
+end
+
+every 1.day, :at => '1:05 am' do
+  rake "tmp:clear"
 end

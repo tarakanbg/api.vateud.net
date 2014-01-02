@@ -48,23 +48,27 @@ class ChartFetcher
   end
 
   def grouped_plates
-    cleanup_plates
+    # cleanup_plates
     while @plates.count > 0
-      url = @plates.shift
-      name = @plate_names.shift
-      @charts << Chart.new(icao = @icao, name = name, url_aip = url, url_charts_aero = "https://charts.aero/airport/#{@icao}")
+      url = @plates.shift unless @plates.first.include?("cache.charts.aero")
+      name = @plate_names.shift unless @plate_names.first.include?("CACHED")
+      if @plates.count > 0 && @plate_names.count > 0
+        @plates.first.include?("cache.charts.aero") ? url_charts_aero = @plates.shift : url_charts_aero = nil
+        @plate_names.first.include?("CACHED") ? name_charts_aero = @plate_names.shift : name_charts_aero = nil
+      end
+      @charts << Chart.new(icao = @icao, name = name, url_aip = url, url_charts_aero = url_charts_aero)
     end
     include_individual_custom_charts
   end
 
-  def cleanup_plates
-    @plates.each do |plate|
-      @plates.delete(plate) if plate.include?("cache.charts.aero")
-    end
-    @plate_names.each do |name|
-      @plate_names.delete(name) if name.include?("CACHED")
-    end
-  end
+  # def cleanup_plates
+  #   @plates.each do |plate|
+  #     @plates.delete(plate) if plate.include?("cache.charts.aero")
+  #   end
+  #   @plate_names.each do |name|
+  #     @plate_names.delete(name) if name.include?("CACHED")
+  #   end
+  # end
 
   def list_charts
     name_overrides
