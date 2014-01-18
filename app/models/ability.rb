@@ -100,6 +100,7 @@ class Ability
 
         can :read, Member, :subdivision => user.subdivision.code
         can :edit, Member, :subdivision => user.subdivision.code
+        can :export, Member, :subdivision => user.subdivision.code
         can :history, Member, :subdivision => user.subdivision.code
 
         can :manage, IndividualCustomChart

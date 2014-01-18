@@ -1102,7 +1102,7 @@ No caching on the backend! Data is pulled from the DB on each request.
 * Staff member listings: all formats: 5 minutes
 * Who's online data: all formats: 5 minutes
 * Notams: all formats: 12 hours
-* Chars: all formats: 2 hours
+* Charts: all formats: 1 hour
 * ATC frequencies: all formats: 2 hours
 * Events calendar: all formats: 10 minutes
 * Airport profiles: all formats: 10 minutes

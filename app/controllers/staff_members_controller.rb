@@ -37,8 +37,8 @@ class StaffMembersController < ApplicationController
                                                  :only => [:code, :name] }, :member => {:only => [:firstname, :lastname,
                                                  :humanized_atc_rating, :country]} })
     end
-    rescue ActiveRecord::RecordNotFound
-      render :text => "Staff member not in database" and return  
+    # rescue ActiveRecord::RecordNotFound
+      # render :text => "Staff member not in database" and return  
 
     respond_to do |format|
       if @staff_member
@@ -125,7 +125,7 @@ class StaffMembersController < ApplicationController
     @staff_member.destroy
 
     respond_to do |format|
-      format.json { head :no_content }
+      format.json { render :json => @staff_member, :status => :destroyed }
     end
   end
 
