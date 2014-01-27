@@ -125,7 +125,7 @@ class StaffMembersController < ApplicationController
     @staff_member.destroy
 
     respond_to do |format|
-      format.json { render :json => @staff_member, :status => :destroyed }
+      format.json { render :json => @staff_member }
     end
   end
 

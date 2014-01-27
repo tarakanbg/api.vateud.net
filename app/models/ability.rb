@@ -26,6 +26,7 @@ class Ability
       can :read, Member
       can :history, Member
       can :edit, Member
+      can :export, Member
       can :read, Country
       can :edit, Country
       can :history, Country
