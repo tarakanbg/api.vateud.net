@@ -9,3 +9,4 @@
 Option.create(key: 'maps_id', value: "change-me")
 Option.create(key: 'maps_password', value: "change-me")
 Option.create(key: 'maps_division', value: "change-me")
+

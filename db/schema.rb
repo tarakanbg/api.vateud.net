@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140202115156) do
+ActiveRecord::Schema.define(:version => 20140202132145) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20140202115156) do
     t.integer  "subdivision_id"
     t.string   "position"
     t.integer  "roles_mask"
+    t.boolean  "page_editor",            :default => false
   end
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
@@ -274,7 +275,7 @@ ActiveRecord::Schema.define(:version => 20140202115156) do
   create_table "pages", :force => true do |t|
     t.string   "title"
     t.text     "post",        :default => "Edit here!"
-    t.text     "sidebar"
+    t.text     "sidebar",     :default => "Edit here!"
     t.string   "slug"
     t.text     "description", :default => "VATSIM European Division"
     t.string   "keywords",    :default => "vatsim, vateud, simulation, flight, atc, vateur"

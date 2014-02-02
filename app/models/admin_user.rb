@@ -7,7 +7,7 @@ class AdminUser < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :vatsimid, :subdivision_id,
-                  :position, :roles, :admin, :roles_mask
+                  :position, :roles, :admin, :roles_mask, :page_editor
   # attr_accessible :title, :body
   belongs_to :subdivision
   has_many :atc_bookings, :dependent => :destroy
@@ -60,6 +60,7 @@ class AdminUser < ActiveRecord::Base
         end
       end
       field :admin
+      field :page_editor
     end
 
     list do
@@ -74,6 +75,7 @@ class AdminUser < ActiveRecord::Base
       field :email
       field :created_at
       field :admin
+      field :page_editor
     end
        
   end
