@@ -13,6 +13,8 @@ class AdminUser < ActiveRecord::Base
   has_many :atc_bookings, :dependent => :destroy
   has_many :mass_bookings, :dependent => :destroy
 
+  validates :email, :name, :vatsimid, :position, :presence => true
+
   has_paper_trail
 
   scope :admins, where(:admin => true)

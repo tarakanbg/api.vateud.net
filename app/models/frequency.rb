@@ -1,6 +1,8 @@
 #encoding: utf-8
 class Frequency < ActiveRecord::Base
 
+  require 'iconv'
+
   self.abstract_class = true
   self.inheritance_column = :_type_disabled
 
@@ -17,6 +19,11 @@ class Frequency < ActiveRecord::Base
   excluded_ids = [40,41,42,43]
 
   scope :european, where("country NOT IN (?)", excluded_ids)
+
+  # def initialize
+  #   i = Iconv.new('UTF-8','LATIN1')
+  #   self.name = i.iconv(self.name)
+  # end
 
   def self.to_csv(options = {})
     columns = ["callsign", "name", "freq"]

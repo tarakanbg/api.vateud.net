@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131219100448) do
+ActiveRecord::Schema.define(:version => 20140202115156) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -203,6 +203,13 @@ ActiveRecord::Schema.define(:version => 20131219100448) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "layouts", :force => true do |t|
+    t.string   "name"
+    t.integer  "priority"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "mass_bookings", :force => true do |t|
     t.integer  "admin_user_id"
     t.datetime "created_at",            :null => false
@@ -236,12 +243,54 @@ ActiveRecord::Schema.define(:version => 20131219100448) do
     t.boolean  "active",                 :default => true
   end
 
+  create_table "mercury_images", :force => true do |t|
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "news", :force => true do |t|
+    t.string   "title"
+    t.string   "slug"
+    t.text     "post",        :default => "Edit here!"
+    t.boolean  "published",   :default => true
+    t.integer  "author_id"
+    t.text     "description", :default => "VATSIM European Division News"
+    t.string   "keywords",    :default => "vatsim, vateud, news, simulation, flight, atc, vateur"
+    t.datetime "created_at",                                                                       :null => false
+    t.datetime "updated_at",                                                                       :null => false
+  end
+
   create_table "options", :force => true do |t|
     t.string   "key"
     t.string   "value"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "pages", :force => true do |t|
+    t.string   "title"
+    t.text     "post",        :default => "Edit here!"
+    t.text     "sidebar"
+    t.string   "slug"
+    t.text     "description", :default => "VATSIM European Division"
+    t.string   "keywords",    :default => "vatsim, vateud, simulation, flight, atc, vateur"
+    t.boolean  "abstract",    :default => false
+    t.boolean  "visible",     :default => true
+    t.boolean  "menu",        :default => true
+    t.datetime "created_at",                                                                 :null => false
+    t.datetime "updated_at",                                                                 :null => false
+    t.integer  "lft"
+    t.integer  "rgt"
+    t.integer  "parent_id"
+    t.string   "name"
+    t.integer  "layout_id"
+  end
+
+  add_index "pages", ["slug"], :name => "index_pages_on_slug", :unique => true
 
   create_table "rails_admin_histories", :force => true do |t|
     t.text     "message"
