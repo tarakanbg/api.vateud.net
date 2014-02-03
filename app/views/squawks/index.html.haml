@@ -1,0 +1,21 @@
+%h2 VATEUD approved squawk ranges
+
+%table.table.table-striped.table-bordered.table-hover.table-condensed
+  %tr
+    %th Facility
+    %th Position
+    %th Start
+    %th End
+
+  - @squawks.each do |sq|
+    %tr
+      %td= sq.facility
+      %td= sq.position
+      %td= sq.start
+      %td= sq.end
+
+%ul.nav.nav-pills
+  %li.active= link_to "JSON", "/squawks.json"
+  %li.active= link_to "XML", "/squawks.xml"
+  %li.active= link_to "CSV", "/squawks.csv"
+      

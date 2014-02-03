@@ -1084,6 +1084,19 @@ __Example CSV file syntax:__
     Nikola Tutoric,LQMO_APP,2013-12-19 15:00:00,2013-12-19 17:00:00
     Adam Stanojevic,LQSA_APP,2013-12-19 18:00:00,2013-12-19 21:00:00
 
+# R. Squawk ranges
+
+Public endpoint to pull all VATEUD allocated squawk ranges.
+
+The endpoint is of the type: `http://api.vateud.net/squawks` + `format type extension`    
+
+__Examples:__
+
+    http://api.vateud.net/squawks.json   => returns all squawks in JSON format
+    http://api.vateud.net/squawks.xml    => returns all squawks in XML format
+    http://api.vateud.net/squawks.csv    => returns all squawks in CSV format
+    http://api.vateud.net/squawks        => returns all squawks as HTML (part of the API web interface)
+
 # Appendix A. Caching times
 
 ## Backend
@@ -1104,6 +1117,7 @@ No caching on the backend! Data is pulled from the DB on each request.
 * Notams: all formats: 12 hours
 * Charts: all formats: 1 hour
 * ATC frequencies: all formats: 2 hours
+* Squawks: all formats: 4 hours
 * Events calendar: all formats: 10 minutes
 * Airport profiles: all formats: 10 minutes
 

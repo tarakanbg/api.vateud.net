@@ -19,6 +19,7 @@ Vaccs::Application.routes.draw do
   get 'staff_members/vacc/:id' => 'staff_members#vacc'
   resources :staff_members
   resources :frequencies, :only => [:index, :show]
+  resources :squawks, :only => [:index]
   get 'online' => 'online#index'
   get 'online/search' => 'online#search'
   get 'online/search_callsign' => 'online#search_callsign'
