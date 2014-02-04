@@ -12,7 +12,7 @@ class StaffMember < ActiveRecord::Base
 
   validates :callsign, :position, :vacc_code, :priority, :presence => true
 
-  after_update :mark_unconfirmed  
+  after_update :mark_unconfirmed
 
   def name
     if self.member
@@ -29,9 +29,9 @@ class StaffMember < ActiveRecord::Base
   def mark_unconfirmed
     if self.vateud_confirmed?
       unless self.vateud_confirmed_changed?
-        self.vateud_confirmed = false   
-        self.save   
-      end 
+        self.vateud_confirmed = false
+        self.save
+      end
     end
   end
 
@@ -39,14 +39,6 @@ class StaffMember < ActiveRecord::Base
     self.vateud_confirmed = true
     self.save
   end
-
-  # def self.import_old_staff
-  #   old = Staff.all
-  #   old.each do |o|
-  #     StaffMember.create(cid: o.cid, callsign: o.callsign, vacc_code: o.vacc_code, email: o.Email,
-  #                        position: o.position, priority: o.list_order)
-  #   end
-  # end
 
   def self.to_csv(options = {})
     columns = ["vacc_code", "callsign", "position", "cid", "email", "priority"]
@@ -72,20 +64,20 @@ class StaffMember < ActiveRecord::Base
       end
   end
 
-  rails_admin do 
+  rails_admin do
     navigation_label 'vACC Staff Zone'
 
     list do
       field :subdivision
-      field :callsign do        
-        pretty_value do          
+      field :callsign do
+        pretty_value do
           id = bindings[:object].id
           callsign = bindings[:object].callsign
           bindings[:view].link_to "#{callsign}", bindings[:view].rails_admin.show_path('staff_member', id)
         end
       end
-      field :position do        
-        pretty_value do          
+      field :position do
+        pretty_value do
           id = bindings[:object].id
           position = bindings[:object].position
           bindings[:view].link_to "#{position}", bindings[:view].rails_admin.show_path('staff_member', id)
@@ -96,7 +88,7 @@ class StaffMember < ActiveRecord::Base
         read_only true
       end
       field :member do
-        pretty_value do          
+        pretty_value do
           id = bindings[:object].id
           if bindings[:object].member
             member = bindings[:object].member
@@ -106,14 +98,14 @@ class StaffMember < ActiveRecord::Base
       end
     end
 
-    edit do     
+    edit do
       field :subdivision
       field :callsign
       field :position
       field :cid
       field :email
-      field :priority    
+      field :priority
     end
-    
+
   end
 end

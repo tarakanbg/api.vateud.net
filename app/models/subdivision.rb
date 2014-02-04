@@ -15,31 +15,24 @@ class Subdivision < ActiveRecord::Base
   scope :active, where(:hidden => false)
   scope :official, where(:official => true)
 
-  # def self.import_old_subdivisions
-  #   old = OldSubdivision.all
-  #   old.each do |o|
-  #     Subdivision.create(code: o.code, name: o.name, introtext: o.introtext, website: o.website)
-  #   end
-  # end
-
   def frequencies
     ids = self.frequency_countries.split(",").map { |s| s.to_i }
     Frequency.where("country IN (?)", ids)
   end
 
-  rails_admin do 
+  rails_admin do
     navigation_label 'vACC Staff Zone'
 
     list do
-      field :code do        
-        pretty_value do          
+      field :code do
+        pretty_value do
           id = bindings[:object].id
           code = bindings[:object].code
           bindings[:view].link_to "#{code}", bindings[:view].rails_admin.show_path('subdivision', id)
         end
       end
-      field :name do        
-        pretty_value do          
+      field :name do
+        pretty_value do
           id = bindings[:object].id
           name = bindings[:object].name
           bindings[:view].link_to "#{name}", bindings[:view].rails_admin.show_path('subdivision', id)
@@ -64,7 +57,7 @@ class Subdivision < ActiveRecord::Base
       field :hidden
       field :official
       field :countries do
-        associated_collection_cache_all true  
+        associated_collection_cache_all true
         associated_collection_scope do
           subdivision = bindings[:object]
           Proc.new { |scope|
@@ -72,7 +65,7 @@ class Subdivision < ActiveRecord::Base
             # scope = scope.limit(30)
           }
         end
-      end    
+      end
       field :frequency_countries
     end
   end
