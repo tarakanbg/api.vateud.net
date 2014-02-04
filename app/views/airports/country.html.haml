@@ -3,7 +3,7 @@
 %table.table.table-striped.table-bordered.table-hover.table-condensed
   %tr
     %th ICAO
-    %th IATA   
+    %th IATA
     %th Name (city)
     %th Major
     %th Elevation
@@ -20,7 +20,7 @@
       %td
         - if airport.major?
           %span.badge.badge-success ✓
-        - else 
+        - else
           %span.badge.badge-important ✘
       %td= "#{airport.data.elevation} ft."
       %td= airport.data.ta
@@ -32,4 +32,3 @@
   %li.active= link_to "JSON", "/airports/country/#{@country.code}.json"
   %li.active= link_to "XML", "/airports/country/#{@country.code}.xml"
   %li.active= link_to "CSV", "/airports/country/#{@country.code}.csv"
-      
