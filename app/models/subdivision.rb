@@ -3,7 +3,7 @@ class Subdivision < ActiveRecord::Base
   attr_accessor :frequencies
   has_paper_trail
   default_scope order('name ASC')
-  has_many :staff, :foreign_key => 'vacc_code', :primary_key => "code"
+  # has_many :staff, :foreign_key => 'vacc_code', :primary_key => "code"
   has_many :admin_users
   has_many :countries, :inverse_of => :subdivision
   has_and_belongs_to_many :events

@@ -1,27 +1,27 @@
-#encoding: utf-8
-class Staff < ActiveRecord::Base  
+# #encoding: utf-8
+# class Staff < ActiveRecord::Base
 
-  self.abstract_class = true
+#   self.abstract_class = true
 
-  establish_connection("vateud")
-  
-  set_table_name "staff_lists"
+#   establish_connection("vateud")
 
-  attr_accessible :vacc_code, :callsign, :cid, :Email, :position, :list_order
-  attr_accessor :name
+#   set_table_name "staff_lists"
 
-  default_scope order('callsign DESC')
+#   attr_accessible :vacc_code, :callsign, :cid, :Email, :position, :list_order
+#   attr_accessor :name
 
-  has_one :member, :foreign_key => 'cid', :primary_key => 'cid'
+#   default_scope order('callsign DESC')
 
-  belongs_to :subdivision, :primary_key => 'code', :foreign_key => 'vacc_code'
+#   has_one :member, :foreign_key => 'cid', :primary_key => 'cid'
 
-  def name
-    if self.member
-        self.member.firstname + " " + self.member.lastname
-    else
-      "VACANT"
-    end
-  end
+#   belongs_to :subdivision, :primary_key => 'code', :foreign_key => 'vacc_code'
 
-end
+#   def name
+#     if self.member
+#         self.member.firstname + " " + self.member.lastname
+#     else
+#       "VACANT"
+#     end
+#   end
+
+# end
