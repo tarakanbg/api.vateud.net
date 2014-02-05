@@ -1,7 +1,3 @@
-# VATEUD API
-
-__Live version__ at: [http://api.vateud.net](http://api.vateud.net)
-
 # Features
 
 * The API supports __json__, __xml__ and __csv__ for its data. Use whatever you prefer.
@@ -1125,8 +1121,3 @@ No caching on the backend! Data is pulled from the DB on each request.
 * Events calendar: all formats: 10 minutes
 * Airport profiles: all formats: 10 minutes
 
-## Credits
-
-Copyright © 2014 [Svilen Vassilev](http://svilen.rubystudio.net)
-
-Released under the [GNU GPL LICENSE](https://github.com/tarakanbg/api.vateud.net/blob/master/LICENSE)

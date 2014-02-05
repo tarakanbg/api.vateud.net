@@ -19,8 +19,8 @@ class OnlineController < ApplicationController
     @pagetitle = "Documentation"
     m = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(:with_toc_data => true))
     mtoc = Redcarpet::Markdown.new(Redcarpet::Render::HTML_TOC)
-    @content = m.render(File.open(Rails.root + "README.md", 'r').read)
-    @toc = mtoc.render(File.open(Rails.root + "README.md", 'r').read)
+    @content = m.render(File.open(Rails.root + "HELP.md", 'r').read)
+    @toc = mtoc.render(File.open(Rails.root + "HELP.md", 'r').read)
   end
 
   def atc
@@ -30,7 +30,7 @@ class OnlineController < ApplicationController
     @code.vatsim_online[:atc].each {|station| @stations << Station.new(station)}
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@stations) }
@@ -44,7 +44,7 @@ class OnlineController < ApplicationController
     @code.vatsim_online[:pilots].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@stations) }
@@ -58,7 +58,7 @@ class OnlineController < ApplicationController
     @code.vatsim_online[:arrivals].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@stations) }
@@ -72,7 +72,7 @@ class OnlineController < ApplicationController
     @code.vatsim_online[:departures].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@stations) }
@@ -86,7 +86,7 @@ class OnlineController < ApplicationController
     @code.vatsim_callsign.each {|station| @stations << Station.new(station)}
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
       format.csv { send_data csv_data(@stations) }
@@ -95,7 +95,7 @@ class OnlineController < ApplicationController
 
 private
 
-  def csv_data(stations)    
+  def csv_data(stations)
     CSV.generate do |csv|
       csv << Station.csv_column_headers
       stations.each do |station|
