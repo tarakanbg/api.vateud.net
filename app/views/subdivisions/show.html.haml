@@ -1,4 +1,4 @@
-%row 
+%row
   .span12
     %h2= "#{@vacc.name} details"
 
@@ -10,16 +10,16 @@
       Website:
       = link_to @vacc.website, @vacc.website
 
-    %h4= "Official: #{@vacc.official}"  
-    
-    %h4 Introduction message: 
-    %p= raw(@vacc.introtext)      
+    %h4= "Official: #{@vacc.official}"
+
+    %h4 Introduction message:
+    %p= raw(@vacc.introtext)
 
 %row
   %ul.nav.nav-pills.alt
     %li.active= link_to "vACC Staff", "/staff_members/vacc/#{@vacc.code}"
     %li.active= link_to "vACC Members", "/members/#{@vacc.code}"
-    %li.active= link_to "vACC Frequencies", "/Frequencies/#{@vacc.code}"
+    %li.active= link_to "vACC Frequencies", "/frequencies/#{@vacc.code}"
     %li.active= link_to "vACC Events", "/events/vacc/#{@vacc.code}"
 
 %row
