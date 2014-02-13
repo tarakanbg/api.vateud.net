@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140202132145) do
+ActiveRecord::Schema.define(:version => 20140213014948) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -155,10 +155,11 @@ ActiveRecord::Schema.define(:version => 20140202132145) do
   create_table "countries", :force => true do |t|
     t.string   "code"
     t.string   "name"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
-    t.boolean  "eud",            :default => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+    t.boolean  "eud",                  :default => false
     t.integer  "subdivision_id"
+    t.integer  "frequency_country_id"
   end
 
   create_table "custom_chart_sources", :force => true do |t|
