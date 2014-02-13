@@ -17,6 +17,7 @@ class Ability
       can :manage, IndividualCustomChart
       can :manage, AtcBooking
       can :manage, MassBooking
+      can :manage, FrequencyCountry
       can :approve_staff_member, StaffMember
 
       can :read, Subdivision

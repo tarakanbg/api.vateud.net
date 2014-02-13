@@ -5,6 +5,9 @@ class Country < ActiveRecord::Base
   belongs_to :frequency_country, :inverse_of => :country
   has_many :airports
 
+  attr_accessible :frequency_country_attributes
+  accepts_nested_attributes_for :frequency_country
+
   validates :code, :name, :presence => true
 
   def frequencies
@@ -40,7 +43,7 @@ class Country < ActiveRecord::Base
       field :name
       field :eud
       field :subdivision
-      field :frequency_country
+      field :frequency_country_id
     end
   end
 
