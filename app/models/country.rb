@@ -40,6 +40,7 @@ class Country < ActiveRecord::Base
       field :name
       field :eud
       field :subdivision
+      field :frequency_country
     end
   end
 
