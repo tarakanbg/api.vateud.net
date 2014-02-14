@@ -16,10 +16,12 @@ class ChartsController < ApplicationController
     @pagetitle = "Charts for #{@code.upcase}"
 
     respond_to do |format|
-      if @charts.count == 0 
-        format.any { render :text => "No charts available for this airport" }
+      if @charts.class == String
+        format.any { render :text => "No charts available for this airport" and return}
+      elsif @charts.count == 0
+        format.any { render :text => "No charts available for this airport" and return }
       else
-        format.html 
+        format.html
         format.json { render json: @charts }
         format.xml { render xml: @charts.as_json.to_xml(skip_types: true) }
         format.csv { send_data csv_data(@charts) }
@@ -29,12 +31,13 @@ class ChartsController < ApplicationController
 
 private
 
-  def csv_data(charts)    
+  def csv_data(charts)
     CSV.generate do |csv|
       csv << ["icao", "name", "url_aip", "url_charts_aero"]
       charts.each do |chart|
         csv << [chart.icao, chart.name, chart.url_aip, chart.url_charts_aero]
       end
     end
-  end  
+  end
+
 end

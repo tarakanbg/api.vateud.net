@@ -55,3 +55,4 @@ gem "activerecord-import", "~> 0.3.1"
 gem "vatsim_metar", "~> 0.2.3"
 gem "paperclip", "~> 3.5.2"
 gem "iconv", "~> 1.0.4"
+
