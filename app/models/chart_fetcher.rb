@@ -52,12 +52,16 @@ class ChartFetcher
   def grouped_plates
     # cleanup_plates
     while @plates.count > 0
-      url = @plates.shift unless @plates.first.include?("cache.charts.aero")
+      url = @plates.shift unless @plates.first.include?("cache.charts.aero") or @plates.first.include?("cloudfront.net")
       if @plate_names.count > 0
         name = @plate_names.shift unless @plate_names.first.include?("CACHED")
       end
       if @plates.count > 0 && @plate_names.count > 0
-        @plates.first.include?("cache.charts.aero") ? url_charts_aero = @plates.shift : url_charts_aero = nil
+        if @plates.first.include?("cache.charts.aero") or @plates.first.include?("cloudfront.net")
+          url_charts_aero = @plates.shift
+        else
+          url_charts_aero = nil
+        end
         @plate_names.first.include?("CACHED") ? name_charts_aero = @plate_names.shift : name_charts_aero = nil
       end
       @charts << Chart.new(icao = @icao, name = name, url_aip = url, url_charts_aero = url_charts_aero)
