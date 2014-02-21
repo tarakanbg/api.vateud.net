@@ -1,13 +1,13 @@
 class EventsController < ApplicationController
-  before_filter :restrict_access, :only => [:create, :update, :destroy] 
+  before_filter :restrict_access, :only => [:create, :update, :destroy]
 
-  caches_action :show, expires_in: 10.minutes  
+  caches_action :show, expires_in: 10.minutes
   caches_action :index, :cache_path => Proc.new { |c| c.params }, expires_in: 10.minutes
   caches_action :vacc, :cache_path => Proc.new { |c| c.params }, expires_in: 10.minutes
 
   def index
     @pagetitle = "Events Calendar"
-    @events = Event.reorder("starts DESC")
+    @events = Event.future
     @search = Event.future.search(params[:q])
     @search.sorts = 'starts asc' if @search.sorts.empty?
     @events_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
@@ -26,9 +26,9 @@ class EventsController < ApplicationController
     end
   end
 
-  
+
   def show
-    @pagetitle = "Event Details"    
+    @pagetitle = "Event Details"
     if @event = Event.find(params[:id])
       @json = @event.to_json(:except => [:created_at, :updated_at, :weekly], :include => { :subdivisions => {
                                                  :only => [:code, :name] } })
@@ -73,7 +73,7 @@ class EventsController < ApplicationController
       else
         format.any { render :text => "VACC not in database" }
       end
-    end    
+    end
   end
 
   def create
@@ -83,7 +83,7 @@ class EventsController < ApplicationController
 
     @event = Event.new(params[:event])
     @event.vaccs = @key.vacc_code.upcase
-    if @event.save      
+    if @event.save
       respond_to do |format|
         format.json{render :json => @event, :status => :created }
       end
@@ -102,9 +102,9 @@ class EventsController < ApplicationController
     @event.subdivisions.each {|sub| vacc_codes << sub.code.upcase}
     render text: "No joy! Your access token does not match the event vaccs" and return unless vacc_codes.include? @key.vacc_code.upcase
     respond_to do |format|
-      if @event.update_attributes(params[:event])        
+      if @event.update_attributes(params[:event])
         format.json { render :json => @event, :status => :updated }
-      else        
+      else
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
@@ -119,7 +119,7 @@ class EventsController < ApplicationController
     vacc_codes = []
     @event.subdivisions.each {|sub| vacc_codes << sub.code.upcase}
     render text: "No joy! Your access token does not match the event vaccs" and return unless vacc_codes.include? @key.vacc_code.upcase
-    
+
     @event.destroy
 
     respond_to do |format|
@@ -134,5 +134,5 @@ private
       ApiKey.exists?(access_token: token)
     end
   end
-  
+
 end

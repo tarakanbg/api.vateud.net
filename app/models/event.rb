@@ -12,7 +12,7 @@ class Event < ActiveRecord::Base
   after_update :update_weekly
   before_create :create_weekly_hash
 
-  scope :future, where("ends >= ?", Time.now)
+  scope :future, where("ends >= ? AND starts <= ?", Time.now, Time.now + 2.months).order("starts ASC")
 
   def create_weekly_hash
     if self.weekly?
@@ -27,7 +27,7 @@ class Event < ActiveRecord::Base
       counter = 1
       while counter < 26
         Event.create(airports: self.airports, banner_url: self.banner_url, description: self.description,
-          title: self.title, subtitle: self.subtitle, vaccs: self.vaccs, starts: starts, ends: ends, 
+          title: self.title, subtitle: self.subtitle, vaccs: self.vaccs, starts: starts, ends: ends,
           subdivision_ids: subdivision_ids, weekly_hash: self.weekly_hash)
         starts = starts + 1.week
         ends = ends + 1.week
@@ -57,7 +57,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  rails_admin do 
+  rails_admin do
     navigation_label 'Events and bookings'
 
     list do
@@ -66,7 +66,7 @@ class Event < ActiveRecord::Base
       end
       field :title do
         column_width 220
-        pretty_value do          
+        pretty_value do
           id = bindings[:object].id
           title = bindings[:object].title
           bindings[:view].link_to "#{title}", bindings[:view].rails_admin.show_path('event', id)
@@ -75,7 +75,7 @@ class Event < ActiveRecord::Base
       field :starts
       field :ends
       field :airports
-      field :subdivisions    
+      field :subdivisions
     end
 
     edit do
