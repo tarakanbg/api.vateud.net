@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_filter :restrict_access, :only => [:create, :update, :destroy]
+  skip_before_filter :verify_authenticity_token, :only => [:index]
 
   caches_action :show, expires_in: 10.minutes
   caches_action :index, :cache_path => Proc.new { |c| c.params }, expires_in: 10.minutes
