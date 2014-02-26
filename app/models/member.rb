@@ -1,12 +1,14 @@
 #encoding: utf-8
 class Member < ActiveRecord::Base
   attr_accessible :cid, :firstname, :lastname, :email, :rating, :pilot_rating, :humanized_atc_rating, :humanized_pilot_rating,
-    :region, :country, :state, :division, :subdivision, :age_band, :experience, :reg_date, :susp_ends, :active
+    :region, :country, :state, :division, :subdivision, :age_band, :experience, :reg_date, :susp_ends, :active, :in_cert
 
   has_one :welcome_email
 
-  after_create :create_welcome_email  
+  after_create :create_welcome_email
   has_paper_trail
+
+  scope :outdated, where(:in_cert => false)
 
   LOCAL_CSV = "#{Dir.tmpdir}/vatsim_csv.csv"
 
@@ -48,7 +50,7 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def self.humanized_rating(rating)    
+  def self.humanized_rating(rating)
     case rating
       when "0" then "Inactive"
       when "1" then "OBS"
@@ -66,7 +68,7 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def self.humanized_pilot_rating(pilot_rating)    
+  def self.humanized_pilot_rating(pilot_rating)
     case pilot_rating
       when "0" then "P0"
       when "1" then "P1"
@@ -96,15 +98,20 @@ class Member < ActiveRecord::Base
 
   def self.parse_csv
     Member.create_local_data_file
-    CSV.foreach(LOCAL_CSV, encoding: "iso-8859-1:utf-8") do |row| 
+    CSV.foreach(LOCAL_CSV, encoding: "iso-8859-1:utf-8") do |row|
       member = Member.find_by_cid(row[0]) || Member.new(:cid => row[0])
       member.update_attributes!(:rating => row[1], :humanized_atc_rating => Member.humanized_rating(row[1]),
         :pilot_rating => row[2], :humanized_pilot_rating => Member.humanized_pilot_rating(row[2]),
         :firstname => (row[3].titleize if row[3]), :lastname => (row[4].titleize if row[4]),
         :email => row[5], :age_band => row[6], :state => row[7], :country => row[8], :experience => row[9],
-        :susp_ends => row[10], :reg_date => row[11], :region => row[12], :division => row[13], :subdivision => row[14])
+        :susp_ends => row[10], :reg_date => row[11], :region => row[12], :division => row[13],
+        :subdivision => row[14], :in_cert => true)
     end
+    #Member.outdated.each {|m| m.destroy}
+    #Member.update_all(:in_cert => false)
   end
+
+
 
   def self.create_local_data_file
     data = Tempfile.new('vatsim_csv', :encoding => 'UTF-8')
@@ -113,12 +120,12 @@ class Member < ActiveRecord::Base
     File.chmod(0777, LOCAL_CSV)
   end
 
-  rails_admin do 
+  rails_admin do
     navigation_label 'Reference'
 
     list do
       field :cid do
-        pretty_value do          
+        pretty_value do
           id = bindings[:object].id
           cid = bindings[:object].cid
           bindings[:view].link_to "#{cid}", bindings[:view].rails_admin.show_path('member', id)
