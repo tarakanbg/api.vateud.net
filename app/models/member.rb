@@ -107,8 +107,8 @@ class Member < ActiveRecord::Base
         :susp_ends => row[10], :reg_date => row[11], :region => row[12], :division => row[13],
         :subdivision => row[14], :in_cert => true)
     end
-    #Member.outdated.each {|m| m.destroy}
-    #Member.update_all(:in_cert => false)
+    Member.outdated.each {|m| m.destroy}
+    Member.update_all(:in_cert => false)
   end
 
 
