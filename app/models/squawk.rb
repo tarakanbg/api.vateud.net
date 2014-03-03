@@ -9,8 +9,6 @@ class Squawk < ActiveRecord::Base
 
   attr_accessible :facility, :position, :start, :end
 
-  default_scope order('facility ASC')
-
   scope :active, where('facility != "Free"')
 
 

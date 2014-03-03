@@ -5,7 +5,10 @@ class SquawksController < ApplicationController
 
   def index
     @pagetitle = "VATEUD approved squawk ranges"
-    @squawks = Squawk.active
+    #@squawks = Squawk.active
+    @search = Squawk.active.search(params[:q])
+    @search.sorts = 'facility asc' if @search.sorts.empty?
+    @squawks = @search.result(:distinct => true)
     respond_to do |format|
       format.html
       format.json { render json: scope_json(@squawks) }

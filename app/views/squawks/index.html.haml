@@ -2,10 +2,10 @@
 
 %table.table.table-striped.table-bordered.table-hover.table-condensed
   %tr
-    %th Facility
-    %th Position
-    %th Start
-    %th End
+    %th= sort_link @search, :facility, "Facility"
+    %th= sort_link @search, :position, "Position"
+    %th= sort_link @search, :start, "Start"
+    %th= sort_link @search, :end, "End"
 
   - @squawks.each do |sq|
     %tr
