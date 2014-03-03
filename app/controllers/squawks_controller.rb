@@ -1,7 +1,7 @@
 class SquawksController < ApplicationController
 
-  caches_action :index, expires_in: 4.hours
-  caches_action :show, expires_in: 4.hours
+  caches_action :index, :cache_path => Proc.new { |c| c.params }, expires_in: 4.hours
+  caches_action :show, :cache_path => Proc.new { |c| c.params }, expires_in: 4.hours
 
   def index
     @pagetitle = "VATEUD approved squawk ranges"
