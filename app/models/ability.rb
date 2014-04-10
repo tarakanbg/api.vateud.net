@@ -6,37 +6,6 @@ class Ability
     can :dashboard
     cannot :approve_staff_member, :all
 
-    if user && user.admin?
-      can :manage, AdminUser
-      can :manage, Event
-      can :manage, ApiKey
-      can :manage, ChartOverride
-      can :manage, StaffMember
-      can :manage, Airport
-      can :manage, CustomChartSource
-      can :manage, IndividualCustomChart
-      can :manage, AtcBooking
-      can :manage, MassBooking
-      can :manage, FrequencyCountry
-      can :approve_staff_member, StaffMember
-
-      can :read, Subdivision
-      can :edit, Subdivision
-      can :history, Subdivision
-
-      can :read, Member
-      can :history, Member
-      can :edit, Member
-      can :export, Member
-      can :read, Country
-      can :edit, Country
-      can :history, Country
-      can :read, Vacc
-      can :read, WelcomeEmail
-      can :read, ApiCall
-      can :read, CustomChart
-    end
-
     if user
       if user.is? :events
         can :index, Event
@@ -118,6 +87,37 @@ class Ability
         can :edit, AtcBooking, :admin_user_id => user.id
         can :destroy, AtcBooking, :admin_user_id => user.id
       end
+    end
+
+    if user && user.admin?
+      can :manage, AdminUser
+      can :manage, Event
+      can :manage, ApiKey
+      can :manage, ChartOverride
+      can :manage, StaffMember
+      can :manage, Airport
+      can :manage, CustomChartSource
+      can :manage, IndividualCustomChart
+      can :manage, AtcBooking
+      can :manage, MassBooking
+      can :manage, FrequencyCountry
+      can :approve_staff_member, StaffMember
+
+      can :read, Subdivision
+      can :edit, Subdivision
+      can :history, Subdivision
+
+      can :read, Member
+      can :history, Member
+      can :edit, Member
+      can :export, Member
+      can :read, Country
+      can :edit, Country
+      can :history, Country
+      can :read, Vacc
+      can :read, WelcomeEmail
+      can :read, ApiCall
+      can :read, CustomChart
     end
 
   end
