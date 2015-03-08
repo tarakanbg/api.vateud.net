@@ -71,8 +71,12 @@ class MembersController < ApplicationController
         end
       end
       @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, email, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, susp_ends, active")
-      if @member.subdivision.downcase != @key.vacc_code.downcase
-        @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active")
+      if @member
+        if @member.subdivision
+          if @member.subdivision.downcase != @key.vacc_code.downcase
+            @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active")
+          end
+        end
       end
     else
       @member = Member.find_by_cid(@cid, :select => "cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active")
