@@ -25,6 +25,7 @@ class OnlineController < ApplicationController
 
   def atc
     @code = params[:id]
+    subset = params[:subset]
     @pagetitle = "Who's online in #{@code.upcase}"
     @stations = []
     @code.vatsim_online[:atc].each {|station| @stations << Station.new(station)}
@@ -33,12 +34,17 @@ class OnlineController < ApplicationController
       format.html
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
-      format.csv { send_data csv_data(@stations) }
+      if subset && subset == "crovacc"
+        format.csv { send_data csv_atc_subset_data(@stations) }
+      else
+        format.csv { send_data csv_data(@stations) }
+      end
     end
   end
 
   def pilots
     @code = params[:id]
+    subset = params[:subset]
     @pagetitle = "Who's online in #{@code.upcase}"
     @stations = []
     @code.vatsim_online[:pilots].each {|station| @stations << Station.new(station) if station.role == "PILOT"}
@@ -47,7 +53,11 @@ class OnlineController < ApplicationController
       format.html
       format.json { render json: @stations }
       format.xml { render xml: @stations.as_json.to_xml(skip_types: true) }
-      format.csv { send_data csv_data(@stations) }
+      if subset && subset == "crovacc"
+        format.csv { send_data csv_pilot_subset_data(@stations) }
+      else
+        format.csv { send_data csv_data(@stations) }
+      end
     end
   end
 
@@ -103,4 +113,23 @@ private
       end
     end
   end
+
+  def csv_atc_subset_data(stations)
+    CSV.generate do |csv|
+      csv << Station.csv_column_headers_subset_atc
+      stations.each do |station|
+        csv << station.csv_column_values_subset_atc
+      end
+    end
+  end
+
+  def csv_pilot_subset_data(stations)
+    CSV.generate do |csv|
+      csv << Station.csv_column_headers_subset_pilots
+      stations.each do |station|
+        csv << station.csv_column_values_subset_pilots
+      end
+    end
+  end
+
 end

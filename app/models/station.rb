@@ -25,7 +25,7 @@ class Station
     @origin = station.origin unless station.origin.nil?
     @route = station.route unless station.route.nil?
     @destination = station.destination unless station.destination.nil?
-    @altitude = station.altitude if station.altitude.to_i > 0 unless station.altitude.nil? 
+    @altitude = station.altitude if station.altitude.to_i > 0 unless station.altitude.nil?
     @groundspeed = station.groundspeed unless station.groundspeed.nil?
     @heading = station.heading unless station.heading.nil?
     @facility = station.facility unless station.facility.nil?
@@ -47,7 +47,7 @@ class Station
     @atis_message = station.atis_message unless station.atis_message.nil?
   end
 
-  # def self.to_csv(options = {})    
+  # def self.to_csv(options = {})
   #   CSV.generate(options) do |csv|
   #     csv << Station.csv_column_headers
   #     all.each do |station|
@@ -59,8 +59,24 @@ class Station
   def self.csv_column_headers
     ["role", "callsign", "frequency", "cid", "name", "rating", "aircraft", "flight_type", "origin", "route", "destination", "altitude",
      "groundspeed", "heading", "facility", "remarks", "planned_altitude", "transponder", "qnh_in", "qnh_mb", "gcmap", "latitude",
-     "longitude", "latitude_humanized", "longitude_humanized", "logon", "online_since", "gcmap_width", "gcmap_height", "atis", 
+     "longitude", "latitude_humanized", "longitude_humanized", "logon", "online_since", "gcmap_width", "gcmap_height", "atis",
      "atis_message"]
+  end
+
+  def self.csv_column_headers_subset_atc
+    ["callsign", "frequency", "name"]
+  end
+
+  def self.csv_column_headers_subset_pilots
+    ["callsign", "origin", "destination", "name", "aircraft"]
+  end
+
+  def csv_column_values_subset_atc
+    [self.callsign, self.frequency, self.name]
+  end
+
+  def csv_column_values_subset_pilots
+    [self.callsign, self.origin, self.destination, self.name, self.aircraft]
   end
 
   def csv_column_values
