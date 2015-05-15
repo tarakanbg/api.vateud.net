@@ -1,5 +1,5 @@
 class OnlineController < ApplicationController
-  caches_action :atc, :pilots, :arrivals, :departures, :callsign, expires_in: 5.minutes
+  caches_action :atc, :pilots, :arrivals, :departures, :callsign, :cache_path => Proc.new { |c| c.params }, expires_in: 5.minutes
 
   def index
     @pagetitle = "Online Stations"
