@@ -118,8 +118,8 @@ private
     end
     if xml_source2
       user2 = xml_source.css("user").children
-      rating_numeric = user.at('rating').children.first.to_s
-      pilotrating_numeric = user.at('pilotrating').children.first.to_s
+      rating_numeric = user2.at('rating').children.first.to_s
+      pilotrating_numeric = user2.at('pilotrating').children.first.to_s
     end
     if xml_source && xml_source2
       member = Member.new(cid: cid, firstname: name_first, lastname: name_last, humanized_atc_rating: rating,
