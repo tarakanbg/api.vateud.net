@@ -1,5 +1,5 @@
 class MembersController < ApplicationController
-  
+
   caches_action :index, :cache_path => Proc.new { |c| c.params }, expires_in: 3.hours
   caches_action :show, :cache_path => Proc.new { |c| c.params }, expires_in: 4.hours
   caches_action :single, expires_in: 2.hours
@@ -20,13 +20,13 @@ class MembersController < ApplicationController
     end
   end
 
-  
+
   def show
     @code = params[:id].upcase
     if @vacc = Subdivision.find_by_code(@code)
       @pagetitle = @vacc.name + " members"
       @members = Member.where(["subdivision = ?", @code]).select("cid, firstname, lastname, rating, humanized_atc_rating, pilot_rating, humanized_pilot_rating, country, subdivision, reg_date, active").reorder("reg_date DESC")
-      
+
       @search = Member.where(["subdivision = ?", @code]).search(params[:q])
       @search.sorts = 'reg_date desc' if @search.sorts.empty?
       @members_html = @search.result(:distinct => true).paginate(:page => params[:page], :per_page => 20)
@@ -103,6 +103,8 @@ private
 
   def member_from_cert(cid)
     xml_source = Nokogiri.XML(open("https://cert.vatsim.net/vatsimnet/idstatus.php?cid=#{cid}").read)
+    sleep 1
+    xml_source2 = Nokogiri.XML(open("https://cert.vatsim.net/vatsimnet/idstatusint.php?cid=#{cid}").read)
     if xml_source
       user = xml_source.css("user").children
       name_last = user.at('name_last').children.first.to_s
@@ -113,7 +115,15 @@ private
       country = user.at('country').children.first.to_s
       region = user.at('region').children.first.to_s
       division = user.at('division').children.first.to_s
+    end
+    if xml_source2
+      user2 = xml_source.css("user").children
+      rating_numeric = user.at('rating').children.first.to_s
+      pilotrating_numeric = user.at('pilotrating').children.first.to_s
+    end
+    if xml_source && xml_source2
       member = Member.new(cid: cid, firstname: name_first, lastname: name_last, humanized_atc_rating: rating,
+        rating: rating_numeric, pilot_rating: pilotrating_numeric,
         humanized_pilot_rating: pilotrating, reg_date: regdate, country: country, region: region, division: division)
     end
     member
