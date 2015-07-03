@@ -117,7 +117,7 @@ private
       division = user.at('division').children.first.to_s
     end
     if xml_source2
-      user2 = xml_source.css("user").children
+      user2 = xml_source2.css("user").children
       rating_numeric = user2.at('rating').children.first.to_s
       pilotrating_numeric = user2.at('pilotrating').children.first.to_s
     end
