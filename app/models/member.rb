@@ -135,6 +135,7 @@ class Member < ActiveRecord::Base
       field :firstname
       field :lastname
       field :subdivision
+      field :country
       field :humanized_atc_rating
       field :active
     end
