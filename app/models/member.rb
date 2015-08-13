@@ -13,7 +13,7 @@ class Member < ActiveRecord::Base
   LOCAL_CSV = "#{Dir.tmpdir}/vatsim_csv.csv"
 
   def create_welcome_email
-    # WelcomeEmail.create(member_id: self.id)
+    WelcomeEmail.create(member_id: self.id)
   end
 
   def self.to_csv(options = {})
