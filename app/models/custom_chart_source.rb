@@ -27,16 +27,24 @@ class CustomChartSource < ActiveRecord::Base
   end
 
   def self.request_csv(source)
-    csv = Curl::Easy.http_get(source.url).body_str
-    csv.gsub!(',', ';') if csv.include? ","
-    csv.gsub!('|', ',').force_encoding('UTF-8').encode!('UTF-8', 'UTF-8', :invalid => :replace)
+    begin
+      csv = Curl::Easy.http_get(source.url).body_str
+      csv.gsub!(',', ';') if csv.include? ","
+      csv.gsub!('|', ',').force_encoding('UTF-8').encode!('UTF-8', 'UTF-8', :invalid => :replace)
+    rescue
+      msg = "TODO"
+    end
   end
 
   def self.create_local_data_file(source)
-    File.delete(LOCAL_CUSTOM_CHARTS) if File.exist?(LOCAL_CUSTOM_CHARTS)
-    data = Tempfile.new('local_charts_csv', :encoding => 'UTF-8')
-    File.rename data.path, LOCAL_CUSTOM_CHARTS
-    File.open(LOCAL_CUSTOM_CHARTS, "w+") {|f| f.write(CustomChartSource.request_csv(source))}
-    File.chmod(0777, LOCAL_CUSTOM_CHARTS)
+    begin
+      File.delete(LOCAL_CUSTOM_CHARTS) if File.exist?(LOCAL_CUSTOM_CHARTS)
+      data = Tempfile.new('local_charts_csv', :encoding => 'UTF-8')
+      File.rename data.path, LOCAL_CUSTOM_CHARTS
+      File.open(LOCAL_CUSTOM_CHARTS, "w+") {|f| f.write(CustomChartSource.request_csv(source))}
+      File.chmod(0777, LOCAL_CUSTOM_CHARTS)
+    rescue
+      msg = "TODO"
+    end
   end
 end
